@@ -7,20 +7,24 @@ import type {
 } from '../dto/request';
 
 export const createPhase = (data: CreatePhaseRequest) => {
-  const { workdays: _workdays, ...backendData } = data;
-  return httpPost<APIResponse<PhaseResponse>>('/api/phase', backendData);
+  return httpPost<APIResponse<PhaseResponse>>('/api/phase', data);
 };
 
 export const updatePhase = (id: number, data: UpdatePhaseRequest) => {
-  const { workdays: _workdays, ...backendData } = data;
-  return httpPut<APIResponse<PhaseResponse>>(`/api/phase/${id}`, backendData);
+  return httpPut<APIResponse<PhaseResponse>>(`/api/phase/${id}`, data);
 };
 
 export const deletePhase = (id: number) =>
   httpDelete<APIResponse<void>>(`/api/phase/${id}`);
 
-export const getPhasesByProject = (projectId: number) =>
-  httpGet<APIResponse<PhaseResponse>>(`/api/phase/project/${projectId}`);
+export const getPhasesByProject = (projectId: number, keyword?: string) => {
+  const params = new URLSearchParams();
+  if (keyword?.trim()) params.set('keyword', keyword.trim());
+  const query = params.toString();
+  return httpGet<APIResponse<PhaseResponse>>(
+    `/api/phase/project/${projectId}${query ? `?${query}` : ''}`
+  );
+};
 
 export const getPhaseDetail = (phaseId: number) =>
   httpGet<APIResponse<PhaseResponse>>(`/api/phase/detail/${phaseId}`);

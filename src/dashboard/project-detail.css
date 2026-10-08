@@ -614,6 +614,54 @@
 .phase-error, .phase-inline-error { margin: 14px 0; padding: 10px 12px; border-radius: 7px; color: #9d4f4f; background: #fbe8e8; font-size: 13px; }
 .phase-inline-error { margin: 0 0 12px; }
 
+.phase-table-panel { padding: 20px 22px 24px; }
+.phase-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.phase-search { display: flex; align-items: center; gap: 9px; width: min(395px, 100%); height: 42px; padding: 0 12px; border: 1px solid #c8ced8; border-radius: 8px; color: #74808b; font-size: 23px; }
+.phase-search input { width: 100%; border: 0; outline: 0; color: #283541; font-size: 14px; }
+.phase-add-button { height: 42px; margin-left: auto; padding: 0 15px; border: 0; border-radius: 7px; color: #fff; background: #247e83; cursor: pointer; font-size: 14px; font-weight: 600; }
+.phase-add-button:hover, .phase-save-button:hover { background: #19696e; }
+.phase-table-scroll { overflow-x: auto; }
+.phase-table { width: 100%; min-width: 850px; border-collapse: collapse; color: #283541; font-size: 14px; }
+.phase-table th { height: 48px; padding: 0 11px; background: #f0f1f5; color: #17212a; text-align: left; white-space: nowrap; }
+.phase-table td { height: 70px; padding: 9px 11px; border-bottom: 1px solid #d9dde2; white-space: nowrap; }
+.phase-name-cell { min-width: 170px; color: #1e303c; font-weight: 600; }
+.phase-table-progress { display: flex; align-items: center; gap: 9px; min-width: 130px; }
+.phase-table-progress > div { width: 92px; height: 7px; overflow: hidden; border-radius: 5px; background: #dfe3e7; }
+.phase-table-progress i { display: block; height: 100%; border-radius: inherit; background: #398d90; }
+.phase-table-progress b { min-width: 34px; color: #326d70; font-size: 12px; }
+.phase-actions { display: flex; gap: 7px; }
+.phase-actions button, .phase-form-actions button { height: 31px; padding: 0 10px; border: 1px solid #c8d0d5; border-radius: 6px; color: #3d5961; background: #fff; cursor: pointer; font-size: 12px; }
+.phase-actions button:hover { background: #eef8f8; }
+.phase-actions button.danger { color: #a04b4b; }
+.phase-actions button:disabled, .phase-form-actions button:disabled { cursor: wait; opacity: .55; }
+.phase-table-empty { padding: 35px 20px !important; color: #89939d; text-align: center; }
+.phase-table-error { margin-bottom: 14px; padding: 10px 12px; border-radius: 7px; color: #9d4f4f; background: #fbe8e8; font-size: 13px; }
+.phase-form { padding: 4px 0 2px; }
+.phase-form h3 { margin: 0 0 18px; color: #1d2d37; font-size: 19px; }
+.phase-form-fields { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
+.phase-form-fields label { display: grid; gap: 7px; color: #374650; font-size: 13px; font-weight: 600; }
+.phase-form-fields input, .phase-form-fields select { width: 100%; height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #c8d2d6; border-radius: 7px; color: #26343d; background: #fff; font-size: 14px; }
+.phase-date-lists { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+.phase-date-list { padding: 13px; border: 1px solid #d8e1e3; border-radius: 8px; background: #fbfdfd; }
+.phase-date-list > strong { display: block; margin-bottom: 9px; color: #374650; font-size: 13px; }
+.phase-date-add { display: flex; gap: 7px; }
+.phase-date-add input { flex: 1; min-width: 0; height: 34px; padding: 0 8px; border: 1px solid #c8d2d6; border-radius: 6px; font-size: 13px; }
+.phase-date-add button { height: 34px; padding: 0 10px; border: 0; border-radius: 6px; color: #fff; background: #247e83; cursor: pointer; font-size: 12px; }
+.phase-date-items { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.phase-date-items span { display: inline-flex; align-items: center; gap: 5px; padding: 4px 7px; border-radius: 12px; color: #326d70; background: #e0f2ee; font-size: 12px; }
+.phase-date-items button { padding: 0; border: 0; color: #9d4f4f; background: transparent; cursor: pointer; font-size: 16px; line-height: 1; }
+.phase-form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+.phase-save-button { border-color: #247e83 !important; color: #fff !important; background: #247e83 !important; }
+
+@media (max-width: 700px) {
+  .phase-table-panel { padding: 16px 12px; }
+  .phase-toolbar { align-items: stretch; flex-wrap: wrap; }
+  .phase-search { width: 100%; }
+  .phase-add-button { width: 100%; margin-left: 0; }
+  .phase-form-fields { grid-template-columns: 1fr; }
+  .phase-date-lists { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 720px) {
   .progress-phase-panel { padding: 16px 12px; }
   .phase-title-row { display: block; }

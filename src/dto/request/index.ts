@@ -127,10 +127,9 @@ export interface UpdatePhaseRequest {
   startAt: string;
   endAt: string;
   phaseName: string;
+  phaseStatus: PhaseStatus;
   makeUpDates?: string[];
   offDates?: string[];
-  /** @deprecated Backend calculates workdays. */
-  workdays?: number;
 }
 export interface UpdatePhaseStatusRequest {
   status: PhaseStatus;
