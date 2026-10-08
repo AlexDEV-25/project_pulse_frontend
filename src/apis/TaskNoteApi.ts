@@ -24,5 +24,4 @@ export const confirmTaskNote = (noteId: number) =>
   httpPatch<APIResponse<TaskNoteResponse>>(`/api/task-note/${noteId}/confirm`);
 
 export const getTaskNotesForPm = getTaskNotes;
-export const confirmTaskNotes = (noteId: number, _data?: unknown) =>
-  confirmTaskNote(noteId);
+export const confirmTaskNotes = (noteId: number) => confirmTaskNote(noteId);

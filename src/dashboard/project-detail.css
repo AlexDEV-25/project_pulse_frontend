@@ -614,6 +614,73 @@
 .phase-error, .phase-inline-error { margin: 14px 0; padding: 10px 12px; border-radius: 7px; color: #9d4f4f; background: #fbe8e8; font-size: 13px; }
 .phase-inline-error { margin: 0 0 12px; }
 
+.task-panel { padding: 20px 22px 24px; }
+.task-toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+.task-add-button { height: 42px; padding: 0 15px; border: 0; border-radius: 7px; color: #fff; background: #247e83; cursor: pointer; font-size: 14px; font-weight: 600; }
+.task-add-button:hover, .task-save-button:hover { background: #19696e; }
+.task-error { margin-bottom: 14px; padding: 10px 12px; border-radius: 7px; color: #9d4f4f; background: #fbe8e8; font-size: 13px; }
+.task-table-scroll { overflow-x: auto; }
+.task-table { width: 100%; min-width: 940px; border-collapse: collapse; color: #283541; font-size: 14px; }
+.task-table th { height: 48px; padding: 0 11px; background: #f0f1f5; color: #17212a; text-align: left; white-space: nowrap; }
+.task-table td { height: 68px; padding: 9px 11px; border-bottom: 1px solid #d9dde2; white-space: nowrap; }
+.task-name-cell button { padding: 0; border: 0; color: #1b7075; background: transparent; cursor: pointer; font-weight: 600; }
+.task-name-cell button:hover { text-decoration: underline; }
+.task-progress { display: flex; align-items: center; gap: 8px; min-width: 125px; }
+.task-progress > div { width: 85px; height: 7px; overflow: hidden; border-radius: 5px; background: #dfe3e7; }
+.task-progress i { display: block; height: 100%; border-radius: inherit; background: #398d90; }
+.task-progress b { min-width: 34px; color: #326d70; font-size: 12px; }
+.task-actions { display: flex; gap: 7px; }
+.task-actions button, .task-detail-heading > button, .task-notes-heading button, .task-note button, .task-form-actions button { height: 31px; padding: 0 10px; border: 1px solid #c8d0d5; border-radius: 6px; color: #3d5961; background: #fff; cursor: pointer; font-size: 12px; }
+.task-actions button.danger { color: #a04b4b; }
+.task-actions button:disabled, .task-form-actions button:disabled { cursor: wait; opacity: .55; }
+.task-empty { padding: 35px 20px !important; color: #89939d; text-align: center; }
+.task-form h3, .task-detail h3 { margin: 0 0 18px; color: #1d2d37; font-size: 19px; }
+.task-form-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.task-form-fields label { display: grid; gap: 7px; color: #374650; font-size: 13px; font-weight: 600; }
+.task-form-fields input, .task-form-fields select, .task-form-fields textarea { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #c8d2d6; border-radius: 7px; color: #26343d; background: #fff; font: inherit; font-weight: 400; }
+.task-form-fields input, .task-form-fields select { height: 40px; padding: 0 10px; }
+.task-description-field { grid-column: 1 / -1; }
+.task-assignment-editor { display: grid; gap: 9px; margin-top: 18px; padding: 14px; border: 1px solid #d8e1e3; border-radius: 8px; background: #fbfdfd; }
+.task-assignment-editor > strong { color: #374650; font-size: 13px; }
+.task-assignment-option { display: flex; align-items: center; gap: 8px; color: #35454d; font-size: 13px; font-weight: 400; }
+.task-assignment-option input[type='checkbox'] { accent-color: #247e83; }
+.task-assignment-option input[type='number'] { width: 75px; height: 30px; margin-left: auto; padding: 0 7px; border: 1px solid #c8d2d6; border-radius: 6px; }
+.task-assignment-option small { margin-left: -5px; }
+.task-form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+.task-save-button { border-color: #247e83 !important; color: #fff !important; background: #247e83 !important; }
+.task-detail-heading { display: flex; justify-content: space-between; gap: 15px; align-items: flex-start; }
+.task-detail-heading h3 { margin-bottom: 5px; }
+.task-detail-heading p { margin: 0 0 18px; color: #77838c; font-size: 13px; }
+.task-detail-info { display: flex; flex-wrap: wrap; gap: 18px; padding: 13px; border-radius: 8px; background: #f5f8f8; color: #3b4c54; font-size: 13px; }
+.task-detail-info p { flex-basis: 100%; margin: 0; line-height: 1.45; }
+.task-detail h4 { margin: 20px 0 10px; color: #263942; font-size: 15px; }
+.task-assignment-list { display: grid; gap: 8px; }
+.task-assignment-row { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 10px 12px; border: 1px solid #e0e5e6; border-radius: 7px; }
+.task-assignment-row span b, .task-assignment-row span small { display: block; }
+.task-assignment-row span small { margin-top: 3px; color: #8a969c; font-size: 11px; }
+.task-assignment-row label { color: #64727a; font-size: 12px; }
+.task-assignment-row input { width: 65px; height: 30px; margin-left: 6px; padding: 0 6px; border: 1px solid #c8d2d6; border-radius: 6px; }
+.task-notes-heading { display: flex; justify-content: space-between; align-items: center; }
+.task-notes-heading h4 { margin-bottom: 10px; }
+.task-note-count { color: #247e83; font-weight: 400; }
+.task-notes { display: grid; gap: 9px; }
+.task-note-loading, .task-note-empty { padding: 14px; border-radius: 7px; color: #7d8991; background: #f7f9f9; font-size: 13px; }
+.task-note { padding: 12px; border: 1px solid #e0e5e6; border-radius: 8px; }
+.task-note > div b, .task-note > div small { display: block; }
+.task-note > div small { margin-top: 3px; color: #849097; font-size: 11px; }
+.task-note p { margin: 9px 0; color: #35454d; line-height: 1.45; }
+.task-note button { color: #247e83; }
+.task-confirm-note-button { border-color: #247e83 !important; color: #fff !important; background: #247e83 !important; }
+
+@media (max-width: 700px) {
+  .task-panel { padding: 16px 12px; }
+  .task-toolbar { justify-content: stretch; }
+  .task-add-button { width: 100%; }
+  .task-form-fields { grid-template-columns: 1fr; }
+  .task-description-field { grid-column: auto; }
+  .task-assignment-row { align-items: flex-start; flex-direction: column; }
+}
+
 .phase-table-panel { padding: 20px 22px 24px; }
 .phase-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .phase-search { display: flex; align-items: center; gap: 9px; width: min(395px, 100%); height: 42px; padding: 0 12px; border: 1px solid #c8ced8; border-radius: 8px; color: #74808b; font-size: 23px; }

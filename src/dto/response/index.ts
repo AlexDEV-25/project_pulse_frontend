@@ -146,7 +146,7 @@ export interface RoleResponse {
   permissions: PermissionResponse[];
 }
 export interface TaskAssignmentResponse {
-  id?: number;
+  id: number;
   employeeId: number;
   employeeName: string;
   contributionPercentage: number;

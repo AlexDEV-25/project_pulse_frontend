@@ -17,8 +17,7 @@ import type {
 } from '../dto/request';
 
 export const createTask = (data: CreateTaskRequest) => {
-  const { taskStatus: _taskStatus, ...backendData } = data;
-  return httpPost<APIResponse<TaskResponse>>('/api/task', backendData);
+  return httpPost<APIResponse<TaskResponse>>('/api/task', data);
 };
 
 export const updateTask = (id: number, data: UpdateTaskRequest) =>
