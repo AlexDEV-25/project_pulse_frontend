@@ -36,3 +36,14 @@ export const getProjectByIdForAdmin = (id: number) =>
 
 export const getProjectDetailForPm = getProjectByIdForAdmin;
 export const getProjectsForPm = getAllProjects;
+
+/** Projects where the authenticated employee is a member. */
+export const getMyProjects = (keyword?: string) => {
+  const value = keyword?.trim();
+  const query = value ? `?keyword=${encodeURIComponent(value)}` : '';
+  return httpGet<APIResponse<ProjectResponse>>(`/api/project/my-projects${query}`);
+};
+
+/** The backend authorizes this endpoint for admin, PM and employee roles. */
+export const getProjectDetailForEmployee = (id: number) =>
+  httpGet<APIResponse<ProjectResponse>>(`/api/project/${id}`);

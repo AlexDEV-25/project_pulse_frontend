@@ -131,13 +131,13 @@ export interface ProjectMemberResponse {
 export interface ProjectResponse {
   id: number;
   projectName: string;
-  pmId: number;
-  pmName: string;
-  startAt: string;
-  endAt: string;
-  clientBudget: number;
-  projectBudget: number;
-  description: string;
+  pmId: number | null;
+  pmName: string | null;
+  startAt: string | null;
+  endAt: string | null;
+  clientBudget: number | null;
+  projectBudget: number | null;
+  description: string | null;
   projectStatus: ProjectStatus;
 }
 export interface RoleResponse {
@@ -169,6 +169,7 @@ export interface TaskNoteResponse {
   taskId: number;
   employeeId: number;
   employeeName: string;
+  employeeAvatarUrl: string;
   content: string;
   workingHours: number;
   workingDate: string;

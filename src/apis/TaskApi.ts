@@ -26,13 +26,22 @@ export const updateTask = (id: number, data: UpdateTaskRequest) =>
 export const deleteTask = (id: number) =>
   httpDelete<APIResponse<void>>(`/api/task/${id}`);
 
-export const getTasksByProject = (projectId: number) =>
-  httpGet<APIResponse<TaskResponse>>(`/api/task/project/${projectId}`);
+export const getTasksByProject = (
+  projectId: number,
+  keyword?: string,
+  phaseId?: number
+) => {
+  const params = new URLSearchParams();
+  if (keyword?.trim()) params.set('keyword', keyword.trim());
+  if (phaseId !== undefined) params.set('phaseId', String(phaseId));
+  const query = params.toString();
+  return httpGet<APIResponse<TaskResponse>>(
+    `/api/task/project/${projectId}${query ? `?${query}` : ''}`
+  );
+};
 
 export const getTasksByProjectAndPhase = (projectId: number, phaseId: number) =>
-  httpGet<APIResponse<TaskResponse>>(
-    `/api/task/project/${projectId}/phase/${phaseId}`
-  );
+  getTasksByProject(projectId, undefined, phaseId);
 
 export const getTasksByEmployee = (projectId: number, employeeId: number) =>
   getTasksByProject(projectId).then((response) => ({
@@ -52,6 +61,11 @@ export const getMyAssignedTasks = () =>
 
 export const getMyAssignedTaskById = (id: number) =>
   httpGet<APIResponse<TaskResponse>>(`/api/task/employee/me/${id}`);
+
+export const getTaskDetailForEmployee = getMyAssignedTaskById;
+
+export const updateMyTaskStatus = (id: number, taskStatus: TaskResponse['taskStatus']) =>
+  httpPut<APIResponse<TaskResponse>>(`/api/task/status/${id}`, { taskStatus });
 
 export const updateAssignmentContribution = (
   assignmentId: number,
