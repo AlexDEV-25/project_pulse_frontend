@@ -23,6 +23,8 @@ const blankForm = (): FormState => ({ phaseId: '', taskName: '', description: ''
 export function TaskComponent({ projectId, canManage = false }: Props) {
   const [tasks, setTasks] = useState<TaskResponse[]>([]);
   const [phases, setPhases] = useState<PhaseResponse[]>([]);
+  const [keyword, setKeyword] = useState('');
+  const [phaseId, setPhaseId] = useState('');
   const [members, setMembers] = useState<ProjectMemberResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -37,7 +39,14 @@ export function TaskComponent({ projectId, canManage = false }: Props) {
   const [loadingNotes, setLoadingNotes] = useState(false);
   const [updatingAssignmentId, setUpdatingAssignmentId] = useState<number | null>(null);
 
-  const load = () => { setLoading(true); setError(''); void getTasksByProject(projectId).then((response) => setTasks(response.resultList ?? [])).catch(() => setError('Không thể tải danh sách nhiệm vụ.')).finally(() => setLoading(false)); };
+  const load = (nextKeyword = keyword, nextPhaseId = phaseId) => {
+    setLoading(true);
+    setError('');
+    void getTasksByProject(projectId, nextKeyword, nextPhaseId ? Number(nextPhaseId) : undefined)
+      .then((response) => setTasks(response.resultList ?? []))
+      .catch(() => setError('Không thể tải danh sách nhiệm vụ.'))
+      .finally(() => setLoading(false));
+  };
   useEffect(() => {
     let active = true;
     Promise.allSettled([getTasksByProject(projectId), getPhasesByProject(projectId), getProjectMembers(projectId)]).then(([taskResult, phaseResult, memberResult]) => {
@@ -77,7 +86,11 @@ export function TaskComponent({ projectId, canManage = false }: Props) {
   const changeContribution = (assignment: TaskAssignmentResponse, value: string) => { const contributionPercentage = Number(value); if (!Number.isInteger(contributionPercentage) || contributionPercentage < 0 || contributionPercentage > 100) return; setUpdatingAssignmentId(assignment.id); void updateAssignmentContribution(assignment.id, { contributionPercentage }).then((response) => { const updated = response.result; if (!updated) return; setSelectedTask((current) => current ? { ...current, assignments: current.assignments.map((item) => item.id === updated.id ? updated : item) } : current); setTasks((current) => current.map((item) => item.id === selectedTask?.id ? { ...item, assignments: item.assignments.map((entry) => entry.id === updated.id ? updated : entry) } : item)); }).catch(() => setError('Không thể cập nhật contribution percentage.')).finally(() => setUpdatingAssignmentId(null)); };
 
   return <section className="task-panel">
-    {!formOpen && !selectedTask && <div className="task-toolbar">{canManage && <button className="task-add-button" type="button" onClick={openCreate}>+ Thêm task</button>}</div>}
+    {!formOpen && !selectedTask && <div className="task-toolbar">
+      <label className="task-search"><span aria-hidden="true">⌕</span><input value={keyword} onChange={(event) => setKeyword(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') load(); }} placeholder="Tìm kiếm nhiệm vụ..." aria-label="Tìm kiếm nhiệm vụ" /></label>
+      <select className="task-phase-filter" value={phaseId} onChange={(event) => { const nextPhaseId = event.target.value; setPhaseId(nextPhaseId); load(keyword, nextPhaseId); }} aria-label="Lọc theo giai đoạn"><option value="">Tất cả giai đoạn</option>{phases.map((phase) => <option key={phase.id} value={phase.id}>{phase.phaseName}</option>)}</select>
+      {canManage && <button className="task-add-button" type="button" onClick={openCreate}>+ Thêm task</button>}
+    </div>}
     {error && <div className="task-error">{error}</div>}
     {formOpen ? <div className="task-form"><h3>{editing ? 'Sửa nhiệm vụ' : 'Thêm nhiệm vụ'}</h3><div className="task-form-fields">
       <label><span>Giai đoạn</span><select value={form.phaseId} onChange={(event) => setForm({ ...form, phaseId: event.target.value })} disabled={Boolean(editing)}><option value="">Chọn giai đoạn</option>{phases.map((phase) => <option key={phase.id} value={phase.id}>{phase.phaseName}</option>)}</select></label>
