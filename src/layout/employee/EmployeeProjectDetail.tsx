@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getProjectDetailForEmployee } from '../apis/ProjectApi';
-import type { ProjectResponse } from '../dto/response';
+import { getProjectDetailForEmployee } from '../../apis/ProjectApi';
+import type { ProjectResponse } from '../../dto/response';
 import { DashboardFrame } from './EmployeeDashboard';
-import EmployeeProjectTabs from './components/EmployeeProjectTabs';
+import EmployeeProjectTabs from '../components/EmployeeProjectTabs';
 
 const formatDateTime = (value: string | null) => {
   if (!value) return 'Chưa xác định';

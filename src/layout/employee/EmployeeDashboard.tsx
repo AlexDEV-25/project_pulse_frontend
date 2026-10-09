@@ -3,16 +3,16 @@ import {
   getEmployeeProjectPointStatistics,
   getEmployeeStatisticsSummary,
   getEmployeeTaskStatistics,
-} from '../apis/StatisticsApi';
+} from '../../apis/StatisticsApi';
 import type {
   EmployeeStatisticsSummaryResponse,
   EmployeeTaskStatisticsResponse,
-} from '../dto/response';
-import Sidebar from './components/Sidebar';
-import Topbar from './components/Topbar';
-import StatCard from './components/StatCard';
-import PointChart from './components/PointChart';
-import { EmployeeTable } from './components/DashboardTable';
+} from '../../dto/response';
+import Sidebar from '../components/Sidebar';
+import Topbar from '../components/Topbar';
+import StatCard from '../components/StatCard';
+import PointChart from '../components/PointChart';
+import { EmployeeTable } from '../components/DashboardTable';
 import type { ReactNode } from 'react';
 export default function EmployeeDashboard({
   onLogout,

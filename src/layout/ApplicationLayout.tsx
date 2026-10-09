@@ -4,8 +4,8 @@ import { login, loginWithGoogle } from '../apis/AuthApi';
 import { getMyInfo } from '../apis/UserApi';
 import { OAuthConfig } from '../configurations/configuration';
 import LoginLayout from './LoginLayout';
-import DashboardPage from '../dashboard/DashboardPage';
-import type { DashboardRole } from '../dashboard/components/Sidebar';
+import DashboardPage from './DashboardPage';
+import type { DashboardRole } from './components/Sidebar';
 
 const errorText = (error: unknown) =>
   axios.isAxiosError<{ message?: string; error?: string }>(error)

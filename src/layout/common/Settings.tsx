@@ -1,10 +1,9 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
-import { changePassword } from '../apis/AuthApi';
-import { getMyInfo, updateAvatar } from '../apis/UserApi';
-import type { UserResponse } from '../dto/response';
-import { DashboardFrame } from './EmployeeDashboard';
-import type { DashboardRole } from './components/Sidebar';
-import './settings.css';
+import { changePassword } from '../../apis/AuthApi';
+import { getMyInfo, updateAvatar } from '../../apis/UserApi';
+import type { UserResponse } from '../../dto/response';
+import { DashboardFrame } from '../employee/EmployeeDashboard';
+import type { DashboardRole } from '../components/Sidebar';
 
 export default function Settings({
   role,

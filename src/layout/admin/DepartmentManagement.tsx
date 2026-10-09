@@ -6,16 +6,16 @@ import {
   getDepartmentById,
   getDepartmentStatistics,
   updateDepartment,
-} from '../apis/DepartmentApi';
+} from '../../apis/DepartmentApi';
 import type {
   DepartmentResponse,
   DepartmentStatisticsResponse,
-} from '../dto/response';
+} from '../../dto/response';
 import type {
   CreateDepartmentRequest,
   UpdateDepartmentRequest,
-} from '../dto/request';
-import { DashboardFrame } from './EmployeeDashboard';
+} from '../../dto/request';
+import { DashboardFrame } from '../employee/EmployeeDashboard';
 
 type DrawerMode = 'create' | 'edit' | 'detail';
 type FormState = { id?: number; departmentName: string; hidden: boolean };

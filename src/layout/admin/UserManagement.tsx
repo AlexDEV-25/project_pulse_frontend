@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import { createAccount } from '../apis/AuthApi';
-import { getAllDepartments } from '../apis/DepartmentApi';
-import { getAllUsers, getUserStatistics, updateUser } from '../apis/UserApi';
-import type { CreateAccountRequest, UpdateUserRequest } from '../dto/request';
-import type { DepartmentResponse, UserResponse } from '../dto/response';
-import { DashboardFrame } from './EmployeeDashboard';
+import { createAccount } from '../../apis/AuthApi';
+import { getAllDepartments } from '../../apis/DepartmentApi';
+import { getAllUsers, getUserStatistics, updateUser } from '../../apis/UserApi';
+import type { CreateAccountRequest, UpdateUserRequest } from '../../dto/request';
+import type { DepartmentResponse, UserResponse } from '../../dto/response';
+import { DashboardFrame } from '../employee/EmployeeDashboard';
 
 const roles = ['ADMIN', 'PM', 'EMPLOYEE'];
 type DrawerMode = 'create' | 'edit' | 'detail';

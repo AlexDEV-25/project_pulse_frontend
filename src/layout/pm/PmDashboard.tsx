@@ -4,19 +4,19 @@ import {
   getProjectEvAcStatistics,
   getProjectStatusStatistics,
   getStatisticsSummary,
-} from '../apis/StatisticsApi';
+} from '../../apis/StatisticsApi';
 import type {
   InProgressProjectStatisticsResponse,
   ProjectEvAcStatisticResponse,
   ProjectStatusStatisticResponse,
   StatisticsSummaryResponse,
-} from '../dto/response';
-import type { ProjectStatus } from '../dto/enum';
-import { DashboardFrame } from './EmployeeDashboard';
-import StatCard from './components/StatCard';
-import DonutChart from './components/DonutChart';
-import EvmChart from './components/EvmChart';
-import { ProjectTable } from './components/DashboardTable';
+} from '../../dto/response';
+import type { ProjectStatus } from '../../dto/enum';
+import { DashboardFrame } from '../employee/EmployeeDashboard';
+import StatCard from '../components/StatCard';
+import DonutChart from '../components/DonutChart';
+import EvmChart from '../components/EvmChart';
+import { ProjectTable } from '../components/DashboardTable';
 export default function PmDashboard({
   onLogout,
   activeMenu,

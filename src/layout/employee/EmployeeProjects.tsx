@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getMyProjects } from '../apis/ProjectApi';
-import type { ProjectResponse } from '../dto/response';
+import { getMyProjects } from '../../apis/ProjectApi';
+import type { ProjectResponse } from '../../dto/response';
 import { DashboardFrame } from './EmployeeDashboard';
-import './employee-projects.css';
 
 const statusLabels: Record<ProjectResponse['projectStatus'], string> = {
   DRAFT: 'Bản nháp',

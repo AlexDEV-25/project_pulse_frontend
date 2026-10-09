@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import type { DashboardRole } from './components/Sidebar';
-import EmployeeDashboard from './EmployeeDashboard';
-import PmDashboard from './PmDashboard';
-import AdminDashboard from './AdminDashboard';
-import UserManagement from './UserManagement';
-import DepartmentManagement from './DepartmentManagement';
-import ProjectManagement from './ProjectManagement';
-import DetailProject from './DetailProject';
-import EmployeeProjects from './EmployeeProjects';
-import EmployeeProjectDetail from './EmployeeProjectDetail';
-import Settings from './Settings';
+import EmployeeDashboard from './employee/EmployeeDashboard';
+import PmDashboard from './pm/PmDashboard';
+import AdminDashboard from './admin/AdminDashboard';
+import UserManagement from './admin/UserManagement';
+import DepartmentManagement from './admin/DepartmentManagement';
+import ProjectManagement from './common/ProjectManagement';
+import DetailProject from './common/DetailProject';
+import EmployeeProjects from './employee/EmployeeProjects';
+import EmployeeProjectDetail from './employee/EmployeeProjectDetail';
+import Settings from './common/Settings';
 export default function DashboardPage({
   role,
   onLogout,

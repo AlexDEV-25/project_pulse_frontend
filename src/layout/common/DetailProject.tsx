@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { getProjectEvm, getProjectTaskCostsFiltered } from '../apis/FinanceApi';
-import { getProjectByIdForAdmin } from '../apis/ProjectApi';
-import type { EvmHealthResponse, ProjectResponse, TaskCostTransactionResponse } from '../dto/response';
-import { DashboardFrame } from './EmployeeDashboard';
+import { getProjectEvm, getProjectTaskCostsFiltered } from '../../apis/FinanceApi';
+import { getProjectByIdForAdmin } from '../../apis/ProjectApi';
+import type { EvmHealthResponse, ProjectResponse, TaskCostTransactionResponse } from '../../dto/response';
+import { DashboardFrame } from '../employee/EmployeeDashboard';
 import {
   EvmMetricCards,
   ProjectDetailTabs,
   ProjectDetails,
-} from './components/project-detail';
+} from '../components/project-detail';
 
 export default function DetailProject({
   role,

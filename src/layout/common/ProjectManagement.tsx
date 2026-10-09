@@ -4,20 +4,20 @@ import {
   deleteProject,
   getAllProjects,
   updateProject,
-} from '../apis/ProjectApi';
-import { getProjectOverviewStatistics } from '../apis/StatisticsApi';
-import { getAllUsers } from '../apis/UserApi';
+} from '../../apis/ProjectApi';
+import { getProjectOverviewStatistics } from '../../apis/StatisticsApi';
+import { getAllUsers } from '../../apis/UserApi';
 import type {
   CreateProjectRequest,
   UpdateProjectRequest,
-} from '../dto/request';
+} from '../../dto/request';
 import type {
   ProjectOverviewStatisticsResponse,
   ProjectResponse,
   UserResponse,
-} from '../dto/response';
-import type { ProjectStatus } from '../dto/enum';
-import { DashboardFrame } from './EmployeeDashboard';
+} from '../../dto/response';
+import type { ProjectStatus } from '../../dto/enum';
+import { DashboardFrame } from '../employee/EmployeeDashboard';
 
 const statusOptions: { value: ProjectStatus; label: string; color: string }[] =
   [
