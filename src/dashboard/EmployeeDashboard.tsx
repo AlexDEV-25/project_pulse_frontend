@@ -16,8 +16,12 @@ import { EmployeeTable } from './components/DashboardTable';
 import type { ReactNode } from 'react';
 export default function EmployeeDashboard({
   onLogout,
+  activeMenu,
+  onMenuChange,
 }: {
   onLogout: () => void;
+  activeMenu?: string;
+  onMenuChange?: (label: string) => void;
 }) {
   const [summary, setSummary] =
     useState<EmployeeStatisticsSummaryResponse | null>(null);
@@ -35,7 +39,12 @@ export default function EmployeeDashboard({
     });
   }, []);
   return (
-    <DashboardFrame role="EMPLOYEE" onLogout={onLogout}>
+    <DashboardFrame
+      role="EMPLOYEE"
+      onLogout={onLogout}
+      activeMenu={activeMenu}
+      onMenuChange={onMenuChange}
+    >
       <div className="stat-grid employee-grid">
         <StatCard
           label="TỔNG SỐ DỰ ÁN"
