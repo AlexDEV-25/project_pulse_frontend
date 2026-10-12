@@ -199,9 +199,21 @@ export default function DepartmentManagement({
                   </tr>
                 ) : (
                   departments.map((department) => (
-                    <tr key={department.id}>
+                    <tr
+                      key={department.id}
+                      className="department-row-clickable"
+                      onClick={() => void openDepartment(department, 'detail')}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          void openDepartment(department, 'detail');
+                        }
+                      }}
+                      tabIndex={0}
+                      role="link"
+                      aria-label={`Xem chi tiết phòng ban ${department.departmentName}`}
+                    >
                       <td>
-                        <span className="department-building">▥</span>
                         <b>{department.departmentName}</b>
                       </td>
                       <td>
@@ -221,30 +233,27 @@ export default function DepartmentManagement({
                         <div className="department-actions">
                           <button
                             type="button"
-                            title="Xem chi tiết"
-                            onClick={() =>
-                              void openDepartment(department, 'detail')
-                            }
-                          >
-                            ◉
-                          </button>
-                          <button
-                            type="button"
                             title="Chỉnh sửa"
-                            onClick={() =>
-                              void openDepartment(department, 'edit')
-                            }
+                            aria-label={`Sửa phòng ban ${department.departmentName}`}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              void openDepartment(department, 'edit');
+                            }}
                           >
-                            ✎
+                            <span aria-hidden="true" />
                           </button>
                           <button
                             type="button"
                             title="Xóa"
                             className="delete"
+                            aria-label={`Xóa phòng ban ${department.departmentName}`}
                             disabled={deletingId === department.id}
-                            onClick={() => void remove(department)}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              void remove(department);
+                            }}
                           >
-                            ♜
+                            <span aria-hidden="true" />
                           </button>
                         </div>
                       </td>
@@ -296,6 +305,7 @@ export default function DepartmentManagement({
                   <label>
                     Trạng thái
                     <select
+                      className={drawerMode === 'detail' ? 'department-readonly-select' : ''}
                       disabled={drawerMode === 'detail'}
                       value={form.hidden ? 'hidden' : 'active'}
                       onChange={(event) =>

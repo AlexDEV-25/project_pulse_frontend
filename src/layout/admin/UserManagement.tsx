@@ -2,9 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { createAccount } from '../../apis/AuthApi';
 import { getAllDepartments } from '../../apis/DepartmentApi';
 import { getAllUsers, getUserStatistics, updateUser } from '../../apis/UserApi';
-import type { CreateAccountRequest, UpdateUserRequest } from '../../dto/request';
+import type {
+  CreateAccountRequest,
+  UpdateUserRequest,
+} from '../../dto/request';
 import type { DepartmentResponse, UserResponse } from '../../dto/response';
 import { DashboardFrame } from '../employee/EmployeeDashboard';
+import { ManagementFilterButton, ManagementSearch } from '../components/ManagementFilters';
 
 const roles = ['ADMIN', 'PM', 'EMPLOYEE'];
 type DrawerMode = 'create' | 'edit' | 'detail';
@@ -113,7 +117,7 @@ export default function UserManagement({
       password: '',
       position: user.position ?? '',
       departmentId: String(user.departmentId),
-      roles: user.roles.map((role) => role.name),
+      roles: (user.roles ?? []).map((role) => role.name),
       resourceRate: String(user.resourceRate ?? 0),
     });
     setError('');
@@ -131,7 +135,7 @@ export default function UserManagement({
       (user) =>
         user.id === form.id &&
         (String(user.departmentId) !== form.departmentId ||
-          user.roles
+          (user.roles ?? [])
             .map((role) => role.name)
             .sort()
             .join() !== [...form.roles].sort().join())
@@ -197,7 +201,7 @@ export default function UserManagement({
       <div className="people-header">
         <div>
           <h1>Quản lý nhân sự</h1>
-          <p>24px Inter</p>
+          <p>Theo dõi và quản lý nhân sự</p>
         </div>
         <button
           className="people-primary-button"
@@ -209,14 +213,12 @@ export default function UserManagement({
       </div>
       <div className="people-summary-grid">
         <section className="people-summary-card">
-          <span className="summary-icon">♙</span>
           <div>
             <small>Tổng nhân sự</small>
             <strong>{displayedTotal.toLocaleString('vi-VN')}</strong>
           </div>
         </section>
         <section className="people-summary-card roles-summary">
-          <span className="summary-icon">▱</span>
           <div>
             <small>Phân loại vai trò</small>
             <div className="role-counts">
@@ -232,16 +234,8 @@ export default function UserManagement({
       </div>
       <section className="people-panel">
         <div className="people-filters">
-          <label className="people-search">
-            <span>⌕</span>
-            <input
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              placeholder="Tìm kiếm nhân sự..."
-            />
-          </label>
+          <ManagementSearch value={keyword} onChange={setKeyword} onSubmit={() => void loadUsers()} placeholder="Tìm kiếm nhân sự..." />
           <div className="filter-field">
-            <span>Vai trò</span>
             <button type="button" onClick={() => setRoleOpen(!roleOpen)}>
               {selectedRoles.length
                 ? selectedRoles.join(', ')
@@ -270,7 +264,6 @@ export default function UserManagement({
             )}
           </div>
           <div className="filter-field">
-            <span>Phòng ban</span>
             <button
               type="button"
               onClick={() => setDepartmentOpen(!departmentOpen)}
@@ -301,13 +294,7 @@ export default function UserManagement({
               </div>
             )}
           </div>
-          <button
-            className="people-filter-button"
-            type="button"
-            onClick={() => void loadUsers()}
-          >
-            Lọc
-          </button>
+          <ManagementFilterButton onClick={() => void loadUsers()} />
         </div>
         {error && !drawerMode && <div className="people-error">{error}</div>}
         <div className="people-table-wrap">
@@ -338,7 +325,20 @@ export default function UserManagement({
                 </tr>
               ) : (
                 users.map((user) => (
-                  <tr key={user.id}>
+                  <tr
+                    key={user.id}
+                    className="people-row-clickable"
+                    onClick={() => openUser(user, 'detail')}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        openUser(user, 'detail');
+                      }
+                    }}
+                    tabIndex={0}
+                    role="link"
+                    aria-label={`Xem thông tin nhân sự ${user.userName}`}
+                  >
                     <td>
                       <img
                         className="people-avatar"
@@ -365,7 +365,7 @@ export default function UserManagement({
                     </td>
                     <td>
                       <div className="role-pills">
-                        {user.roles.map((role) => (
+                        {(user.roles ?? []).map((role) => (
                           <span
                             className={`role-pill role-${role.name.toLowerCase()}`}
                             key={role.name}
@@ -380,16 +380,13 @@ export default function UserManagement({
                         <button
                           type="button"
                           title="Chỉnh sửa"
-                          onClick={() => openUser(user, 'edit')}
+                          aria-label={`Sửa thông tin ${user.userName}`}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            openUser(user, 'edit');
+                          }}
                         >
-                          ✎
-                        </button>
-                        <button
-                          type="button"
-                          title="Xem chi tiết"
-                          onClick={() => openUser(user, 'detail')}
-                        >
-                          ◉
+                          <span aria-hidden="true" />
                         </button>
                       </div>
                     </td>

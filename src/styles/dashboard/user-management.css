@@ -44,16 +44,6 @@
   background: #fff;
   box-shadow: 0 3px 8px #1c2b3d0c;
 }
-.summary-icon {
-  display: grid;
-  width: 43px;
-  height: 43px;
-  place-items: center;
-  border-radius: 8px;
-  color: #657285;
-  background: #f0f3f7;
-  font-size: 25px;
-}
 .people-summary-card small {
   display: block;
   color: #364052;
@@ -98,18 +88,20 @@
   box-shadow: none;
 }
 .people-filters {
-  display: grid;
-  grid-template-columns: minmax(210px, 1.1fr) minmax(170px, 0.9fr) minmax(
-      190px,
-      0.95fr
-    ) 74px;
-  align-items: end;
-  gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #dfe3e7;
+  border-radius: 12px 12px 0 0;
+  background: #fff;
+  box-shadow: 0 5px 14px #25354b0d;
 }
 .people-search,
 .filter-field {
   position: relative;
   display: block;
+  flex: 0 0 190px;
 }
 .people-search span {
   position: absolute;
@@ -151,14 +143,12 @@
   cursor: pointer;
 }
 .filter-field button b {
-  color: #8390a0;
-  font-size: 18px;
-  font-weight: 400;
+  display: none;
 }
 .filter-menu {
   position: absolute;
   z-index: 4;
-  top: 64px;
+  top: 48px;
   right: 0;
   left: 0;
   display: grid;
@@ -170,6 +160,10 @@
   border-radius: 7px;
   background: #fff;
   box-shadow: 0 6px 14px #23334a25;
+}
+.people-filters .management-search {
+  flex: 1 1 430px;
+  width: auto;
 }
 .filter-menu label {
   display: flex;
@@ -191,9 +185,11 @@
 }
 .people-table-wrap {
   overflow: auto;
-  margin-top: 8px;
+  max-height: calc(100vh - 340px);
+  min-height: 180px;
+  margin-top: 0;
   border: 1px solid #dfe3e9;
-  border-radius: 9px;
+  border-radius: 0 0 12px 12px;
   background: #fff;
   box-shadow: 0 3px 8px #1c2b3d0c;
 }
@@ -205,6 +201,9 @@
   font-size: 13px;
 }
 .people-table th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
   height: 42px;
   padding: 0 16px;
   border-bottom: 1px solid #dfe3e9;
@@ -258,29 +257,61 @@
   gap: 5px;
 }
 .role-pill {
-  color: #fff;
-  background: #27a890;
+  color: #39776e;
+  background: #d9f0eb;
 }
 .role-admin {
-  background: #9c62cf;
+  color: #6f5b84;
+  background: #eee6f5;
 }
 .role-pm {
-  background: #3178ca;
+  color: #4c6e91;
+  background: #e4edf7;
 }
 .role-employee {
-  background: #25a88e;
+  color: #39776e;
+  background: #dff2ec;
 }
 .row-actions {
   display: flex;
   gap: 14px;
 }
 .row-actions button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
   padding: 0;
   border: 0;
+  border-radius: 5px;
   color: #718090;
-  background: transparent;
-  font-size: 19px;
+  background: #fff;
+  font-size: 0;
   cursor: pointer;
+}
+.row-actions button:first-child::before {
+  width: 16px;
+  height: 16px;
+  content: '';
+  background: currentColor;
+  mask: center / contain no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m4 16.5-.8 3.8 3.8-.8L18.5 8a2.1 2.1 0 0 0-3-3L4 16.5Zm10.1-9.1 3 3' fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8'/%3E%3C/svg%3E");
+}
+.row-actions button:nth-child(2) {
+  font-size: 19px;
+}
+.people-filters .management-search {
+  width: 100%;
+}
+.people-row-clickable {
+  cursor: pointer;
+}
+.people-row-clickable:hover td {
+  background: #f8fbfc;
+}
+.people-row-clickable:focus-visible {
+  outline: 2px solid #168e88;
+  outline-offset: -2px;
 }
 .people-empty {
   height: 120px !important;
@@ -298,9 +329,18 @@
   .people-header h1 {
     font-size: 25px;
   }
-  .people-summary-grid,
-  .people-filters {
+  .people-summary-grid {
     grid-template-columns: 1fr;
+  }
+  .people-filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .people-filters .management-search,
+  .filter-field,
+  .people-filters .management-filter-button {
+    width: 100%;
+    flex-basis: auto;
   }
   .roles-summary {
     min-width: 0;
