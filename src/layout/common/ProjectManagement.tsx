@@ -18,6 +18,11 @@ import type {
 } from '../../dto/response';
 import type { ProjectStatus } from '../../dto/enum';
 import { DashboardFrame } from '../employee/EmployeeDashboard';
+import {
+  ManagementFilterButton,
+  ManagementSearch,
+  ManagementSelect,
+} from '../components/ManagementFilters';
 
 const statusOptions: { value: ProjectStatus; label: string; color: string }[] =
   [
@@ -104,7 +109,7 @@ export default function ProjectManagement({
       .then((response) => setStatistics(response.result))
       .catch(() => undefined);
     if (isAdmin)
-      void getAllUsers({ roleName: 'PM' })
+      void getAllUsers({ roleNames: ['PM'] })
         .then((response) => setPms(response.resultList ?? []))
         .catch(() => undefined);
   }, [isAdmin]);
@@ -184,6 +189,8 @@ export default function ProjectManagement({
     ...item,
     count: count(item.value),
   }));
+  const openDetail = (projectId: number) =>
+    onMenuChange(`Chi tiết dự án ${projectId}`);
 
   return (
     <DashboardFrame
@@ -210,7 +217,6 @@ export default function ProjectManagement({
         </div>
         <div className="project-summary">
           <section className="project-total">
-            <span>▣</span>
             <div>
               <small>Tổng số dự án</small>
               <strong>{statistics?.totalProject ?? '—'}</strong>
@@ -228,46 +234,22 @@ export default function ProjectManagement({
         </div>
         <section className="project-panel">
           <div className="project-toolbar">
-            <label className="project-search">
-              ⌕
-              <input
-                value={keyword}
-                onChange={(event) => setKeyword(event.target.value)}
-                onKeyDown={(event) => event.key === 'Enter' && void load()}
-                placeholder="Tìm kiếm dự án..."
-              />
-            </label>
+            <ManagementSearch value={keyword} onChange={setKeyword} onSubmit={() => void load()} placeholder="Tìm kiếm dự án..." />
             {isAdmin && (
-              <select
+              <ManagementSelect
                 value={pmId}
-                onChange={(event) => setPmId(event.target.value)}
-              >
-                <option value="">Tất cả PM</option>
-                {pms.map((pm) => (
-                  <option key={pm.id} value={pm.id}>
-                    {pm.userName}
-                  </option>
-                ))}
-              </select>
+                onChange={setPmId}
+                placeholder="Tất cả PM"
+                options={pms.map((pm) => ({ value: String(pm.id), label: pm.userName }))}
+              />
             )}
-            <select
+            <ManagementSelect
               value={status}
-              onChange={(event) => setStatus(event.target.value)}
-            >
-              <option value="">Tất cả trạng thái</option>
-              {statusOptions.map((item) => (
-                <option key={item.value} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              className="project-filter"
-              onClick={() => void load()}
-            >
-              Lọc
-            </button>
+              onChange={setStatus}
+              placeholder="Tất cả trạng thái"
+              options={statusOptions.map((item) => ({ value: item.value, label: item.label }))}
+            />
+            <ManagementFilterButton onClick={() => void load()} />
           </div>
           {error && !drawerMode && <div className="project-error">{error}</div>}
           <div className="project-table-wrap">
@@ -302,9 +284,21 @@ export default function ProjectManagement({
                       (option) => option.value === project.projectStatus
                     );
                     return (
-                      <tr key={project.id}>
+                      <tr
+                        key={project.id}
+                        className="project-row-clickable"
+                        onClick={() => openDetail(project.id)}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            openDetail(project.id);
+                          }
+                        }}
+                        tabIndex={0}
+                        role="link"
+                        aria-label={`Xem chi tiết dự án ${project.projectName}`}
+                      >
                         <td>
-                          <span className="project-icon">▱</span>
                           <b>{project.projectName}</b>
                         </td>
                         {isAdmin && (
@@ -330,32 +324,35 @@ export default function ProjectManagement({
                         <td>{money(project.projectBudget)}</td>
                         <td>
                           <div className="project-actions">
-                            <button
-                              title="Chi tiết"
-                              type="button"
-                              onClick={() =>
-                                onMenuChange(`Chi tiết dự án ${project.id}`)
-                              }
-                            >
-                              ◉
-                            </button>
                             {isAdmin && (
                               <>
                                 <button
                                   title="Chỉnh sửa"
                                   type="button"
-                                  onClick={() => openEdit(project)}
+                                  aria-label={`Sửa dự án ${project.projectName}`}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    openEdit(project);
+                                  }}
                                 >
-                                  ✎
+                                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="m4 16.5-.8 3.8 3.8-.8L18.5 8a2.1 2.1 0 0 0-3-3L4 16.5Zm10.1-9.1 3 3" />
+                                  </svg>
                                 </button>
                                 <button
                                   title="Xóa"
                                   type="button"
                                   className="delete"
+                                  aria-label={`Xóa dự án ${project.projectName}`}
                                   disabled={deletingId === project.id}
-                                  onClick={() => void remove(project)}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    void remove(project);
+                                  }}
                                 >
-                                  ♜
+                                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M5 7h14m-9 4v6m4-6v6M9 7V4h6v3m-9 0 1 13h10l1-13" />
+                                  </svg>
                                 </button>
                               </>
                             )}

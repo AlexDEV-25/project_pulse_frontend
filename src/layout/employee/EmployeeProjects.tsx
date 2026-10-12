@@ -82,15 +82,21 @@ export default function EmployeeProjects({
 
         {error && <div className="employee-project-error">{error}</div>}
         {loading ? (
-          <div className="employee-project-state">Đang tải danh sách dự án...</div>
+          <div className="employee-project-state">
+            Đang tải danh sách dự án...
+          </div>
         ) : projects.length === 0 ? (
-          <div className="employee-project-state">Bạn chưa tham gia dự án nào.</div>
+          <div className="employee-project-state">
+            Bạn chưa tham gia dự án nào.
+          </div>
         ) : (
           <div className="employee-project-grid">
             {projects.map((project) => (
               <article className="employee-project-card" key={project.id}>
                 <div className="employee-project-card-top">
-                  <span className={`employee-project-status ${project.projectStatus.toLowerCase()}`}>
+                  <span
+                    className={`employee-project-status ${project.projectStatus.toLowerCase()}`}
+                  >
                     {statusLabels[project.projectStatus]}
                   </span>
                 </div>
@@ -102,8 +108,14 @@ export default function EmployeeProjects({
                   {project.description || 'Chưa có mô tả cho dự án này.'}
                 </p>
                 <div className="employee-project-meta">
-                  <span><b>Bắt đầu</b>{formatDate(project.startAt)}</span>
-                  <span><b>Hạn kết thúc</b>{formatDate(project.endAt)}</span>
+                  <span>
+                    <b>Bắt đầu</b>
+                    {formatDate(project.startAt)}
+                  </span>
+                  <span>
+                    <b>Hạn kết thúc</b>
+                    {formatDate(project.endAt)}
+                  </span>
                 </div>
                 <button
                   type="button"
