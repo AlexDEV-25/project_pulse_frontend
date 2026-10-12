@@ -7,8 +7,8 @@ import type {
 import type { UpdateUserRequest } from '../dto/request';
 
 export type UserFilters = {
-  roleName?: string;
   roleNames?: string[];
+  departmentId?: number;
   departmentIds?: number[];
   keyword?: string;
 };
@@ -17,8 +17,9 @@ export const getAllUsers = (filters: UserFilters = {}) =>
   httpGet<APIResponse<UserResponse>>(
     `/api/users?${(() => {
       const params = new URLSearchParams();
-      if (filters.roleName) params.set('roleName', filters.roleName);
       filters.roleNames?.forEach((role) => params.append('roleNames', role));
+      if (filters.departmentId != null)
+        params.append('departmentIds', String(filters.departmentId));
       filters.departmentIds?.forEach((id) =>
         params.append('departmentIds', String(id))
       );
@@ -30,16 +31,10 @@ export const getAllUsers = (filters: UserFilters = {}) =>
 export const getUserStatistics = () =>
   httpGet<APIResponse<UserStatisticsResponse>>('/api/users/statistics');
 
-export const getAllUsersForPm = () =>
-  httpGet<APIResponse<UserResponse>>('/api/users', {
-    params: { roleName: 'EMPLOYEE' },
-  });
+export const getAllUsersForPm = () => getAllUsers({ roleNames: ['EMPLOYEE'] });
 
 export const getUserById = (id: number) =>
   httpGet<APIResponse<UserResponse>>(`/api/users/${id}`);
-
-export const getUsersByDepartment = (departmentId: number) =>
-  httpGet<APIResponse<UserResponse>>(`/api/users/department/${departmentId}`);
 
 export const getMyInfo = () =>
   httpGet<APIResponse<UserResponse>>('/api/users/my-info');

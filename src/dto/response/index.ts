@@ -2,6 +2,7 @@ import type {
   EarningTransactionType,
   PhaseStatus,
   ProjectStatus,
+  ScheduleStatus,
   TaskNoteStatus,
   TaskStatus,
 } from '../enum';
@@ -27,7 +28,11 @@ export interface AllocationResponse {
 }
 export interface AuthResponse {
   authenticated: boolean;
-  token: string;
+  token?: string;
+  /** All roles granted to the account in this authenticated session. */
+  roles: string[];
+  /** Kept for compatibility with older responses. */
+  role?: string;
 }
 export interface CreateAccountResponse {
   email: string;
@@ -203,7 +208,7 @@ export interface UserResponse {
   avatarUrl: string;
   departmentId: number;
   departmentName: string;
-  roles: RoleResponse[];
+  roles?: RoleResponse[];
 }
 export interface UserStatisticsResponse {
   totalUsers: number;
@@ -219,7 +224,7 @@ export interface UserWithoutCostResponse {
   resourceRate: number;
   avatarUrl: string;
   departmentName: string;
-  roles: RoleResponse[];
+  roles?: RoleResponse[];
 }
 export interface FileResponse {
   length: number;
@@ -252,7 +257,7 @@ export interface InProgressProjectStatisticsResponse {
   bac: number;
   cpi: number | null;
   spi: number | null;
-  scheduleStatus: string;
+  scheduleStatus: ScheduleStatus;
 }
 export interface EmployeeStatisticsSummaryResponse {
   totalProject: number;

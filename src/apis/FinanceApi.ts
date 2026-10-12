@@ -1,7 +1,5 @@
 import { httpGet, httpPost } from './HttpClient';
-import type {
-  CreateEarningTransferRequest,
-} from '../dto/request';
+import type { CreateEarningTransferRequest } from '../dto/request';
 import type {
   APIResponse,
   EarningTransactionResponse,
@@ -13,13 +11,11 @@ export const getProjectEvm = (projectId: number) =>
   httpGet<APIResponse<EvmHealthResponse>>(`/api/evm/project/${projectId}`);
 
 export const getPhaseEvm = (phaseId: number) =>
-  httpGet<APIResponse<EvmHealthResponse>>(
-    `/api/evm/phase/${phaseId}`
-  );
+  httpGet<APIResponse<EvmHealthResponse>>(`/api/evm/phase/${phaseId}`);
 
-export const getTaskCosts = (projectId: number, taskId: number) =>
+export const getTaskCosts = (id: number) =>
   httpGet<APIResponse<TaskCostTransactionResponse>>(
-    `/api/task-cost-transactions/project/${projectId}/${taskId}`
+    `/api/task-cost-transactions/${id}`
   );
 
 export const getProjectTaskCosts = (projectId: number) =>
@@ -29,14 +25,14 @@ export const getProjectTaskCosts = (projectId: number) =>
 
 export const getProjectTaskCostsFiltered = (
   projectId: number,
-  params?: { keyword?: string; phaseId?: number },
+  params?: { keyword?: string; phaseId?: number }
 ) => {
   const query = new URLSearchParams();
   if (params?.keyword) query.set('keyword', params.keyword);
   if (params?.phaseId) query.set('phaseId', String(params.phaseId));
   const suffix = query.toString() ? `?${query.toString()}` : '';
   return httpGet<APIResponse<TaskCostTransactionResponse>>(
-    `/api/task-cost-transactions/project/${projectId}${suffix}`,
+    `/api/task-cost-transactions/project/${projectId}${suffix}`
   );
 };
 
@@ -49,7 +45,7 @@ export const getProjectEarningsFiltered = (
     keyword?: string;
     phaseId?: number;
     earningTransactionType?: 'EARN' | 'TRANSFER';
-  },
+  }
 ) => {
   const query = new URLSearchParams();
   if (params?.keyword) query.set('keyword', params.keyword);
@@ -59,7 +55,7 @@ export const getProjectEarningsFiltered = (
   }
   const suffix = query.toString() ? `?${query.toString()}` : '';
   return httpGet<APIResponse<EarningTransactionResponse>>(
-    `/api/earning-transactions/project/${projectId}${suffix}`,
+    `/api/earning-transactions/project/${projectId}${suffix}`
   );
 };
 

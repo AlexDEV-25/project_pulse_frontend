@@ -6,12 +6,21 @@ import {
   httpPut,
 } from './HttpClient';
 import type { APIResponse, TaskNoteResponse } from '../dto/response';
-import type { TaskNoteRequest } from '../dto/request';
+import type {
+  CreateTaskNoteRequest,
+  UpdateTaskNoteRequest,
+} from '../dto/request';
 
-export const createTaskNote = (taskId: number, data: TaskNoteRequest) =>
-  httpPost<APIResponse<TaskNoteResponse>>(`/api/task/${taskId}/notes`, data);
+export const createTaskNote = (
+  taskId: number,
+  data: Omit<CreateTaskNoteRequest, 'taskId'>
+) =>
+  httpPost<APIResponse<TaskNoteResponse>>('/api/task/notes', {
+    taskId,
+    ...data,
+  });
 
-export const updateTaskNote = (noteId: number, data: TaskNoteRequest) =>
+export const updateTaskNote = (noteId: number, data: UpdateTaskNoteRequest) =>
   httpPut<APIResponse<TaskNoteResponse>>(`/api/task-note/${noteId}`, data);
 
 export const deleteTaskNote = (noteId: number) =>

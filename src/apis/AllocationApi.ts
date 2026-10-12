@@ -6,9 +6,7 @@ import type {
 } from '../dto/request';
 
 export const getMyAllocations = (projectId: number) =>
-  httpGet<APIResponse<AllocationResponse>>(
-    `/api/allocation/employee/me/${projectId}`
-  );
+  getAllocationsByProject(projectId);
 
 export type AllocationFilters = { phaseId?: number; keyword?: string };
 
@@ -22,7 +20,7 @@ export const getAllocationsByProject = (
   if (filters.keyword?.trim()) params.set('keyword', filters.keyword.trim());
   const query = params.toString();
   return httpGet<APIResponse<AllocationResponse>>(
-    `/api/allocation/${projectId}${query ? `?${query}` : ''}`
+    `/api/allocation/project/${projectId}${query ? `?${query}` : ''}`
   );
 };
 
@@ -31,6 +29,9 @@ export const getAllocationsByProjectAndPhase = (
   phaseId?: number,
   keyword?: string
 ) => getAllocationsByProject(projectId, { phaseId, keyword });
+
+export const getAllocationById = (id: number) =>
+  httpGet<APIResponse<AllocationResponse>>(`/api/allocation/${id}`);
 
 export const createAllocation = (data: CreateAllocationRequest) =>
   httpPost<APIResponse<AllocationResponse>>('/api/allocation', data);

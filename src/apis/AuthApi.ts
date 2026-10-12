@@ -25,6 +25,15 @@ export const loginWithGoogle = (code: string) =>
     params: { code },
   });
 
+export const selectRole = (data: {
+  email: string;
+  password: string;
+  role: string;
+}) => httpPost<APIResponse<AuthResponse>>('/api/auth/select-role', data);
+
+export const selectGoogleRole = (data: { code: string; role: string }) =>
+  httpPost<APIResponse<AuthResponse>>('/api/auth/select-role/google', data);
+
 export const forgotPassword = (email: string) =>
   httpPost<APIResponse<void>>('/api/auth/forgot-password', undefined, {
     params: { email },

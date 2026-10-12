@@ -5,16 +5,8 @@ import {
   httpPost,
   httpPut,
 } from './HttpClient';
-import type {
-  APIResponse,
-  TaskAssignmentResponse,
-  TaskResponse,
-} from '../dto/response';
-import type {
-  CreateTaskRequest,
-  UpdateTaskAssignmentRequest,
-  UpdateTaskRequest,
-} from '../dto/request';
+import type { APIResponse, TaskResponse } from '../dto/response';
+import type { CreateTaskRequest, UpdateTaskRequest } from '../dto/request';
 
 export const createTask = (data: CreateTaskRequest) => {
   return httpPost<APIResponse<TaskResponse>>('/api/task', data);
@@ -56,22 +48,21 @@ export const getTasksByEmployee = (projectId: number, employeeId: number) =>
 export const getTaskDetailForPm = (id: number) =>
   httpGet<APIResponse<TaskResponse>>(`/api/task/pm/detail/${id}`);
 
-export const getMyAssignedTasks = () =>
-  httpGet<APIResponse<TaskResponse>>('/api/task/employee/me');
+export const getMyAssignedTasks = (projectId: number) =>
+  getTasksByProject(projectId);
 
-export const getMyAssignedTaskById = (id: number) =>
-  httpGet<APIResponse<TaskResponse>>(`/api/task/employee/me/${id}`);
+export const getMyAssignedTaskById = (projectId: number, id: number) =>
+  getTasksByProject(projectId).then((response) => ({
+    ...response,
+    result: response.resultList?.find((task) => task.id === id) ?? null,
+  }));
 
 export const getTaskDetailForEmployee = getMyAssignedTaskById;
 
-export const updateMyTaskStatus = (id: number, taskStatus: TaskResponse['taskStatus']) =>
-  httpPut<APIResponse<TaskResponse>>(`/api/task/status/${id}`, { taskStatus });
-
-export const updateAssignmentContribution = (
-  assignmentId: number,
-  data: UpdateTaskAssignmentRequest
+export const updateMyTaskStatus = (
+  id: number,
+  taskStatus: TaskResponse['taskStatus']
 ) =>
-  httpPatch<APIResponse<TaskAssignmentResponse>>(
-    `/api/task-assignment/${assignmentId}/contribution`,
-    data
-  );
+  httpPatch<APIResponse<TaskResponse>>(`/api/task/${id}/status`, {
+    taskStatus,
+  });

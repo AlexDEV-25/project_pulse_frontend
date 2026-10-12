@@ -1,8 +1,4 @@
-import type {
-  PhaseStatus,
-  ProjectStatus,
-  TaskStatus,
-} from '../enum';
+import type { PhaseStatus, ProjectStatus, TaskStatus } from '../enum';
 
 export interface AuthRequest {
   email: string;
@@ -12,7 +8,7 @@ export interface ChangePasswordRequest {
   oldPassword: string;
   newPassword: string;
 }
-export interface ConfirmTaskNotesRequest { }
+export interface ConfirmTaskNotesRequest {}
 export interface CreateAccountRequest {
   email: string;
   password: string;
@@ -107,8 +103,15 @@ export interface TaskAssignmentRequest {
   employeeId: number;
   contributionPercentage: number;
 }
-export interface TaskNoteRequest {
-  workingDate?: string;
+export interface CreateTaskNoteRequest {
+  taskId: number;
+  /** ISO local date-time expected by the backend LocalDateTime field. */
+  workingDate: string;
+  content: string;
+  workingHours: number;
+}
+export interface UpdateTaskNoteRequest {
+  workingDate: string;
   content: string;
   workingHours: number;
 }
