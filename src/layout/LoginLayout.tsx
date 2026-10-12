@@ -9,6 +9,11 @@ type Props = {
   onPasswordChange: (value: string) => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
   onGoogleLogin: () => void;
+  availableRoles?: string[];
+  selectedRole?: string;
+  onRoleChange?: (value: string) => void;
+  onRoleSubmit?: () => void;
+  onRoleCancel?: () => void;
 };
 
 export default function LoginLayout({
@@ -20,6 +25,11 @@ export default function LoginLayout({
   onPasswordChange,
   onSubmit,
   onGoogleLogin,
+  availableRoles = [],
+  selectedRole = '',
+  onRoleChange,
+  onRoleSubmit,
+  onRoleCancel,
 }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -39,42 +49,78 @@ export default function LoginLayout({
           <h2>Đăng nhập</h2>
           <p className="login-subtitle">Chào mừng bạn quay trở lại!</p>
           {error && <div className="login-error">{error}</div>}
-          <form onSubmit={onSubmit}>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(event) => onEmailChange(event.target.value)}
-              placeholder="example@gmail.com"
-              autoComplete="email"
-              required
-            />
-            <label htmlFor="password">Mật khẩu</label>
-            <div className="password-wrap">
-              <input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(event) => onPasswordChange(event.target.value)}
-                placeholder="Nhập mật khẩu"
-                autoComplete="current-password"
-                required
-              />
+          {availableRoles.length > 0 ? (
+            <div className="role-selection">
+              <p>Hãy chọn role muốn sử dụng:</p>
+              <label htmlFor="login-role">Role</label>
+              <select
+                id="login-role"
+                value={selectedRole}
+                onChange={(event) => onRoleChange?.(event.target.value)}
+                disabled={busy}
+              >
+                <option value="">Chọn role</option>
+                {availableRoles.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword((visible) => !visible)}
-                aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                disabled={busy || !selectedRole}
+                onClick={onRoleSubmit}
               >
-                {showPassword ? 'Ẩn' : 'Hiện'}
+                {busy ? 'Đang xác nhận...' : 'Tiếp tục với role này'}
+              </button>
+              <button type="button" disabled={busy} onClick={onRoleCancel}>
+                Quay lại đăng nhập
               </button>
             </div>
-            <div className="forgot-link">Quên mật khẩu?</div>
-            <button type="submit" disabled={busy}>
-              {busy ? 'Đang xác thực...' : 'Đăng nhập'}
-            </button>
-          </form>
+          ) : (
+            <form onSubmit={onSubmit}>
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(event) => onEmailChange(event.target.value)}
+                placeholder="example@gmail.com"
+                autoComplete="email"
+                required
+              />
+              <label htmlFor="password">Mật khẩu</label>
+              <div className="password-wrap">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(event) => onPasswordChange(event.target.value)}
+                  placeholder="Nhập mật khẩu"
+                  autoComplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    {showPassword ? (
+                      <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Zm9.5-3a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
+                    ) : (
+                      <path d="m3 3 18 18M10.6 6.2A10.8 10.8 0 0 1 12 6c6 0 9.5 6 9.5 6a17.2 17.2 0 0 1-3.1 3.6M6.2 6.2C3.7 8 2.5 12 2.5 12s3.5 6 9.5 6c1.1 0 2.1-.2 3-.5" />
+                    )}
+                  </svg>
+                </button>
+              </div>
+              <div className="forgot-link">Quên mật khẩu?</div>
+              <button type="submit" disabled={busy}>
+                {busy ? 'Đang xác thực...' : 'Đăng nhập'}
+              </button>
+            </form>
+          )}
           <div className="login-separator">
             <span>hoặc</span>
           </div>
