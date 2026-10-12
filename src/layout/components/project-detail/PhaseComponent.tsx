@@ -140,7 +140,11 @@ export function PhaseComponent({ projectId, canManage = false }: Props) {
     setError('');
     const request = editing
       ? updatePhase(editing.id, {
-          ...data,
+          phaseName: data.phaseName,
+          startAt: data.startAt,
+          endAt: data.endAt,
+          makeUpDates: data.makeUpDates,
+          offDates: data.offDates,
           phaseStatus: form.phaseStatus,
         } satisfies UpdatePhaseRequest)
       : createPhase(data satisfies CreatePhaseRequest);

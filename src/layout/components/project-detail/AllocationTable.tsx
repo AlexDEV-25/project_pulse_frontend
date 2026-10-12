@@ -119,7 +119,6 @@ export function AllocationTable({
     const request = editing
       ? updateAllocation(editing.id, { allocationPercentage: percentage })
       : createAllocation({
-          projectId,
           phaseId: Number(formPhaseId),
           memberId: Number(formMemberId),
           allocationPercentage: percentage,

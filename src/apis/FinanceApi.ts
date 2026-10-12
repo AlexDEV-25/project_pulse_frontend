@@ -6,6 +6,7 @@ import type {
   EvmHealthResponse,
   TaskCostTransactionResponse,
 } from '../dto/response';
+import type { EarningTransactionType } from '../dto';
 
 export const getProjectEvm = (projectId: number) =>
   httpGet<APIResponse<EvmHealthResponse>>(`/api/evm/project/${projectId}`);
@@ -44,7 +45,7 @@ export const getProjectEarningsFiltered = (
   params?: {
     keyword?: string;
     phaseId?: number;
-    earningTransactionType?: 'EARN' | 'TRANSFER';
+    earningTransactionType?: EarningTransactionType;
   }
 ) => {
   const query = new URLSearchParams();

@@ -8,7 +8,6 @@ export interface ChangePasswordRequest {
   oldPassword: string;
   newPassword: string;
 }
-export interface ConfirmTaskNotesRequest {}
 export interface CreateAccountRequest {
   email: string;
   password: string;
@@ -19,7 +18,6 @@ export interface CreateAccountRequest {
   departmentId: number;
 }
 export interface CreateAllocationRequest {
-  projectId: number;
   phaseId: number;
   memberId: number;
   allocationPercentage: number;
@@ -40,8 +38,6 @@ export interface CreatePhaseRequest {
   phaseName: string;
   makeUpDates?: string[];
   offDates?: string[];
-  /** @deprecated Backend calculates workdays; kept only for legacy form state. */
-  workdays?: number;
 }
 export interface CreateProjectMemberRequest {
   projectId: number;
@@ -65,8 +61,6 @@ export interface CreateTaskRequest {
   endAt: string;
   taskPoint: number;
   assignments: TaskAssignmentRequest[];
-  /** @deprecated CreateTaskRequest has no taskStatus field in the backend. */
-  taskStatus?: TaskStatus;
 }
 export interface EmailRequest {
   sender: Sender;
@@ -89,6 +83,15 @@ export interface ForgotPasswordRequest {
 export interface Recipient {
   name: string;
   email: string;
+}
+export interface SelectRoleRequest {
+  email: string;
+  password: string;
+  role: string;
+}
+export interface SelectGoogleRoleRequest {
+  code: string;
+  role: string;
 }
 export interface SendEmailRequest {
   to: Recipient;
@@ -126,7 +129,6 @@ export interface UpdateDepartmentRequest {
   hidden: boolean;
 }
 export interface UpdatePhaseRequest {
-  projectId: number;
   startAt: string;
   endAt: string;
   phaseName: string;
@@ -136,10 +138,6 @@ export interface UpdatePhaseRequest {
 }
 export interface UpdatePhaseStatusRequest {
   status: PhaseStatus;
-}
-export interface UpdateProjectMemberRequest {
-  projectId: number;
-  userId: number;
 }
 export interface UpdateProjectRequest {
   projectName: string;
@@ -170,7 +168,4 @@ export interface UpdateUserRequest {
   resourceRate: number;
   departmentId: number;
   roles: string[];
-}
-export interface DisplayRequest {
-  enabled: boolean;
 }

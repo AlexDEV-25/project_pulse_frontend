@@ -51,6 +51,9 @@ export interface DepartmentStatisticsResponse {
   activeDepartments: number;
   hiddenDepartments: number;
 }
+export interface DisplayRequest {
+  enabled: boolean;
+}
 export interface EmailResponse {
   messageId: string;
 }
@@ -200,33 +203,21 @@ export interface TaskResponse {
 export interface UserResponse {
   id: number;
   authId?: number;
-  enabled: boolean;
-  email?: string;
+  email: string;
   userName: string;
   position: string;
   resourceRate: number;
   avatarUrl: string;
   departmentId: number;
   departmentName: string;
-  roles?: RoleResponse[];
+  roles: RoleResponse[];
 }
 export interface UserStatisticsResponse {
   totalUsers: number;
   usersByRole: Record<string, number>;
 }
-export interface UserWithoutCostResponse {
-  id: number;
-  authId?: number;
-  enabled: boolean;
-  email?: string;
-  userName: string;
-  position: string;
-  resourceRate: number;
-  avatarUrl: string;
-  departmentName: string;
-  roles?: RoleResponse[];
-}
 export interface FileResponse {
+  resource: unknown;
   length: number;
   mediaType: string;
   fileName: string;

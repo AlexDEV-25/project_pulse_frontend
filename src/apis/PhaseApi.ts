@@ -3,7 +3,6 @@ import type { APIResponse, PhaseResponse } from '../dto/response';
 import type {
   CreatePhaseRequest,
   UpdatePhaseRequest,
-  UpdatePhaseStatusRequest,
 } from '../dto/request';
 
 export const createPhase = (data: CreatePhaseRequest) => {
@@ -29,15 +28,6 @@ export const getPhasesByProject = (projectId: number, keyword?: string) => {
 export const getPhaseDetail = (phaseId: number) =>
   httpGet<APIResponse<PhaseResponse>>(`/api/phase/detail/${phaseId}`);
 
-// Kept as compatibility aliases for existing screens; these endpoints use the
-// same backend project/phase routes.
 export const getPhasesByProjectForPm = getPhasesByProject;
 export const getPhaseDetailForPm = (_projectId: number, phaseId: number) =>
   getPhaseDetail(phaseId);
-
-export const updatePhaseStatus = (id: number, data: UpdatePhaseStatusRequest) =>
-  Promise.reject<APIResponse<PhaseResponse>>(
-    new Error(
-      `Backend does not expose phase status endpoint (${id}, ${data.status})`
-    )
-  );

@@ -9,8 +9,9 @@ import type {
   AuthRequest,
   ChangePasswordRequest,
   CreateAccountRequest,
-  DisplayRequest,
   ForgotPasswordRequest,
+  SelectGoogleRoleRequest,
+  SelectRoleRequest,
   TokenRequest,
 } from '../dto/request';
 
@@ -25,13 +26,10 @@ export const loginWithGoogle = (code: string) =>
     params: { code },
   });
 
-export const selectRole = (data: {
-  email: string;
-  password: string;
-  role: string;
-}) => httpPost<APIResponse<AuthResponse>>('/api/auth/select-role', data);
+export const selectRole = (data: SelectRoleRequest) =>
+  httpPost<APIResponse<AuthResponse>>('/api/auth/select-role', data);
 
-export const selectGoogleRole = (data: { code: string; role: string }) =>
+export const selectGoogleRole = (data: SelectGoogleRoleRequest) =>
   httpPost<APIResponse<AuthResponse>>('/api/auth/select-role/google', data);
 
 export const forgotPassword = (email: string) =>
@@ -47,13 +45,6 @@ export const refreshToken = (data: TokenRequest) =>
 
 export const introspect = (data: TokenRequest) =>
   httpPost<APIResponse<IntrospectResponse>>('/api/auth/introspect', data);
-
-export const toggleAccountStatus = (id: number, data: DisplayRequest) =>
-  Promise.reject<APIResponse<void>>(
-    new Error(
-      `Backend does not expose account status toggle (${id}, ${data.enabled})`
-    )
-  );
 
 export const changePassword = (data: ChangePasswordRequest) =>
   httpPut<APIResponse<void>>('/api/auth/change-password', data);
