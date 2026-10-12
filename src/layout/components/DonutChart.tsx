@@ -9,11 +9,11 @@ const names: Record<string, string> = {
   CANCELLED: 'CANCELLED',
 };
 const colors: Record<string, string> = {
-  IN_PROGRESS: '#4c9889',
-  DONE: '#657582',
-  DRAFT: '#579988',
-  ON_HOLD: '#b65b56',
-  CANCELLED: '#d6b878',
+  DRAFT: '#64748b',
+  IN_PROGRESS: '#3b82f6',
+  DONE: '#22a06b',
+  ON_HOLD: '#f59e0b',
+  CANCELLED: '#e05252',
 };
 export default function DonutChart({
   data,
@@ -27,7 +27,7 @@ export default function DonutChart({
     .map(([key, value]) => {
       const start = offset;
       offset += (value.count / Math.max(total, 1)) * 100;
-      return `${colors[key]} ${start}% ${offset}%`;
+      return `${colors[key] ?? '#94a3b8'} ${start}% ${offset}%`;
     })
     .join(', ');
   return (
@@ -44,7 +44,7 @@ export default function DonutChart({
       <ul>
         {entries.map(([key, value]) => (
           <li key={key}>
-            <i style={{ background: colors[key] }} />
+            <i style={{ background: colors[key] ?? '#94a3b8' }} />
             <span>{names[key] ?? key}</span>
             <b>
               {value.count} ({value.percentage}%)

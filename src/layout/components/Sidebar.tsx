@@ -33,7 +33,7 @@ const menus: Record<DashboardRole, { label: string; icon: string }[]> = {
 const path: Record<string, string> = {
   grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
   files: 'M7 3h9l4 4v14H7zM16 3v5h4M4 7v14h3',
-  gear: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0-5 1 3 3 1 3-1 2 3-2 2 1 3-2 2-3-1-3 1-1 3-3 1-3-1-2-3-1-2-3 2-2-1-3 2-2 3 1 3-1 1-3 3-1 3 1 2 3 1',
+  gear: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm8 4a8 8 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2-1.2L15 3h-6l-.5 2.6a8 8 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a8 8 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 2 1.2L9 21h6l.5-2.6a8 8 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5A8 8 0 0 0 20 12Z',
   briefcase: 'M4 7h16v13H4zM9 7V4h6v3M4 12h16',
   chart: 'M4 19V5M4 19h17M8 15l3-4 3 2 5-7',
   users:

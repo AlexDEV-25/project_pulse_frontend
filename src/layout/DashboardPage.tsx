@@ -19,7 +19,9 @@ export default function DashboardPage({
 }) {
   const [activeMenu, setActiveMenu] = useState('Bảng điều khiển');
   if (activeMenu === 'Cài đặt') {
-    return <Settings role={role} onLogout={onLogout} onMenuChange={setActiveMenu} />;
+    return (
+      <Settings role={role} onLogout={onLogout} onMenuChange={setActiveMenu} />
+    );
   }
   if (role === 'EMPLOYEE' && activeMenu.startsWith('Chi tiết')) {
     const projectId = Number(activeMenu.match(/(\d+)$/)?.[1]);
@@ -32,7 +34,9 @@ export default function DashboardPage({
     );
   }
   if (role === 'EMPLOYEE' && activeMenu === 'Dự án tham gia') {
-    return <EmployeeProjects onLogout={onLogout} onMenuChange={setActiveMenu} />;
+    return (
+      <EmployeeProjects onLogout={onLogout} onMenuChange={setActiveMenu} />
+    );
   }
   // Keep detail navigation compatible with the label emitted by the project list.
   if ((role === 'ADMIN' || role === 'PM') && activeMenu.startsWith('Chi')) {
