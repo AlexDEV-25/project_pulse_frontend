@@ -55,7 +55,10 @@ export function ProjectDetailTabs({
       {active === 'Quản lý nhân sự' ? (
         <ProjectMemberTable projectId={projectId} canManage={role === 'PM'} />
       ) : active === 'Tiến độ & Giai đoạn' ? (
-        <ProgressPhase projectId={projectId} />
+        <ProgressPhase
+          projectId={projectId}
+          canManage={role === 'ADMIN' || role === 'PM'}
+        />
       ) : active === 'Giai đoạn' ? (
         <PhaseComponent projectId={projectId} canManage={role === 'PM'} />
       ) : active === 'Nhiệm vụ' ? (

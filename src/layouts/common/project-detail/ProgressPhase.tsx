@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getPhasesByProject } from '@/apis/PhaseApi';
 import { getTasksByProjectAndPhase } from '@/apis/TaskApi';
 import type { PhaseResponse, TaskResponse } from '@/dto/response';
+import { TaskDetail } from './TaskDetail';
 
 const phaseStatusLabel: Record<PhaseResponse['status'], string> = {
   PLANNED: 'Chưa bắt đầu',
@@ -33,10 +34,17 @@ function ProgressBar({ value }: { value: number }) {
   );
 }
 
-export function ProgressPhase({ projectId }: { projectId: number }) {
+export function ProgressPhase({
+  projectId,
+  canManage = false,
+}: {
+  projectId: number;
+  canManage?: boolean;
+}) {
   const [phases, setPhases] = useState<PhaseResponse[]>([]);
   const [tasks, setTasks] = useState<Record<number, TaskResponse[]>>({});
   const [openPhaseId, setOpenPhaseId] = useState<number | null>(null);
+  const [selectedTask, setSelectedTask] = useState<TaskResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingTasks, setLoadingTasks] = useState<number | null>(null);
   const [error, setError] = useState('');
@@ -159,7 +167,20 @@ export function ProgressPhase({ projectId }: { projectId: number }) {
                     phaseTasks.map((task) => {
                       const taskProgress = progressValue(task.progress);
                       return (
-                        <div className="phase-task-row" key={task.id}>
+                        <div
+                          className="phase-task-row phase-task-row-clickable"
+                          key={task.id}
+                          onClick={() => setSelectedTask(task)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Xem chi tiết công việc: ${task.taskName}`}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              setSelectedTask(task);
+                            }
+                          }}
+                        >
                           <span className="task-branch" aria-hidden="true">
                             └
                           </span>
@@ -186,6 +207,13 @@ export function ProgressPhase({ projectId }: { projectId: number }) {
           );
         })}
       </div>
+      {selectedTask && (
+        <TaskDetail
+          task={selectedTask}
+          onClose={() => setSelectedTask(null)}
+          canManage={canManage}
+        />
+      )}
     </section>
   );
 }
