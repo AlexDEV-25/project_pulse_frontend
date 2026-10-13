@@ -241,84 +241,84 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
           </div>
         </div>
       ) : (
-        <>
-          <div className="earning-scroll">
-            <Table className="earning-table">
-              <thead>
+          <Table
+            className="earning-table"
+            wrapperClassName="earning-scroll"
+          >
+            <thead>
+              <tr>
+                <th>ID giao dịch</th>
+                <th>Tên nhân viên</th>
+                <th>Giai đoạn</th>
+                <th>Task / Công việc</th>
+                <th>Loại giao dịch</th>
+                <th>ID tham chiếu</th>
+                <th className="col-earning-point">Point</th>
+                {canTransfer && <th className="col-earning-actions">Thao tác</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
                 <tr>
-                  <th>ID giao dịch</th>
-                  <th>Tên nhân viên</th>
-                  <th>Giai đoạn</th>
-                  <th>Task / Công việc</th>
-                  <th>Loại giao dịch</th>
-                  <th>ID tham chiếu</th>
-                  <th>Point</th>
-                  {canTransfer && <th>Thao tác</th>}
+                  <td colSpan={canTransfer ? 8 : 7} className="earning-empty">
+                    Đang tải dữ liệu...
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <tr>
-                    <td colSpan={canTransfer ? 8 : 7} className="earning-empty">
-                      Đang tải dữ liệu...
+              ) : rows.length === 0 ? (
+                <tr>
+                  <td colSpan={canTransfer ? 8 : 7} className="earning-empty">
+                    Chưa có giao dịch phù hợp.
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row) => (
+                  <tr key={row.id}>
+                    <td>#{String(row.id).padStart(3, '0')}</td>
+                    <td>
+                      <div className="earning-person">
+                        <b>{row.employeeName || 'Chưa cập nhật'}</b>
+                        <small>ID: {row.employeeId}</small>
+                      </div>
                     </td>
-                  </tr>
-                ) : rows.length === 0 ? (
-                  <tr>
-                    <td colSpan={canTransfer ? 8 : 7} className="earning-empty">
-                      Chưa có giao dịch phù hợp.
+                    <td>{row.phaseName || '—'}</td>
+                    <td>{row.taskName || '—'}</td>
+                    <td>
+                      <span
+                        className={`earning-type ${row.earningTransactionType.toLowerCase()}`}
+                      >
+                        {row.earningTransactionType === 'EARN'
+                          ? 'Earn'
+                          : 'Transfer'}
+                      </span>
                     </td>
+                    <td>
+                      {row.referenceTransactionId
+                        ? `#${row.referenceTransactionId}`
+                        : '—'}
+                    </td>
+                    <td className="earning-point col-earning-point">
+                      {points(row.points)}
+                    </td>
+                    {canTransfer && (
+                      <td className="col-earning-actions">
+                        {row.earningTransactionType === 'EARN' ? (
+                          <button
+                            className="earning-transfer-button"
+                            type="button"
+                            onClick={() => openTransfer(row)}
+                          >
+                            Transfer
+                          </button>
+                        ) : (
+                          <span>—</span>
+                        )}
+                      </td>
+                    )}
                   </tr>
-                ) : (
-                  rows.map((row) => (
-                    <tr key={row.id}>
-                      <td>#{String(row.id).padStart(3, '0')}</td>
-                      <td>
-                        <div className="earning-person">
-                          <b>{row.employeeName || 'Chưa cập nhật'}</b>
-                          <small>ID: {row.employeeId}</small>
-                        </div>
-                      </td>
-                      <td>{row.phaseName || '—'}</td>
-                      <td>{row.taskName || '—'}</td>
-                      <td>
-                        <span
-                          className={`earning-type ${row.earningTransactionType.toLowerCase()}`}
-                        >
-                          {row.earningTransactionType === 'EARN'
-                            ? 'Earn'
-                            : 'Transfer'}
-                        </span>
-                      </td>
-                      <td>
-                        {row.referenceTransactionId
-                          ? `#${row.referenceTransactionId}`
-                          : '—'}
-                      </td>
-                      <td className="earning-point">{points(row.points)}</td>
-                      {canTransfer && (
-                        <td>
-                          {row.earningTransactionType === 'EARN' ? (
-                            <button
-                              className="earning-transfer-button"
-                              type="button"
-                              onClick={() => openTransfer(row)}
-                            >
-                              Transfer
-                            </button>
-                          ) : (
-                            <span>—</span>
-                          )}
-                        </td>
-                      )}
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </Table>
-          </div>
-          
-        </>
+                ))
+              )}
+            </tbody>
+          </Table>
       )}
     </section>
   );

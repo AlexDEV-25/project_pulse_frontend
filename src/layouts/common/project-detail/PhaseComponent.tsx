@@ -15,6 +15,8 @@ import {
   ManagementSearch,
 } from '@/layouts/common/components/dashboard/ManagementFilters';
 import Table from '@/layouts/common/components/ui/Table';
+import EditButton from '@/layouts/common/components/ui/EditButton';
+import DeleteButton from '@/layouts/common/components/ui/DeleteButton';
 
 const statusLabels: Record<PhaseResponse['status'], string> = {
   PLANNED: 'Chưa bắt đầu',
@@ -346,83 +348,81 @@ export function PhaseComponent({ projectId, canManage = false }: Props) {
           </div>
         </div>
       ) : (
-        <div className="phase-table-scroll">
-          <Table className="phase-table">
-            <thead>
+        <Table
+          className="phase-table"
+          wrapperClassName="phase-table-scroll"
+        >
+          <thead>
+            <tr>
+              <th>Tên phase</th>
+              <th>Ngày bắt đầu</th>
+              <th>Ngày kết thúc</th>
+              <th>Số ngày làm việc</th>
+              <th>Trạng thái</th>
+              <th>Tiến độ</th>
+              {canManage && <th className="col-phase-actions">Thao tác</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
               <tr>
-                <th>Tên phase</th>
-                <th>Ngày bắt đầu</th>
-                <th>Ngày kết thúc</th>
-                <th>Số ngày làm việc</th>
-                <th>Trạng thái</th>
-                <th>Tiến độ</th>
-                {canManage && <th>Thao tác</th>}
+                <td colSpan={canManage ? 7 : 6} className="phase-table-empty">
+                  Đang tải dữ liệu...
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={canManage ? 7 : 6} className="phase-table-empty">
-                    Đang tải dữ liệu...
-                  </td>
-                </tr>
-              ) : phases.length === 0 ? (
-                <tr>
-                  <td colSpan={canManage ? 7 : 6} className="phase-table-empty">
-                    Chưa có giai đoạn nào.
-                  </td>
-                </tr>
-              ) : (
-                phases.map((phase) => {
-                  const value = progress(phase.progress);
-                  return (
-                    <tr key={phase.id}>
-                      <td className="phase-name-cell">{phase.phaseName}</td>
-                      <td>{displayDate(phase.startAt)}</td>
-                      <td>{displayDate(phase.endAt)}</td>
-                      <td>{phase.workdays ?? 0}</td>
-                      <td>
-                        <span
-                          className={`phase-status phase-status-${phase.status.toLowerCase()}`}
-                        >
-                          {statusLabels[phase.status]}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="phase-table-progress">
-                          <div>
-                            <i style={{ width: `${value}%` }} />
-                          </div>
-                          <b>{value}%</b>
+            ) : phases.length === 0 ? (
+              <tr>
+                <td colSpan={canManage ? 7 : 6} className="phase-table-empty">
+                  Chưa có giai đoạn nào.
+                </td>
+              </tr>
+            ) : (
+              phases.map((phase) => {
+                const value = progress(phase.progress);
+                return (
+                  <tr key={phase.id}>
+                    <td className="phase-name-cell">{phase.phaseName}</td>
+                    <td>{displayDate(phase.startAt)}</td>
+                    <td>{displayDate(phase.endAt)}</td>
+                    <td>{phase.workdays ?? 0}</td>
+                    <td>
+                      <span
+                        className={`phase-status phase-status-${phase.status.toLowerCase()}`}
+                      >
+                        {statusLabels[phase.status]}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="phase-table-progress">
+                        <div>
+                          <i style={{ width: `${value}%` }} />
+                        </div>
+                        <b>{value}%</b>
+                      </div>
+                    </td>
+                    {canManage && (
+                      <td className="col-phase-actions">
+                        <div className="phase-actions">
+                          <EditButton
+                            onClick={() => openEdit(phase)}
+                            title="Sửa giai đoạn"
+                            aria-label="Sửa giai đoạn"
+                          />
+                          <DeleteButton
+                            onClick={() => remove(phase)}
+                            disabled={deletingId === phase.id}
+                            title="Xóa giai đoạn"
+                            aria-label="Xóa giai đoạn"
+                          />
                         </div>
                       </td>
-                      {canManage && (
-                        <td>
-                          <div className="phase-actions">
-                            <button
-                              type="button"
-                              onClick={() => openEdit(phase)}
-                            >
-                              Sửa
-                            </button>
-                            <button
-                              className="danger"
-                              type="button"
-                              onClick={() => remove(phase)}
-                              disabled={deletingId === phase.id}
-                            >
-                              {deletingId === phase.id ? '...' : 'Xóa'}
-                            </button>
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </Table>
-        </div>
+                    )}
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </Table>
       )}
     </section>
   );

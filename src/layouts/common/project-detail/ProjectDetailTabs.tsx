@@ -62,7 +62,11 @@ export function ProjectDetailTabs({
       ) : active === 'Giai đoạn' ? (
         <PhaseComponent projectId={projectId} canManage={role === 'PM'} />
       ) : active === 'Nhiệm vụ' ? (
-        <TaskComponent projectId={projectId} canManage={role === 'PM'} />
+        <TaskComponent
+          projectId={projectId}
+          canManage={role === 'PM'}
+          role={role}
+        />
       ) : active === 'Phân bổ nhân sự' ? (
         <AllocationTable projectId={projectId} canManage={role === 'PM'} />
       ) : active === 'Chi phí thực tế' ? (

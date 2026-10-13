@@ -85,9 +85,15 @@ export type TaskDetailProps = {
   task: TaskResponse;
   onClose: () => void;
   canManage?: boolean;
+  variant?: 'modal' | 'inline';
 };
 
-export function TaskDetail({ task, onClose, canManage = false }: TaskDetailProps) {
+export function TaskDetail({
+  task,
+  onClose,
+  canManage = false,
+  variant = 'modal',
+}: TaskDetailProps) {
   const [taskDetail, setTaskDetail] = useState<TaskResponse>(task);
   const [notes, setNotes] = useState<TaskNoteResponse[]>([]);
   const [loadingNotes, setLoadingNotes] = useState(true);
@@ -157,66 +163,9 @@ export function TaskDetail({ task, onClose, canManage = false }: TaskDetailProps
 
   const progress = clampProgress(taskDetail.progress);
 
-  return (
-    <div
-      className="task-detail-modal-backdrop"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="task-detail-modal-title"
-    >
-      <div
-        className="task-detail-modal"
-        onClick={(event) => event.stopPropagation()}
-      >
-        {/* Header */}
-        <header className="task-detail-modal-header">
-          <h2 id="task-detail-modal-title" className="task-detail-modal-title">
-            <svg
-              className="task-detail-title-icon"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-              <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
-              <path d="M9 12h6" />
-              <path d="M9 16h6" />
-            </svg>
-            <span>Chi tiết công việc: {taskDetail.taskName}</span>
-          </h2>
-          <button
-            type="button"
-            className="task-detail-modal-close"
-            onClick={onClose}
-            aria-label="Đóng"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </header>
-
-        {/* Body */}
-        <div className="task-detail-modal-body">
-          {error && <div className="task-detail-inline-error">{error}</div>}
+  const renderBody = () => (
+    <>
+      {error && <div className="task-detail-inline-error">{error}</div>}
 
           {/* Top Summary Box */}
           <div className="task-detail-summary-box">
@@ -451,6 +400,131 @@ export function TaskDetail({ task, onClose, canManage = false }: TaskDetailProps
               </div>
             )}
           </section>
+    </>
+  );
+
+  if (variant === 'inline') {
+    return (
+      <div className="task-detail-inline-wrapper">
+        <header className="task-detail-inline-header">
+          <div className="task-detail-inline-title-group">
+            <button
+              type="button"
+              className="task-detail-inline-back-btn"
+              onClick={onClose}
+              aria-label="Quay lại danh sách nhiệm vụ"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M19 12H5" />
+                <path d="m12 19-7-7 7-7" />
+              </svg>
+              <span>Quay lại</span>
+            </button>
+            <h2 id="task-detail-inline-title" className="task-detail-modal-title">
+              <svg
+                className="task-detail-title-icon"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                <path d="M9 12h6" />
+                <path d="M9 16h6" />
+              </svg>
+              <span>Chi tiết công việc: {taskDetail.taskName}</span>
+            </h2>
+          </div>
+          <button
+            type="button"
+            className="task-detail-inline-close-btn"
+            onClick={onClose}
+          >
+            Đóng
+          </button>
+        </header>
+
+        <div className="task-detail-inline-body">
+          {renderBody()}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="task-detail-modal-backdrop"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="task-detail-modal-title"
+    >
+      <div
+        className="task-detail-modal"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className="task-detail-modal-header">
+          <h2 id="task-detail-modal-title" className="task-detail-modal-title">
+            <svg
+              className="task-detail-title-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+              <path d="M9 12h6" />
+              <path d="M9 16h6" />
+            </svg>
+            <span>Chi tiết công việc: {taskDetail.taskName}</span>
+          </h2>
+          <button
+            type="button"
+            className="task-detail-modal-close"
+            onClick={onClose}
+            aria-label="Đóng"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </header>
+
+        <div className="task-detail-modal-body">
+          {renderBody()}
         </div>
       </div>
     </div>

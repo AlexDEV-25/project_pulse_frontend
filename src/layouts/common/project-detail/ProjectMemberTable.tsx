@@ -16,6 +16,20 @@ import {
   ManagementSearch,
 } from '@/layouts/common/components/dashboard/ManagementFilters';
 import Table from '@/layouts/common/components/ui/Table';
+import DeleteButton from '@/layouts/common/components/ui/DeleteButton';
+
+function getInitials(name?: string, id?: number): string {
+  if (!name || !name.trim()) return id ? `E${id}` : 'U';
+  const clean = name.trim();
+  const empMatch = clean.match(/^Employee\s*([0-9]+)$/i);
+  if (empMatch) return `E${empMatch[1]}`;
+
+  const parts = clean.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 
 export function ProjectMemberTable({
   projectId,
@@ -209,62 +223,72 @@ export function ProjectMemberTable({
         </div>
       ) : (
         <>
-          <div className="member-scroll">
-            <Table className="member-table">
-              <thead>
+          <Table
+            className="member-table"
+            wrapperClassName="member-scroll"
+          >
+            <thead>
+              <tr>
+                <th className="col-member-name">Tên nhân viên</th>
+                <th className="col-member-pos">Chức vụ</th>
+                <th className="col-member-point">Point</th>
+                {canManage && <th className="col-member-action">Thao tác</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
                 <tr>
-                  <th>Tên nhân viên</th>
-                  <th>Chức vụ</th>
-                  <th>Point</th>
-                  {canManage && <th>Thao tác</th>}
+                  <td colSpan={canManage ? 4 : 3} className="member-empty">
+                    Đang tải dữ liệu...
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <tr>
-                    <td colSpan={canManage ? 4 : 3} className="member-empty">
-                      Đang tải dữ liệu...
-                    </td>
-                  </tr>
-                ) : rows.length === 0 ? (
-                  <tr>
-                    <td colSpan={canManage ? 4 : 3} className="member-empty">
-                      Chưa có nhân sự phù hợp.
-                    </td>
-                  </tr>
-                ) : (
-                  rows.map((row) => (
-                    <tr key={row.id}>
-                      <td>
-                        <div className="member-person">
-                          <b>{row.userName || 'Chưa cập nhật'}</b>
-                          <small>ID: {row.userId}</small>
+              ) : rows.length === 0 ? (
+                <tr>
+                  <td colSpan={canManage ? 4 : 3} className="member-empty">
+                    Chưa có nhân sự phù hợp.
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row) => (
+                  <tr key={row.id}>
+                    <td className="col-member-name">
+                      <div className="member-person">
+                        <div className="member-avatar">
+                          {getInitials(row.userName, row.userId)}
                         </div>
-                      </td>
-                      <td>{row.userPosition || '—'}</td>
-                      <td>
+                        <div className="member-person-meta">
+                          <b className="member-name">{row.userName || 'Chưa cập nhật'}</b>
+                          <small className="member-id">ID: {row.userId}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="col-member-pos">
+                      <span className="member-position-text">
+                        {row.userPosition || 'Thành viên'}
+                      </span>
+                    </td>
+                    <td className="col-member-point">
+                      <span className="member-point-value">
                         {Number(row.userResourceRate ?? 0).toLocaleString(
                           'vi-VN'
                         )}
+                      </span>
+                    </td>
+                    {canManage && (
+                      <td className="col-member-action">
+                        <DeleteButton
+                          onClick={() => removeMember(row.id, row.userName)}
+                          disabled={deletingId === row.id}
+                          title={`Xóa ${row.userName} khỏi dự án`}
+                          aria-label={`Xóa ${row.userName} khỏi dự án`}
+                        />
                       </td>
-                      {canManage && (
-                        <td>
-                          <button
-                            className="member-remove-button"
-                            type="button"
-                            onClick={() => removeMember(row.id, row.userName)}
-                            disabled={deletingId === row.id}
-                          >
-                            {deletingId === row.id ? 'Đang xóa...' : 'Xóa'}
-                          </button>
-                        </td>
-                      )}
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </Table>
-          </div>
+                    )}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
           
         </>
       )}

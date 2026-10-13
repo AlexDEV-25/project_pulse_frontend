@@ -17,6 +17,8 @@ import type {
 } from '@/dto/request';
 import DashboardFrame from '@/layouts/common/components/dashboard/DashboardFrame';
 import Table from '@/layouts/common/components/ui/Table';
+import EditButton from '@/layouts/common/components/ui/EditButton';
+import DeleteButton from '@/layouts/common/components/ui/DeleteButton';
 
 type DrawerMode = 'create' | 'edit' | 'detail';
 type FormState = { id?: number; departmentName: string; hidden: boolean };
@@ -234,30 +236,23 @@ export default function DepartmentManagement({
                       </td>
                       <td>
                         <div className="department-actions">
-                          <button
-                            type="button"
+                          <EditButton
                             title="Chỉnh sửa"
                             aria-label={`Sửa phòng ban ${department.departmentName}`}
                             onClick={(event) => {
                               event.stopPropagation();
                               void openDepartment(department, 'edit');
                             }}
-                          >
-                            <span aria-hidden="true" />
-                          </button>
-                          <button
-                            type="button"
+                          />
+                          <DeleteButton
                             title="Xóa"
-                            className="delete"
                             aria-label={`Xóa phòng ban ${department.departmentName}`}
                             disabled={deletingId === department.id}
                             onClick={(event) => {
                               event.stopPropagation();
                               void remove(department);
                             }}
-                          >
-                            <span aria-hidden="true" />
-                          </button>
+                          />
                         </div>
                       </td>
                     </tr>

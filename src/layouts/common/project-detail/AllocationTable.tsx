@@ -18,9 +18,24 @@ import {
   ManagementSelect,
 } from '@/layouts/common/components/dashboard/ManagementFilters';
 import Table from '@/layouts/common/components/ui/Table';
+import EditButton from '@/layouts/common/components/ui/EditButton';
+import DeleteButton from '@/layouts/common/components/ui/DeleteButton';
 
 const point = (value: number) =>
   value.toLocaleString('vi-VN', { maximumFractionDigits: 2 });
+
+function getInitials(name?: string, id?: number): string {
+  if (!name || !name.trim()) return id ? `E${id}` : 'U';
+  const clean = name.trim();
+  const empMatch = clean.match(/^Employee\s*([0-9]+)$/i);
+  if (empMatch) return `E${empMatch[1]}`;
+
+  const parts = clean.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 
 export function AllocationTable({
   projectId,
@@ -260,142 +275,154 @@ export function AllocationTable({
           </div>
         </div>
       ) : (
-        <>
-          <div className="allocation-scroll">
-            <Table className="allocation-table">
-              <thead>
+          <Table
+            className="allocation-table"
+            wrapperClassName="allocation-scroll"
+          >
+            <thead>
+              <tr>
+                <th className="col-alloc-name">Tên nhân viên</th>
+                <th className="col-alloc-phase">Giai đoạn tham gia</th>
+                <th className="col-alloc-rate">Tỷ lệ phân bổ</th>
+                <th className="col-alloc-point">Point</th>
+                <th className="col-alloc-total">Theo tỷ lệ phân bổ</th>
+                {canManage && <th className="col-alloc-actions">Thao tác</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
                 <tr>
-                  <th>Tên nhân viên</th>
-                  <th>Giai đoạn tham gia</th>
-                  <th>Tỷ lệ phân bổ</th>
-                  <th>Point</th>
-                  <th>Theo tỷ lệ phân bổ</th>
-                  {canManage && <th>Thao tác</th>}
+                  <td
+                    colSpan={canManage ? 6 : 5}
+                    className="allocation-empty"
+                  >
+                    Đang tải dữ liệu...
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <tr>
-                    <td
-                      colSpan={canManage ? 6 : 5}
-                      className="allocation-empty"
-                    >
-                      Đang tải dữ liệu...
-                    </td>
-                  </tr>
-                ) : rows.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={canManage ? 6 : 5}
-                      className="allocation-empty"
-                    >
-                      Chưa có dữ liệu phân bổ.
-                    </td>
-                  </tr>
-                ) : (
-                  rows.map((row) => {
-                    const percentage = Math.max(
-                      0,
-                      Math.min(100, row.allocationPercentage)
-                    );
-                    const tone =
-                      percentage >= 100
-                        ? 'full'
-                        : percentage >= 70
-                          ? 'high'
-                          : percentage >= 40
-                            ? 'medium'
-                            : 'low';
-                    const expanded = expandedId === row.id;
-                    return (
-                      <Fragment key={row.id}>
-                        <tr
-                          className={`allocation-data-row ${expanded ? 'expanded' : ''}`}
-                          onClick={() =>
-                            setExpandedId(expanded ? null : row.id)
-                          }
-                        >
-                          <td>
-                            <div className="allocation-person">
-                              <span>
-                                <b>{row.userName || 'Chưa cập nhật'}</b>
-                                <small>ID: {row.userId}</small>
-                              </span>
+              ) : rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={canManage ? 6 : 5}
+                    className="allocation-empty"
+                  >
+                    Chưa có dữ liệu phân bổ.
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row) => {
+                  const percentage = Math.max(
+                    0,
+                    Math.min(100, row.allocationPercentage)
+                  );
+                  const tone =
+                    percentage >= 100
+                      ? 'full'
+                      : percentage >= 70
+                        ? 'high'
+                        : percentage >= 40
+                          ? 'medium'
+                          : 'low';
+                  const expanded = expandedId === row.id;
+                  return (
+                    <Fragment key={row.id}>
+                      <tr
+                        className={`allocation-data-row ${expanded ? 'expanded' : ''}`}
+                        onClick={() =>
+                          setExpandedId(expanded ? null : row.id)
+                        }
+                      >
+                        <td className="col-alloc-name">
+                          <div className="allocation-person">
+                            <div className="allocation-avatar">
+                              {getInitials(row.userName, row.userId)}
                             </div>
-                          </td>
-                          <td>{row.phaseName}</td>
-                          <td>
+                            <div className="allocation-person-meta">
+                              <b className="allocation-name">
+                                {row.userName || 'Chưa cập nhật'}
+                              </b>
+                              <small className="allocation-id">
+                                ID: {row.userId}
+                              </small>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="col-alloc-phase">
+                          <span className="allocation-phase-text">
+                            {row.phaseName || '—'}
+                          </span>
+                        </td>
+                        <td className="col-alloc-rate">
+                          <div className="allocation-rate-cell">
                             <span className={`allocation-percent ${tone}`}>
                               {percentage}%
                             </span>
                             <div className="allocation-progress">
                               <i style={{ width: `${percentage}%` }} />
                             </div>
-                          </td>
-                          <td className="allocation-point">
+                          </div>
+                        </td>
+                        <td className="col-alloc-point">
+                          <span className="allocation-point-value">
                             {point(Number(row.resourceRateSnapshot))}
-                          </td>
-                          <td className="allocation-point allocation-total">
+                          </span>
+                        </td>
+                        <td className="col-alloc-total">
+                          <span className="allocation-total-value">
                             {point(Number(row.allocationPoint))}
+                          </span>
+                        </td>
+                        {canManage && (
+                          <td className="col-alloc-actions">
+                            <div className="allocation-actions">
+                              <EditButton
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  openEdit(row);
+                                }}
+                                title="Sửa phân bổ"
+                                aria-label="Sửa phân bổ"
+                              />
+                              <DeleteButton
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  remove(row);
+                                }}
+                                disabled={deletingId === row.id}
+                                title="Xóa phân bổ"
+                                aria-label="Xóa phân bổ"
+                              />
+                            </div>
                           </td>
-                          {canManage && (
-                            <td>
-                              <div className="allocation-actions">
-                                <button
-                                  type="button"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    openEdit(row);
-                                  }}
-                                >
-                                  Sửa
-                                </button>
-                                <button
-                                  className="danger"
-                                  type="button"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    remove(row);
-                                  }}
-                                  disabled={deletingId === row.id}
-                                >
-                                  {deletingId === row.id ? '...' : 'Xóa'}
-                                </button>
-                              </div>
-                            </td>
-                          )}
-                        </tr>
-                        {expanded && (
-                          <tr className="allocation-detail-row">
-                            <td colSpan={canManage ? 6 : 5}>
-                              <div>
-                                <b>Chi tiết phân bổ</b>
-                                <span>
-                                  Nhân sự: {row.userName} (ID: {row.userId})
-                                </span>
-                                <span>Phase: {row.phaseName}</span>
-                                <span>Tỷ lệ: {percentage}%</span>
-                                <span>
-                                  Point resource:{' '}
-                                  {point(Number(row.resourceRateSnapshot))}
-                                </span>
-                                <span>
-                                  Point phân bổ:{' '}
-                                  {point(Number(row.allocationPoint))}
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
                         )}
-                      </Fragment>
-                    );
-                  })
-                )}
-              </tbody>
-            </Table>
-          </div>
-          
-        </>
+                      </tr>
+                      {expanded && (
+                        <tr className="allocation-detail-row">
+                          <td colSpan={canManage ? 6 : 5}>
+                            <div>
+                              <b>Chi tiết phân bổ</b>
+                              <span>
+                                Nhân sự: {row.userName} (ID: {row.userId})
+                              </span>
+                              <span>Phase: {row.phaseName}</span>
+                              <span>Tỷ lệ: {percentage}%</span>
+                              <span>
+                                Point resource:{' '}
+                                {point(Number(row.resourceRateSnapshot))}
+                              </span>
+                              <span>
+                                Point phân bổ:{' '}
+                                {point(Number(row.allocationPoint))}
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </Fragment>
+                  );
+                })
+              )}
+            </tbody>
+          </Table>
       )}
     </section>
   );
