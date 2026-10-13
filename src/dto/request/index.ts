@@ -80,6 +80,9 @@ export interface ForgotPasswordRequest {
   forgotPasswordCode: string;
   password: string;
 }
+export interface EmailForgotPasswordRequest {
+  email: string;
+}
 export interface Recipient {
   name: string;
   email: string;

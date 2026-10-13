@@ -1,9 +1,6 @@
 import { httpDelete, httpGet, httpPost, httpPut } from './HttpClient';
 import type { APIResponse, PhaseResponse } from '../dto/response';
-import type {
-  CreatePhaseRequest,
-  UpdatePhaseRequest,
-} from '../dto/request';
+import type { CreatePhaseRequest, UpdatePhaseRequest } from '../dto/request';
 
 export const createPhase = (data: CreatePhaseRequest) => {
   return httpPost<APIResponse<PhaseResponse>>('/api/phase', data);

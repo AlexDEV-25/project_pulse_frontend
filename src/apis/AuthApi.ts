@@ -9,6 +9,7 @@ import type {
   AuthRequest,
   ChangePasswordRequest,
   CreateAccountRequest,
+  EmailForgotPasswordRequest,
   ForgotPasswordRequest,
   SelectGoogleRoleRequest,
   SelectRoleRequest,
@@ -32,10 +33,8 @@ export const selectRole = (data: SelectRoleRequest) =>
 export const selectGoogleRole = (data: SelectGoogleRoleRequest) =>
   httpPost<APIResponse<AuthResponse>>('/api/auth/select-role/google', data);
 
-export const forgotPassword = (email: string) =>
-  httpPost<APIResponse<void>>('/api/auth/forgot-password', undefined, {
-    params: { email },
-  });
+export const forgotPassword = (data: EmailForgotPasswordRequest) =>
+  httpPost<APIResponse<void>>('/api/auth/forgot-password', data);
 
 export const resetPassword = (data: ForgotPasswordRequest) =>
   httpPost<APIResponse<AuthResponse>>('/api/auth/reset-password', data);
