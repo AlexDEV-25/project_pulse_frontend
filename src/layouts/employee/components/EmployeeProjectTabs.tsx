@@ -1,7 +1,19 @@
 import { useEffect, useState } from 'react';
-import { getMyAssignedTasks } from '@/apis/TaskApi';
-import type { ProjectResponse, TaskResponse } from '@/dto/response';
+import { getTasksByProject } from '@/apis/TaskApi';
+import { getPhasesByProject } from '@/apis/PhaseApi';
+import { getMyInfo } from '@/apis/UserApi';
+import { getApiErrorMessage } from '@/apis/HttpClient';
+import type {
+  PhaseResponse,
+  ProjectResponse,
+  TaskResponse,
+} from '@/dto/response';
 import { EarningTable } from '@/layouts/common/project-detail/EarningTable';
+import {
+  ManagementFilterButton,
+  ManagementSearch,
+  ManagementSelect,
+} from '@/layouts/common/components/dashboard/ManagementFilters';
 import Table from '@/layouts/common/components/ui/Table';
 import { EmployeeTaskDetail } from './EmployeeTaskDetail';
 
@@ -24,44 +36,145 @@ const formatDate = (value: string) => {
 
 function EmployeeTaskTable({ projectId }: { projectId: number }) {
   const [tasks, setTasks] = useState<TaskResponse[]>([]);
+  const [phases, setPhases] = useState<PhaseResponse[]>([]);
   const [keyword, setKeyword] = useState('');
+  const [phaseId, setPhaseId] = useState('');
+  const [userFilter, setUserFilter] = useState('');
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedTask, setSelectedTask] = useState<TaskResponse | null>(null);
 
+  const load = async (
+    nextKeyword = keyword,
+    nextPhaseId = phaseId,
+    nextUserFilter = userFilter
+  ) => {
+    setLoading(true);
+    setError('');
+    try {
+      let resolvedUserId: number | undefined = undefined;
+      if (nextUserFilter === 'MINE') {
+        let uid = currentUserId;
+        if (!uid) {
+          const myInfo = await getMyInfo();
+          if (myInfo.result?.id) {
+            uid = myInfo.result.id;
+            setCurrentUserId(uid);
+          }
+        }
+        resolvedUserId = uid ?? undefined;
+      }
+      const response = await getTasksByProject(
+        projectId,
+        nextKeyword,
+        nextPhaseId ? Number(nextPhaseId) : undefined,
+        resolvedUserId
+      );
+      setTasks(response.resultList ?? []);
+    } catch (requestError: unknown) {
+      setError(
+        getApiErrorMessage(requestError, 'Không thể tải danh sách nhiệm vụ.')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     let active = true;
-    void getMyAssignedTasks(projectId)
-      .then((response) => {
+    setLoading(true);
+    setError('');
+    Promise.allSettled([
+      getTasksByProject(projectId),
+      getPhasesByProject(projectId),
+      getMyInfo(),
+    ])
+      .then(([taskResult, phaseResult, userResult]) => {
         if (!active) return;
-        setTasks(response.resultList ?? []);
+        if (taskResult.status === 'fulfilled') {
+          setTasks(taskResult.value.resultList ?? []);
+        } else {
+          setError(
+            getApiErrorMessage(
+              taskResult.reason,
+              'Không thể tải danh sách nhiệm vụ.'
+            )
+          );
+        }
+        if (phaseResult.status === 'fulfilled') {
+          setPhases(phaseResult.value.resultList ?? []);
+        }
+        if (userResult.status === 'fulfilled' && userResult.value.result?.id) {
+          setCurrentUserId(userResult.value.result.id);
+        }
       })
-      .catch(() => active && setError('Không thể tải danh sách nhiệm vụ.'))
-      .finally(() => active && setLoading(false));
+      .finally(() => {
+        if (active) setLoading(false);
+      });
     return () => {
       active = false;
     };
   }, [projectId]);
 
-  const visibleTasks = tasks.filter((task) =>
-    task.taskName.toLowerCase().includes(keyword.trim().toLowerCase())
-  );
+  const availablePhases =
+    phases.length > 0
+      ? phases
+      : Array.from(
+          new Map(
+            tasks
+              .filter((t) => t.phaseId && t.phaseName)
+              .map((t) => [
+                t.phaseId,
+                { id: t.phaseId, phaseName: t.phaseName } as PhaseResponse,
+              ])
+          ).values()
+        );
 
   return (
     <section className="employee-detail-table-panel">
       {selectedTask ? (
         <EmployeeTaskDetail
           task={selectedTask}
-          onClose={() => setSelectedTask(null)}
+          onClose={() => {
+            setSelectedTask(null);
+            void load();
+          }}
         />
       ) : (
         <>
           <div className="employee-detail-toolbar">
-            <input
+            <ManagementSearch
               value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
+              onChange={setKeyword}
+              onSearch={() => void load()}
               placeholder="Tìm kiếm nhiệm vụ..."
+              className="detail-filter-search"
             />
+            <ManagementSelect
+              value={phaseId}
+              onChange={(nextPhaseId) => {
+                setPhaseId(nextPhaseId);
+                void load(keyword, nextPhaseId, userFilter);
+              }}
+              placeholder="Tất cả giai đoạn"
+              options={availablePhases.map((phase) => ({
+                value: String(phase.id),
+                label: phase.phaseName,
+              }))}
+              className="detail-filter-select"
+            />
+            <ManagementSelect
+              value={userFilter}
+              onChange={(nextUserFilter) => {
+                setUserFilter(nextUserFilter);
+                void load(keyword, phaseId, nextUserFilter);
+              }}
+              placeholder="Tất cả"
+              options={[{ value: 'MINE', label: 'Của tôi' }]}
+              className="detail-filter-select"
+            />
+            <ManagementFilterButton onClick={() => void load()} />
           </div>
           {error && <div className="employee-detail-error">{error}</div>}
           <div className="employee-detail-table-scroll">
@@ -82,14 +195,14 @@ function EmployeeTaskTable({ projectId }: { projectId: number }) {
                       Đang tải nhiệm vụ...
                     </td>
                   </tr>
-                ) : visibleTasks.length === 0 ? (
+                ) : tasks.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="employee-detail-empty">
-                      Chưa có nhiệm vụ được giao.
+                      Chưa có nhiệm vụ nào.
                     </td>
                   </tr>
                 ) : (
-                  visibleTasks.map((task) => (
+                  tasks.map((task) => (
                     <tr
                       key={task.id}
                       className="employee-task-row-clickable"
@@ -112,11 +225,13 @@ function EmployeeTaskTable({ projectId }: { projectId: number }) {
                       <td>{formatDate(task.endAt)}</td>
                       <td>
                         <div className="employee-detail-progress">
-                          <i
-                            style={{
-                              width: `${Math.max(0, Math.min(100, task.progress ?? 0))}%`,
-                            }}
-                          />
+                          <div>
+                            <i
+                              style={{
+                                width: `${Math.max(0, Math.min(100, task.progress ?? 0))}%`,
+                              }}
+                            />
+                          </div>
                           <span>{task.progress ?? 0}%</span>
                         </div>
                       </td>

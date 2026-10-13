@@ -391,15 +391,21 @@
   overflow: hidden;
 }
 .employee-detail-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 16px 18px 10px;
+  flex-wrap: wrap;
 }
-.employee-detail-toolbar input {
-  width: min(360px, 100%);
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid #cbd4d9;
-  border-radius: 7px;
-  outline: 0;
+.employee-detail-toolbar .detail-filter-search {
+  flex: 1 1 auto;
+  min-width: 220px;
+}
+.employee-detail-toolbar .detail-filter-select {
+  flex: 0 0 180px;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
 }
 .employee-detail-table-scroll {
   max-height: 480px;
@@ -446,11 +452,15 @@
 }
 .employee-detail-progress {
   display: flex;
-  width: 125px;
-  height: 8px;
   align-items: center;
-  gap: 7px;
-  border-radius: 8px;
+  gap: 8px;
+  min-width: 130px;
+}
+.employee-detail-progress > div {
+  width: 90px;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 5px;
   background: #e6ebec;
 }
 .employee-detail-progress i {
@@ -458,11 +468,13 @@
   height: 100%;
   border-radius: inherit;
   background: #208b7f;
+  transition: width 0.2s ease;
 }
 .employee-detail-progress span {
-  margin-top: 20px;
+  min-width: 34px;
   color: #5e7075;
   font-size: 12px;
+  font-weight: 500;
 }
 .employee-task-status {
   display: inline-block;

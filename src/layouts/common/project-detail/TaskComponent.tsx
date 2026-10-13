@@ -80,6 +80,7 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
   const [phases, setPhases] = useState<PhaseResponse[]>([]);
   const [keyword, setKeyword] = useState('');
   const [phaseId, setPhaseId] = useState('');
+  const [userId, setUserId] = useState('');
   const [members, setMembers] = useState<ProjectMemberResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -90,13 +91,18 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
   const [form, setForm] = useState<FormState>(blankForm());
   const [selectedTask, setSelectedTask] = useState<TaskResponse | null>(null);
 
-  const load = (nextKeyword = keyword, nextPhaseId = phaseId) => {
+  const load = (
+    nextKeyword = keyword,
+    nextPhaseId = phaseId,
+    nextUserId = userId
+  ) => {
     setLoading(true);
     setError('');
     void getTasksByProject(
       projectId,
       nextKeyword,
-      nextPhaseId ? Number(nextPhaseId) : undefined
+      nextPhaseId ? Number(nextPhaseId) : undefined,
+      nextUserId ? Number(nextUserId) : undefined
     )
       .then((response) => setTasks(response.resultList ?? []))
       .catch((requestError: unknown) =>
@@ -294,12 +300,27 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
             value={phaseId}
             onChange={(nextPhaseId) => {
               setPhaseId(nextPhaseId);
-              load(keyword, nextPhaseId);
+              load(keyword, nextPhaseId, userId);
             }}
             placeholder="Tất cả giai đoạn"
             options={phases.map((phase) => ({
               value: String(phase.id),
               label: phase.phaseName,
+            }))}
+            className="detail-filter-select"
+          />
+          <ManagementSelect
+            value={userId}
+            onChange={(nextUserId) => {
+              setUserId(nextUserId);
+              load(keyword, phaseId, nextUserId);
+            }}
+            placeholder="Tất cả thành viên"
+            options={Array.from(
+              new Map(members.map((m) => [m.userId, m])).values()
+            ).map((member) => ({
+              value: String(member.userId),
+              label: member.userName,
             }))}
             className="detail-filter-select"
           />

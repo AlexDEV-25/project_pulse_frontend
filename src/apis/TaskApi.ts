@@ -21,11 +21,13 @@ export const deleteTask = (id: number) =>
 export const getTasksByProject = (
   projectId: number,
   keyword?: string,
-  phaseId?: number
+  phaseId?: number,
+  userId?: number
 ) => {
   const params = new URLSearchParams();
   if (keyword?.trim()) params.set('keyword', keyword.trim());
   if (phaseId !== undefined) params.set('phaseId', String(phaseId));
+  if (userId !== undefined) params.set('userId', String(userId));
   const query = params.toString();
   return httpGet<APIResponse<TaskResponse>>(
     `/api/task/project/${projectId}${query ? `?${query}` : ''}`
@@ -48,8 +50,12 @@ export const getTasksByEmployee = (projectId: number, employeeId: number) =>
 export const getTaskDetailForPm = (id: number) =>
   httpGet<APIResponse<TaskResponse>>(`/api/task/pm/detail/${id}`);
 
-export const getMyAssignedTasks = (projectId: number) =>
-  getTasksByProject(projectId);
+export const getMyAssignedTasks = (
+  projectId: number,
+  keyword?: string,
+  phaseId?: number,
+  userId?: number
+) => getTasksByProject(projectId, keyword, phaseId, userId);
 
 export const getMyAssignedTaskById = (projectId: number, id: number) =>
   getTasksByProject(projectId).then((response) => ({
