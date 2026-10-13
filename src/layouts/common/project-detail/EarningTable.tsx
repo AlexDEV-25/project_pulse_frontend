@@ -17,6 +17,7 @@ import {
   ManagementSelect,
 } from '@/layouts/common/components/dashboard/ManagementFilters';
 import Table from '@/layouts/common/components/ui/Table';
+import { EarningTransactionDetailModal } from './EarningTransactionDetailModal';
 
 const points = (value: number) =>
   Number(value ?? 0).toLocaleString('vi-VN', { maximumFractionDigits: 2 });
@@ -32,6 +33,8 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
   const [type, setType] = useState<EarningTransactionType | ''>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<EarningTransactionResponse | null>(null);
   const [transferRow, setTransferRow] =
     useState<EarningTransactionResponse | null>(null);
   const [targetEmployeeId, setTargetEmployeeId] = useState('');
@@ -272,7 +275,20 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
                 </tr>
               ) : (
                 rows.map((row) => (
-                  <tr key={row.id}>
+                  <tr
+                    key={row.id}
+                    className="earning-row-clickable"
+                    onClick={() => setSelectedTransaction(row)}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Xem chi tiết giao dịch #${String(row.id).padStart(3, '0')}`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setSelectedTransaction(row);
+                      }
+                    }}
+                  >
                     <td>#{String(row.id).padStart(3, '0')}</td>
                     <td>
                       <div className="earning-person">
@@ -305,7 +321,10 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
                           <button
                             className="earning-transfer-button"
                             type="button"
-                            onClick={() => openTransfer(row)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openTransfer(row);
+                            }}
                           >
                             Transfer
                           </button>
@@ -319,6 +338,24 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
               )}
             </tbody>
           </Table>
+      )}
+
+      {selectedTransaction && (
+        <EarningTransactionDetailModal
+          projectId={projectId}
+          transaction={selectedTransaction}
+          onClose={() => setSelectedTransaction(null)}
+          onOpenTransfer={
+            canTransfer &&
+            selectedTransaction.earningTransactionType === 'EARN'
+              ? () => {
+                  const target = selectedTransaction;
+                  setSelectedTransaction(null);
+                  openTransfer(target);
+                }
+              : undefined
+          }
+        />
       )}
     </section>
   );

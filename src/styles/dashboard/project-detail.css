@@ -644,6 +644,254 @@
   background: #19696e;
 }
 
+.earning-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.earning-row-clickable:hover td {
+  background-color: #f1f8f7 !important;
+}
+
+.earning-row-clickable:hover td b {
+  color: #168c82;
+}
+
+.earning-row-clickable:focus-visible {
+  outline: 2px solid #168c82;
+  outline-offset: -1px;
+}
+
+/* Earning Transaction Detail Modal */
+.earning-detail-modal {
+  max-width: 580px;
+}
+
+.earning-detail-modal-body {
+  padding: 0 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.earning-detail-hero {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.earning-detail-points-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.earning-detail-points-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.earning-detail-points-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.earning-detail-points-amount {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #17222f;
+}
+
+.earning-detail-points-amount.earn {
+  color: #168c82;
+}
+
+.earning-detail-points-amount.transfer {
+  color: #b45309;
+}
+
+.earning-detail-points-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.earning-detail-type-badge-container {
+  display: flex;
+  align-items: center;
+}
+
+.earning-detail-type-badge-container .earning-type {
+  font-size: 13px;
+  padding: 6px 14px;
+  font-weight: 600;
+}
+
+.earning-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.earning-detail-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.earning-detail-card-full {
+  grid-column: 1 / -1;
+}
+
+.earning-detail-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.earning-detail-card-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.earning-detail-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.earning-detail-with-icon svg {
+  color: #168c82;
+  flex-shrink: 0;
+}
+
+.earning-detail-empty-text {
+  color: #94a3b8;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.earning-detail-ref-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.earning-detail-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.earning-detail-person-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.earning-detail-person-info strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #17222f;
+}
+
+.earning-detail-person-info small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.earning-detail-reason-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.earning-detail-reason-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.earning-detail-reason-content p {
+  margin: 0;
+}
+
+.earning-detail-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.earning-detail-transfer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  background: #247e83;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.earning-detail-transfer-btn:hover {
+  background: #19696e;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .earning-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .earning-detail-card-full {
+    grid-column: 1;
+  }
+  .earning-detail-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .earning-transfer-form {
   margin: 14px;
   padding: 22px;
