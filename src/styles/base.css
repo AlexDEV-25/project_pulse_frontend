@@ -28,3 +28,135 @@ input:focus-visible {
   outline: 2px solid #4e9187;
   outline-offset: 2px;
 }
+
+/* ==========================================================================
+   Global Table Scroll & Sticky Headers
+   ========================================================================== */
+
+.app-table-scroll,
+.task-table-scroll,
+.phase-table-scroll,
+.member-scroll,
+.allocation-scroll,
+.earning-scroll,
+.actual-cost-scroll,
+.department-table-wrap,
+.employee-detail-table-scroll,
+.table-scroll,
+.project-table-wrap,
+.people-table-wrap {
+  max-height: 480px;
+  overflow: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #c5cbd3 #f1f3f5;
+}
+
+/* Sleek custom scrollbars for all tables */
+.app-table-scroll::-webkit-scrollbar,
+.task-table-scroll::-webkit-scrollbar,
+.phase-table-scroll::-webkit-scrollbar,
+.member-scroll::-webkit-scrollbar,
+.allocation-scroll::-webkit-scrollbar,
+.earning-scroll::-webkit-scrollbar,
+.actual-cost-scroll::-webkit-scrollbar,
+.department-table-wrap::-webkit-scrollbar,
+.employee-detail-table-scroll::-webkit-scrollbar,
+.table-scroll::-webkit-scrollbar,
+.project-table-wrap::-webkit-scrollbar,
+.people-table-wrap::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.app-table-scroll::-webkit-scrollbar-track,
+.task-table-scroll::-webkit-scrollbar-track,
+.phase-table-scroll::-webkit-scrollbar-track,
+.member-scroll::-webkit-scrollbar-track,
+.allocation-scroll::-webkit-scrollbar-track,
+.earning-scroll::-webkit-scrollbar-track,
+.actual-cost-scroll::-webkit-scrollbar-track,
+.department-table-wrap::-webkit-scrollbar-track,
+.employee-detail-table-scroll::-webkit-scrollbar-track,
+.table-scroll::-webkit-scrollbar-track,
+.project-table-wrap::-webkit-scrollbar-track,
+.people-table-wrap::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 4px;
+}
+
+.app-table-scroll::-webkit-scrollbar-thumb,
+.task-table-scroll::-webkit-scrollbar-thumb,
+.phase-table-scroll::-webkit-scrollbar-thumb,
+.member-scroll::-webkit-scrollbar-thumb,
+.allocation-scroll::-webkit-scrollbar-thumb,
+.earning-scroll::-webkit-scrollbar-thumb,
+.actual-cost-scroll::-webkit-scrollbar-thumb,
+.department-table-wrap::-webkit-scrollbar-thumb,
+.employee-detail-table-scroll::-webkit-scrollbar-thumb,
+.table-scroll::-webkit-scrollbar-thumb,
+.project-table-wrap::-webkit-scrollbar-thumb,
+.people-table-wrap::-webkit-scrollbar-thumb {
+  background: #c5cbd3;
+  border-radius: 4px;
+}
+
+.app-table-scroll::-webkit-scrollbar-thumb:hover,
+.task-table-scroll::-webkit-scrollbar-thumb:hover,
+.phase-table-scroll::-webkit-scrollbar-thumb:hover,
+.member-scroll::-webkit-scrollbar-thumb:hover,
+.allocation-scroll::-webkit-scrollbar-thumb:hover,
+.earning-scroll::-webkit-scrollbar-thumb:hover,
+.actual-cost-scroll::-webkit-scrollbar-thumb:hover,
+.department-table-wrap::-webkit-scrollbar-thumb:hover,
+.employee-detail-table-scroll::-webkit-scrollbar-thumb:hover,
+.table-scroll::-webkit-scrollbar-thumb:hover,
+.project-table-wrap::-webkit-scrollbar-thumb:hover,
+.people-table-wrap::-webkit-scrollbar-thumb:hover {
+  background: #9aa5b1;
+}
+
+/* Prevent double scrollbar when Table is inside an outer scroll container */
+.task-table-scroll .table-responsive,
+.phase-table-scroll .table-responsive,
+.member-scroll .table-responsive,
+.allocation-scroll .table-responsive,
+.earning-scroll .table-responsive,
+.department-table-wrap .table-responsive,
+.employee-detail-table-scroll .table-responsive,
+.table-scroll .table-responsive,
+.project-table-wrap .table-responsive,
+.people-table-wrap .table-responsive {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Sticky Headers for all tables */
+.app-table-scroll thead th,
+.task-table thead th,
+.task-table th,
+.phase-table thead th,
+.phase-table th,
+.member-table thead th,
+.member-table th,
+.allocation-table thead th,
+.allocation-table th,
+.earning-table thead th,
+.earning-table th,
+.actual-cost-table thead th,
+.actual-cost-table th,
+.department-table thead th,
+.department-table th,
+.employee-detail-table thead th,
+.employee-detail-table th,
+.table-panel thead th,
+.table-panel th,
+.project-table thead th,
+.project-table th,
+.people-table thead th,
+.people-table th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2 !important;
+  box-shadow: inset 0 -1px 0 #d9dde2;
+}

@@ -464,7 +464,8 @@
   width: 160px;
 }
 .earning-scroll {
-  overflow-x: auto;
+  max-height: 480px;
+  overflow: auto;
 }
 .earning-table {
   width: 100%;
@@ -1070,7 +1071,8 @@
   font-size: 13px;
 }
 .task-table-scroll {
-  overflow-x: auto;
+  max-height: 480px;
+  overflow: auto;
 }
 .task-table {
   width: 100%;
@@ -1587,7 +1589,8 @@
   background: #19696e;
 }
 .phase-table-scroll {
-  overflow-x: auto;
+  max-height: 480px;
+  overflow: auto;
 }
 .phase-table {
   width: 100%;
@@ -1875,7 +1878,8 @@
   background: #fff;
 }
 .allocation-scroll {
-  overflow-x: auto;
+  max-height: 480px;
+  overflow: auto;
 }
 .allocation-table {
   width: 100%;
@@ -2213,7 +2217,8 @@
   background: #19696e;
 }
 .member-scroll {
-  overflow-x: auto;
+  max-height: 480px;
+  overflow: auto;
 }
 .member-table {
   width: 100%;

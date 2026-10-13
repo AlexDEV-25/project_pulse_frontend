@@ -420,7 +420,8 @@
   margin-bottom: 18px;
 }
 .table-scroll {
-  overflow-x: auto;
+  max-height: 480px;
+  overflow: auto;
 }
 .table-panel table {
   width: 100%;
@@ -430,6 +431,9 @@
   font-size: 16px;
 }
 .table-panel th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   padding: 14px 20px;
   background: #ededf2;
   color: #666a72;

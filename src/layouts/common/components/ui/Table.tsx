@@ -10,7 +10,9 @@ export default function Table({
   wrapperClassName?: string;
 }) {
   return (
-    <div className={`table-responsive ${wrapperClassName}`.trim()}>
+    <div
+      className={`table-responsive app-table-scroll ${wrapperClassName}`.trim()}
+    >
       <table className={`table align-middle mb-0 ${className}`.trim()}>
         {children}
       </table>
