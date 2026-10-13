@@ -245,7 +245,7 @@
 }
 .employee-project-detail-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 294px;
+  grid-template-columns: minmax(0, 1fr) 390px;
   gap: 18px;
   align-items: start;
 }

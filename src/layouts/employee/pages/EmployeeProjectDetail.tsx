@@ -3,12 +3,7 @@ import { getProjectDetailForEmployee } from '@/apis/ProjectApi';
 import type { ProjectResponse } from '@/dto/response';
 import DashboardFrame from '@/layouts/common/components/dashboard/DashboardFrame';
 import EmployeeProjectTabs from '@/layouts/employee/components/EmployeeProjectTabs';
-
-const formatDateTime = (value: string | null) => {
-  if (!value) return 'Chưa xác định';
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString('vi-VN');
-};
+import { ProjectDetails } from '@/layouts/common/project-detail/ProjectDetails';
 
 export default function EmployeeProjectDetail({
   projectId,
@@ -68,50 +63,7 @@ export default function EmployeeProjectDetail({
               </header>
               <EmployeeProjectTabs projectId={projectId} project={project} />
             </section>
-            <aside className="employee-project-summary-card">
-              <div className="employee-project-summary-heading">
-                <h2>Chi tiết Dự án</h2>
-                <span aria-hidden="true">⚙</span>
-              </div>
-              <h3>Chi tiết Dự án</h3>
-              <div className="employee-summary-row">
-                <span>Tên dự án</span>
-                <strong>{project.projectName}</strong>
-              </div>
-              <div className="employee-summary-row">
-                <span>Người phụ trách</span>
-                <strong>{project.pmName ?? 'Chưa phân công'} (PM)</strong>
-              </div>
-              <div className="employee-summary-row">
-                <span>Trạng thái</span>
-                <strong>
-                  <em
-                    className={`employee-project-status ${project.projectStatus.toLowerCase()}`}
-                  >
-                    {project.projectStatus}
-                  </em>
-                </strong>
-              </div>
-              <hr />
-              <div className="employee-summary-row">
-                <span>Ngày bắt đầu</span>
-                <strong>{formatDateTime(project.startAt)}</strong>
-              </div>
-              <div className="employee-summary-row">
-                <span>Ngày kết thúc</span>
-                <strong>{formatDateTime(project.endAt)}</strong>
-              </div>
-              <div className="employee-summary-timeline">
-                <i />
-                <i />
-                <i />
-              </div>
-              {project.description && (
-                <div className="employee-summary-description">
-                  <b>Mô tả:</b> {project.description}
-                </div>
-              )}
-            </aside>
+            <ProjectDetails project={project} role="EMPLOYEE" />
           </div>
         ) : null}
       </div>

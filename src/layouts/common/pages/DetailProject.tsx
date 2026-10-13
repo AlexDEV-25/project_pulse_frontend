@@ -95,7 +95,7 @@ export default function DetailProject({
             loading={loadingCosts}
             onFilter={filterCosts}
           />
-          <ProjectDetails project={project} />
+          <ProjectDetails project={project} role={role} />
         </div>
       </div>
     </DashboardFrame>
