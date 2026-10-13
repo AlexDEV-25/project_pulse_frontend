@@ -408,28 +408,6 @@ export function TaskDetail({
       <div className="task-detail-inline-wrapper">
         <header className="task-detail-inline-header">
           <div className="task-detail-inline-title-group">
-            <button
-              type="button"
-              className="task-detail-inline-back-btn"
-              onClick={onClose}
-              aria-label="Quay lại danh sách nhiệm vụ"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M19 12H5" />
-                <path d="m12 19-7-7 7-7" />
-              </svg>
-              <span>Quay lại</span>
-            </button>
             <h2 id="task-detail-inline-title" className="task-detail-modal-title">
               <svg
                 className="task-detail-title-icon"
