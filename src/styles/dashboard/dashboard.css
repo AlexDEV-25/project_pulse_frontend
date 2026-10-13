@@ -680,16 +680,19 @@
   font-size: 23px;
 }
 .management-search:focus-within {
-  border-color: #4e9187;
-  box-shadow: 0 0 0 3px #4e918722;
+  border-color: #278f89;
+  box-shadow: none;
 }
-.management-search input {
+.management-search input,
+.management-search input:focus,
+.management-search input:focus-visible {
   width: 100%;
   height: 100%;
-  border: 0;
-  outline: 0;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
   color: #334453;
-  background: transparent;
+  background: transparent !important;
   font-size: 14px;
 }
 .management-select {

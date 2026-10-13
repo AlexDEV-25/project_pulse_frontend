@@ -178,29 +178,27 @@
   padding: 22px 24px 16px;
 }
 
-.project-detail-page .detail-filter-search {
-  width: min(360px, 100%);
-}
-
-.project-detail-page .detail-filter-select {
-  min-width: 180px;
-}
-
+.project-detail-page .detail-filter-search,
 .phase-toolbar .detail-filter-search,
 .task-toolbar .detail-filter-search,
 .allocation-toolbar .detail-filter-search,
-.earning-toolbar .detail-filter-search {
-  flex: 1 1 320px;
-}
-
+.earning-toolbar .detail-filter-search,
 .actual-cost-toolbar .detail-filter-search {
-  flex: 1 1 430px;
-  width: min(430px, 100%);
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 220px;
 }
 
+.project-detail-page .detail-filter-select,
+.phase-toolbar .detail-filter-select,
+.task-toolbar .detail-filter-select,
+.allocation-toolbar .detail-filter-select,
+.earning-toolbar .detail-filter-select,
 .actual-cost-toolbar .detail-filter-select {
-  flex: 0 1 180px;
+  flex: 0 0 180px;
   width: 180px;
+  min-width: 180px;
+  max-width: 180px;
 }
 
 .actual-cost-scroll {
@@ -219,36 +217,30 @@
   min-width: 900px;
   border-collapse: collapse;
   color: #283541;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .actual-cost-table th {
-  height: 60px;
+  height: 48px;
   padding: 0 13px;
   background: #f0f1f5;
   color: #17212a;
-  font-size: 17px;
+  font-size: 14px;
   text-align: left;
   white-space: nowrap;
 }
 
 .actual-cost-table td {
-  height: 85px;
-  padding: 10px 13px;
+  height: 65px;
+  padding: 9px 13px;
   border-bottom: 1px solid #d9dde2;
   white-space: nowrap;
-}
-
-.actual-cost-table input {
-  width: 18px;
-  height: 18px;
-  accent-color: #247e83;
 }
 
 .cost-person {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .cost-person b,
@@ -256,15 +248,20 @@
   display: block;
 }
 
+.cost-person b {
+  font-size: 14px;
+}
+
 .cost-person small {
-  margin-top: 4px;
+  margin-top: 2px;
   color: #56616c;
+  font-size: 12px;
 }
 
 .cost-avatar {
   display: grid;
-  width: 43px;
-  height: 43px;
+  width: 36px;
+  height: 36px;
   place-items: center;
   border-radius: 50%;
   color: #fff;
@@ -276,7 +273,8 @@
 .point-value,
 .actual-value {
   color: #a94c2e;
-  font-size: 20px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .actual-value {
@@ -1870,12 +1868,15 @@
   font-size: 14px;
 }
 .allocation-toolbar select {
-  width: 135px;
+  flex: 0 0 180px;
+  width: 180px;
+  max-width: 180px;
   height: 40px;
   padding: 0 10px;
-  border: 2px solid #62afb2;
+  border: 1px solid #d4d9df;
   border-radius: 8px;
   background: #fff;
+  outline: none;
 }
 .allocation-scroll {
   max-height: 480px;
@@ -2197,7 +2198,7 @@
   width: 135px;
   height: 40px;
   padding: 0 10px;
-  border: 2px solid #62afb2;
+  border: 1px solid #d4d9df;
   border-radius: 8px;
   color: #283541;
   background: #fff;

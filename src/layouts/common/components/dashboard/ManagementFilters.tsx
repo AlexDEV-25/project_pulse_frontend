@@ -1,7 +1,6 @@
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import Button from '@/layouts/common/components/ui/Button';
 import Icon from '@/layouts/common/components/ui/Icon';
-import Input from '@/layouts/common/components/ui/Input';
 import Select from '@/layouts/common/components/ui/Select';
 
 export type ManagementFilterOption = { value: string; label: string };
@@ -25,7 +24,8 @@ export function ManagementSearch({
   return (
     <label className={`management-search ${className}`.trim()}>
       <Icon name="search" size={17} />
-      <Input
+      <input
+        type="text"
         value={value}
         onChange={(event: ChangeEvent<HTMLInputElement>) =>
           onChange(event.target.value)

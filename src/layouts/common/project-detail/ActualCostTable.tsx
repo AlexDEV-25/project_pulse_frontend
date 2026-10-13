@@ -64,56 +64,47 @@ export function ActualCostTable({
         className="actual-cost-table"
         wrapperClassName="actual-cost-scroll"
       >
-          <thead>
+        <thead>
+          <tr>
+            <th>Tên nhân viên</th>
+            <th>Giai đoạn</th>
+            <th>Task / Công việc</th>
+            <th>Point</th>
+            <th>Số giờ thực tế</th>
+            <th>Point thực tế</th>
+          </tr>
+        </thead>
+        <tbody>
+          {loading ? (
             <tr>
-              <th>
-                <input type="checkbox" aria-label="Chọn tất cả" />
-              </th>
-              <th>Tên nhân viên</th>
-              <th>Giai đoạn</th>
-              <th>Task / Công việc</th>
-              <th>Point</th>
-              <th>Số giờ thực tế</th>
-              <th>Point thực tế</th>
+              <td colSpan={6} className="cost-empty">
+                Đang tải dữ liệu chi phí...
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={7} className="cost-empty">
-                  Đang tải dữ liệu chi phí...
+          ) : rows.length === 0 ? (
+            <tr>
+              <td colSpan={6} className="cost-empty">
+                Chưa có dữ liệu chi phí thực tế.
+              </td>
+            </tr>
+          ) : (
+            rows.map((row) => (
+              <tr key={row.id}>
+                <td>
+                  <div className="cost-person">
+                    <b>{row.employeeName || 'Chưa cập nhật'}</b>
+                    <small>ID: {row.employeeId}</small>
+                  </div>
                 </td>
+                <td>{row.phaseName}</td>
+                <td>{row.taskName}</td>
+                <td className="point-value">{points(row.points)}</td>
+                <td>{hours(row.workdays)}</td>
+                <td className="actual-value">{points(row.points)}</td>
               </tr>
-            ) : rows.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="cost-empty">
-                  Chưa có dữ liệu chi phí thực tế.
-                </td>
-              </tr>
-            ) : (
-              rows.map((row) => (
-                <tr key={row.id}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      aria-label={`Chọn nhân viên ${row.employeeName}`}
-                    />
-                  </td>
-                  <td>
-                    <div className="cost-person">
-                      <b>{row.employeeName || 'Chưa cập nhật'}</b>
-                      <small>ID: {row.employeeId}</small>
-                    </div>
-                  </td>
-                  <td>{row.phaseName}</td>
-                  <td>{row.taskName}</td>
-                  <td className="point-value">{points(row.points)}</td>
-                  <td>{hours(row.workdays)}</td>
-                  <td className="actual-value">{points(row.points)}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
+            ))
+          )}
+        </tbody>
       </Table>
     </section>
   );
