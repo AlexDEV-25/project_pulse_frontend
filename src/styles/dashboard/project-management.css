@@ -116,7 +116,9 @@
   padding: 12px 14px;
   border-bottom: 1px solid #e2e5e8;
 }
-.project-toolbar .management-search { width: min(430px, 100%); }
+.project-toolbar .management-search {
+  width: min(430px, 100%);
+}
 .project-table-wrap {
   overflow-x: auto;
   max-height: calc(100vh - 370px);

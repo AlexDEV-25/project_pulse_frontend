@@ -34,37 +34,6 @@
   font-size: 14px;
 }
 
-.login-card input {
-  width: 100%;
-  margin: 0 0 18px;
-  padding: 12px 14px;
-  border: 1px solid #d8dce0;
-  border-radius: 8px;
-  outline: none;
-}
-
-.login-card input:focus {
-  border-color: #55938b;
-  box-shadow: 0 0 0 3px #55938b22;
-}
-
-.login-card button {
-  width: 100%;
-  padding: 12px;
-  border: 0;
-  border-radius: 8px;
-  color: #fff;
-  background: #4e9187;
-  cursor: pointer;
-}
-
-.login-card .google {
-  margin-top: 12px;
-  color: #4d5559;
-  border: 1px solid #d6dadd;
-  background: #fff;
-}
-
 .login-error {
   margin-bottom: 15px;
   padding: 10px;
@@ -172,23 +141,9 @@
   font-weight: 500;
 }
 
-.login-form-panel form input {
-  width: 100%;
-  height: 47px;
-  margin: 0;
-  padding: 0 14px;
-  border: 1px solid #dce2e1;
-  border-radius: 7px;
-  color: #354444;
-  background: #fff;
-}
-
-.login-form-panel form input::placeholder {
-  color: #b5bcbc;
-}
-
 .password-wrap {
   position: relative;
+  margin-bottom: 16px;
 }
 
 .password-wrap input {
@@ -211,15 +166,42 @@
   display: block;
 }
 
-.forgot-link {
+.login-card .forgot-link {
+  display: block;
+  width: auto !important;
   margin: 11px 0 24px;
-  color: #4e8c83;
+  margin-left: auto;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #4e8c83 !important;
+  background: transparent !important;
+  cursor: pointer;
   font-size: 12px;
   text-align: right;
 }
 
+.auth-link-button {
+  width: auto !important;
+  margin-top: 18px;
+  padding: 0 !important;
+  color: #4e8c83 !important;
+  background: transparent !important;
+}
+
+.auth-success {
+  margin: 16px 0 0 !important;
+  color: #287c61 !important;
+  font-size: 13px;
+}
+
 .login-form-panel form > button {
   height: 47px;
+  margin-top: 8px;
+}
+
+.login-form-panel form > .forgot-link {
+  margin-top: 0;
+  margin-bottom: 18px;
 }
 
 .login-form-panel .login-separator {
@@ -281,24 +263,6 @@
   color: #354044;
   font-size: 13px;
   font-weight: 500;
-}
-
-.role-selection select {
-  width: 100%;
-  height: 44px;
-  margin: 0;
-  padding: 0 13px;
-  border: 1px solid #9aa3a6;
-  border-radius: 9px;
-  outline: none;
-  background: #fff;
-  color: #27343b;
-  font-size: 16px;
-}
-
-.role-selection select:focus {
-  border-color: #397d76;
-  box-shadow: 0 0 0 3px #397d7622;
 }
 
 .role-selection button {

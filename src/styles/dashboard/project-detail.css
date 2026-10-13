@@ -7,7 +7,7 @@
 .project-detail-header {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: center;
   gap: 20px;
 }
 
@@ -34,36 +34,8 @@
   white-space: nowrap;
 }
 
-.project-detail-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.project-detail-actions button {
-  height: 42px;
-  padding: 0 20px;
-  border: 0;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.detail-edit {
-  color: #fff;
-  background: #197d83;
-}
-
-.detail-delete {
-  color: #737b86;
-  background: #e7e7eb;
-}
-
 .evm-summary {
-  padding: 17px 18px 18px;
-  border: 1px solid #d4d7df;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 5px 12px #26384b12;
+  padding: 0;
 }
 
 .evm-warning {
@@ -82,15 +54,16 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
-  margin-top: 17px;
 }
 
 .evm-metric {
   position: relative;
-  min-height: 78px;
+  min-height: 82px;
   padding: 14px 16px;
-  border: 2px solid #378c91;
+  border: 1px solid #d9dce3;
   border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 12px #26384b12;
 }
 
 .evm-metric-label {
@@ -205,39 +178,40 @@
   padding: 22px 24px 16px;
 }
 
-.actual-cost-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 395px;
-  height: 48px;
-  padding: 0 13px;
-  border: 1px solid #c8ced8;
-  border-radius: 9px;
-  color: #7e8995;
-  font-size: 27px;
+.project-detail-page .detail-filter-search {
+  width: min(360px, 100%);
 }
 
-.actual-cost-search input {
-  width: 100%;
-  border: 0;
-  outline: 0;
-  font-size: 17px;
+.project-detail-page .detail-filter-select {
+  min-width: 180px;
 }
 
-.actual-cost-toolbar select {
-  width: 260px;
-  height: 48px;
-  padding: 0 15px;
-  border: 2px solid #62afb2;
-  border-radius: 10px;
-  color: #283541;
-  background: #fff;
-  font-size: 17px;
+.phase-toolbar .detail-filter-search,
+.task-toolbar .detail-filter-search,
+.allocation-toolbar .detail-filter-search,
+.earning-toolbar .detail-filter-search {
+  flex: 1 1 320px;
+}
+
+.actual-cost-toolbar .detail-filter-search {
+  flex: 1 1 430px;
+  width: min(430px, 100%);
+}
+
+.actual-cost-toolbar .detail-filter-select {
+  flex: 0 1 180px;
+  width: 180px;
 }
 
 .actual-cost-scroll {
-  overflow-x: auto;
+  max-height: 430px;
+  overflow: auto;
+}
+
+.actual-cost-table thead {
+  position: sticky;
+  z-index: 2;
+  top: 0;
 }
 
 .actual-cost-table {
@@ -349,7 +323,16 @@
   font-size: 16px;
 }
 
+.ui-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+
 .project-detail-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   margin: 0 0 22px;
   font-size: 22px;
 }
@@ -360,6 +343,9 @@
 }
 
 .project-detail-card p {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
   margin: 13px 0;
   line-height: 1.45;
 }
@@ -371,22 +357,29 @@
 }
 
 .project-timeline {
+  position: relative;
   display: flex;
   align-items: center;
   height: 24px;
   margin: 9px 0 15px;
-  background: linear-gradient(#c8ccd3, #c8ccd3) center/100% 8px no-repeat;
+  border-radius: 6px;
+  background: #d5d7dc;
+  overflow: hidden;
 }
 
-.project-timeline i {
-  width: 2px;
-  height: 17px;
-  margin-right: auto;
-  background: #6e7580;
+.project-timeline span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #4f8f8c;
+  transition: width 240ms ease;
 }
 
-.project-timeline i:last-child {
-  margin-right: 0;
+.project-timeline-label {
+  margin-top: -8px;
+  color: #66717b;
+  font-size: 12px;
+  text-align: right;
 }
 
 .overall-progress strong {
@@ -410,6 +403,9 @@
 }
 
 .project-description {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
   padding: 12px;
   border-radius: 12px;
   color: #26313b;
@@ -708,6 +704,12 @@
 }
 
 @media (max-width: 700px) {
+  .project-detail-page .detail-filter-search,
+  .project-detail-page .detail-filter-select,
+  .project-detail-page .management-filter-button {
+    width: 100%;
+  }
+
   .project-detail-header {
     align-items: flex-start;
     flex-direction: column;
@@ -747,8 +749,9 @@
     flex-direction: column;
   }
 
-  .actual-cost-search,
-  .actual-cost-toolbar select {
+  .actual-cost-toolbar .detail-filter-search,
+  .actual-cost-toolbar .detail-filter-select,
+  .actual-cost-toolbar .management-filter-button {
     width: 100%;
   }
 

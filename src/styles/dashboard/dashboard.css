@@ -660,7 +660,9 @@
   -webkit-appearance: none;
   background-image: none;
 }
-.dash-layout select::-ms-expand { display: none; }
+.dash-layout select::-ms-expand {
+  display: none;
+}
 
 .management-search {
   display: flex;
@@ -698,8 +700,12 @@
   -webkit-appearance: none;
   background-image: none;
 }
-.management-select::-ms-expand { display: none; }
-.management-search input::-webkit-search-cancel-button { display: none; }
+.management-select::-ms-expand {
+  display: none;
+}
+.management-search input::-webkit-search-cancel-button {
+  display: none;
+}
 .people-filters select,
 .project-toolbar select,
 .drawer-section select,
