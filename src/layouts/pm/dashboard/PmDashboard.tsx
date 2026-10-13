@@ -97,7 +97,11 @@ export default function PmDashboard({
           <EvmChart data={evm} />
         </section>
       </div>
-      <ProjectTable rows={projects} role="PM" />
+      <ProjectTable
+        rows={projects}
+        role="PM"
+        onMenuChange={onMenuChange}
+      />
     </DashboardFrame>
   );
 }

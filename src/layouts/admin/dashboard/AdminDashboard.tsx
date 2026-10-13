@@ -98,7 +98,11 @@ export default function AdminDashboard({
           <EvmChart data={evm} />
         </section>
       </div>
-      <ProjectTable rows={projects} role="ADMIN" />
+      <ProjectTable
+        rows={projects}
+        role="ADMIN"
+        onMenuChange={onMenuChange}
+      />
     </DashboardFrame>
   );
 }

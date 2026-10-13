@@ -447,6 +447,17 @@
   border-bottom: 1px solid #e1e2e4;
   white-space: nowrap;
 }
+.table-panel tbody tr.project-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.table-panel tbody tr.project-row-clickable:hover {
+  background-color: #f1f5f9;
+}
+.table-panel tbody tr.project-row-clickable:focus-visible {
+  outline: 2px solid #247e83;
+  outline-offset: -2px;
+}
 .table-panel em {
   padding: 7px 11px;
   border-radius: 7px;
