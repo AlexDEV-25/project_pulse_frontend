@@ -101,6 +101,7 @@ export function TaskDetail({
   const [error, setError] = useState('');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTaskDetail(task);
     setLoadingNotes(true);
     setError('');
