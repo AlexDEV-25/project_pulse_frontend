@@ -59,6 +59,14 @@ export function AllocationDetailModal({
           : 'low';
 
   const overloadedCount = allocation.overloadedDates?.length ?? 0;
+  const maxOverloadPercent =
+    overloadedCount > 0
+      ? Math.max(
+          ...allocation.overloadedDates!.map(
+            (item) => item.totalAllocationPercentage
+          )
+        )
+      : 0;
 
   return (
     <div
@@ -157,7 +165,7 @@ export function AllocationDetailModal({
             <div className="allocation-modal-badge-container">
               {overloadedCount > 0 ? (
                 <span className="allocation-status-chip danger">
-                  ⚠️ Quá tải {overloadedCount} ngày
+                  ⚠️ Quá tải {overloadedCount} ngày (tối đa {maxOverloadPercent}%)
                 </span>
               ) : (
                 <span className="allocation-status-chip success">
@@ -222,7 +230,9 @@ export function AllocationDetailModal({
                 <small className="allocation-stat-unit">ngày</small>
               </div>
               <span className="allocation-stat-hint">
-                {overloadedCount > 0 ? 'Tổng phân bổ > 100%' : 'Không quá tải'}
+                {overloadedCount > 0
+                  ? `Đỉnh điểm: ${maxOverloadPercent}%`
+                  : 'Không quá tải'}
               </span>
             </div>
           </div>
@@ -255,8 +265,8 @@ export function AllocationDetailModal({
                 100% vào các ngày làm việc sau:
               </p>
               <div className="allocation-modal-dates-grid">
-                {allocation.overloadedDates!.map((date) => (
-                  <span key={date} className="allocation-modal-date-pill">
+                {allocation.overloadedDates!.map((item) => (
+                  <span key={item.date} className="allocation-modal-date-pill">
                     <svg
                       width="12"
                       height="12"
@@ -273,7 +283,15 @@ export function AllocationDetailModal({
                       <line x1="8" x2="8" y1="2" y2="6" />
                       <line x1="3" x2="21" y1="10" y2="10" />
                     </svg>
-                    {formatDate(date)}
+                    <span className="allocation-modal-date-text">
+                      {formatDate(item.date)}
+                    </span>
+                    <span
+                      className="allocation-modal-date-percent"
+                      title={`Tổng tỷ lệ phân bổ trong ngày: ${item.totalAllocationPercentage}%`}
+                    >
+                      Tổng: {item.totalAllocationPercentage}%
+                    </span>
                   </span>
                 ))}
               </div>

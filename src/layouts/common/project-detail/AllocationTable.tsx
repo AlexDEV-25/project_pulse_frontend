@@ -369,7 +369,11 @@ export function AllocationTable({
                           {overloadedCount > 0 && (
                             <span
                               className="allocation-overload-badge"
-                              title={`Quá tải ${overloadedCount} ngày trong phase`}
+                              title={`Quá tải ${overloadedCount} ngày trong phase (tổng phân bổ lên đến ${Math.max(
+                                ...row.overloadedDates!.map(
+                                  (d) => d.totalAllocationPercentage
+                                )
+                              )}%)`}
                             >
                               Quá tải ({overloadedCount} ngày)
                             </span>

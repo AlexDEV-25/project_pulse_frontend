@@ -13,6 +13,10 @@ export interface APIResponse<T> {
   result: T | null;
   resultList: T[] | null;
 }
+export interface OverloadedDateResponse {
+  date: string;
+  totalAllocationPercentage: number;
+}
 export interface AllocationResponse {
   id: number;
   projectId: number;
@@ -25,7 +29,7 @@ export interface AllocationResponse {
   allocationPercentage: number;
   resourceRateSnapshot: number;
   allocationPoint: number;
-  overloadedDates?: string[];
+  overloadedDates?: OverloadedDateResponse[];
 }
 export interface AuthResponse {
   authenticated: boolean;
