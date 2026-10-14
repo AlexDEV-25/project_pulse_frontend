@@ -3,8 +3,18 @@ import Icon from '@/layouts/common/components/ui/Icon';
 
 const money = (value: number | null | undefined) =>
   `${(value ?? 0).toLocaleString('vi-VN')} Point`;
-const date = (value: string | null | undefined) =>
-  value ? new Date(value).toLocaleDateString('vi-VN') : '—';
+const date = (value: string | null | undefined) => {
+  if (!value) return '—';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime())
+    ? value
+    : parsed.toLocaleDateString('vi-VN');
+};
 
 const elapsedPercent = (
   startAt: string | null | undefined,

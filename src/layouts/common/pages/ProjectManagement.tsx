@@ -55,8 +55,8 @@ const emptyForm: FormState = {
   projectStatus: 'DRAFT',
 };
 const toInputDate = (value?: string | null) =>
-  value ? value.slice(0, 16) : '';
-const toApiDate = (value: string) => (value ? `${value}:00` : '');
+  value ? value.slice(0, 10) : '';
+const toApiDate = (value: string) => (value ? value.slice(0, 10) : '');
 const money = (value: number | null | undefined) =>
   `${(value ?? 0).toLocaleString('vi-VN')} đ`;
 
@@ -425,7 +425,7 @@ export default function ProjectManagement({
                 <label>
                   Bắt đầu
                   <input
-                    type="datetime-local"
+                    type="date"
                     value={form.startAt}
                     onChange={(event) =>
                       setForm({ ...form, startAt: event.target.value })
@@ -435,7 +435,7 @@ export default function ProjectManagement({
                 <label>
                   Kết thúc
                   <input
-                    type="datetime-local"
+                    type="date"
                     value={form.endAt}
                     onChange={(event) =>
                       setForm({ ...form, endAt: event.target.value })

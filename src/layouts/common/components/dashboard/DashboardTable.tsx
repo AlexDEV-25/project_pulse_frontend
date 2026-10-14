@@ -5,8 +5,18 @@ import type {
 } from '@/dto/response';
 import { getAllProjects } from '@/apis/ProjectApi';
 import Table from '@/layouts/common/components/ui/Table';
-const date = (value: string) =>
-  value ? new Date(value).toLocaleDateString('vi-VN') : '-';
+const date = (value: string) => {
+  if (!value) return '-';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime())
+    ? value
+    : parsed.toLocaleDateString('vi-VN');
+};
 const number = (value: number | null | undefined) =>
   value == null
     ? '-'

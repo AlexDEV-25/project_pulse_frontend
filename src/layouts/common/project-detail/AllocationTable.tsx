@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   createAllocation,
   deleteAllocation,
@@ -7,6 +7,7 @@ import {
 } from '@/apis/AllocationApi';
 import { getPhasesByProject } from '@/apis/PhaseApi';
 import { getProjectMembers } from '@/apis/ProjectMemberApi';
+import { getApiErrorMessage } from '@/apis/HttpClient';
 import type {
   AllocationResponse,
   PhaseResponse,
@@ -20,6 +21,7 @@ import {
 import Table from '@/layouts/common/components/ui/Table';
 import EditButton from '@/layouts/common/components/ui/EditButton';
 import DeleteButton from '@/layouts/common/components/ui/DeleteButton';
+import { AllocationDetailModal } from './AllocationDetailModal';
 
 const point = (value: number) =>
   value.toLocaleString('vi-VN', { maximumFractionDigits: 2 });
@@ -51,7 +53,7 @@ export function AllocationTable({
   const [phaseId, setPhaseId] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [selectedDetail, setSelectedDetail] = useState<AllocationResponse | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<AllocationResponse | null>(null);
   const [formPhaseId, setFormPhaseId] = useState('');
@@ -103,7 +105,7 @@ export function AllocationTable({
     setFormMemberId('');
     setFormPercentage('');
     setFormOpen(true);
-    setExpandedId(null);
+    setSelectedDetail(null);
     setError('');
   };
   const openEdit = (row: AllocationResponse) => {
@@ -112,7 +114,7 @@ export function AllocationTable({
     setFormMemberId(String(row.memberId));
     setFormPercentage(String(row.allocationPercentage));
     setFormOpen(true);
-    setExpandedId(null);
+    setSelectedDetail(null);
     setError('');
   };
   const cancelForm = () => {
@@ -146,9 +148,12 @@ export function AllocationTable({
         cancelForm();
         load();
       })
-      .catch(() =>
+      .catch((err: unknown) =>
         setError(
-          editing ? 'Không thể cập nhật phân bổ.' : 'Không thể thêm phân bổ.'
+          getApiErrorMessage(
+            err,
+            editing ? 'Không thể cập nhật phân bổ.' : 'Không thể thêm phân bổ.'
+          )
         )
       )
       .finally(() => setSaving(false));
@@ -161,9 +166,11 @@ export function AllocationTable({
     void deleteAllocation(row.id)
       .then(() => {
         setRows((current) => current.filter((item) => item.id !== row.id));
-        if (expandedId === row.id) setExpandedId(null);
+        if (selectedDetail?.id === row.id) setSelectedDetail(null);
       })
-      .catch(() => setError('Không thể xóa phân bổ.'))
+      .catch((err: unknown) =>
+        setError(getApiErrorMessage(err, 'Không thể xóa phân bổ.'))
+      )
       .finally(() => setDeletingId(null));
   };
 
@@ -322,107 +329,108 @@ export function AllocationTable({
                         : percentage >= 40
                           ? 'medium'
                           : 'low';
-                  const expanded = expandedId === row.id;
+                  const overloadedCount =
+                    row.overloadedDates?.length ?? 0;
                   return (
-                    <Fragment key={row.id}>
-                      <tr
-                        className={`allocation-data-row ${expanded ? 'expanded' : ''}`}
-                        onClick={() =>
-                          setExpandedId(expanded ? null : row.id)
-                        }
-                      >
-                        <td className="col-alloc-name">
-                          <div className="allocation-person">
-                            <div className="allocation-avatar">
-                              {getInitials(row.userName, row.userId)}
-                            </div>
-                            <div className="allocation-person-meta">
-                              <b className="allocation-name">
-                                {row.userName || 'Chưa cập nhật'}
-                              </b>
-                              <small className="allocation-id">
-                                ID: {row.userId}
-                              </small>
-                            </div>
+                    <tr
+                      key={row.id}
+                      className="allocation-data-row"
+                      onClick={() => setSelectedDetail(row)}
+                      title="Nhấn để xem chi tiết phân bổ"
+                    >
+                      <td className="col-alloc-name">
+                        <div className="allocation-person">
+                          <div className="allocation-avatar">
+                            {getInitials(row.userName, row.userId)}
                           </div>
-                        </td>
-                        <td className="col-alloc-phase">
-                          <span className="allocation-phase-text">
-                            {row.phaseName || '—'}
+                          <div className="allocation-person-meta">
+                            <b className="allocation-name">
+                              {row.userName || 'Chưa cập nhật'}
+                            </b>
+                            <small className="allocation-id">
+                              ID: {row.userId}
+                            </small>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="col-alloc-phase">
+                        <span className="allocation-phase-text">
+                          {row.phaseName || '—'}
+                        </span>
+                      </td>
+                      <td className="col-alloc-rate">
+                        <div className="allocation-rate-cell">
+                          <span className={`allocation-percent ${tone}`}>
+                            {percentage}%
                           </span>
-                        </td>
-                        <td className="col-alloc-rate">
-                          <div className="allocation-rate-cell">
-                            <span className={`allocation-percent ${tone}`}>
-                              {percentage}%
+                          <div className="allocation-progress">
+                            <i style={{ width: `${percentage}%` }} />
+                          </div>
+                          {overloadedCount > 0 && (
+                            <span
+                              className="allocation-overload-badge"
+                              title={`Quá tải ${overloadedCount} ngày trong phase`}
+                            >
+                              Quá tải ({overloadedCount} ngày)
                             </span>
-                            <div className="allocation-progress">
-                              <i style={{ width: `${percentage}%` }} />
-                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="col-alloc-point">
+                        <span className="allocation-point-value">
+                          {point(Number(row.resourceRateSnapshot))}
+                        </span>
+                      </td>
+                      <td className="col-alloc-total">
+                        <span className="allocation-total-value">
+                          {point(Number(row.allocationPoint))}
+                        </span>
+                      </td>
+                      {canManage && (
+                        <td className="col-alloc-actions">
+                          <div className="allocation-actions">
+                            <EditButton
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                openEdit(row);
+                              }}
+                              title="Sửa phân bổ"
+                              aria-label="Sửa phân bổ"
+                            />
+                            <DeleteButton
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                remove(row);
+                              }}
+                              disabled={deletingId === row.id}
+                              title="Xóa phân bổ"
+                              aria-label="Xóa phân bổ"
+                            />
                           </div>
                         </td>
-                        <td className="col-alloc-point">
-                          <span className="allocation-point-value">
-                            {point(Number(row.resourceRateSnapshot))}
-                          </span>
-                        </td>
-                        <td className="col-alloc-total">
-                          <span className="allocation-total-value">
-                            {point(Number(row.allocationPoint))}
-                          </span>
-                        </td>
-                        {canManage && (
-                          <td className="col-alloc-actions">
-                            <div className="allocation-actions">
-                              <EditButton
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  openEdit(row);
-                                }}
-                                title="Sửa phân bổ"
-                                aria-label="Sửa phân bổ"
-                              />
-                              <DeleteButton
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  remove(row);
-                                }}
-                                disabled={deletingId === row.id}
-                                title="Xóa phân bổ"
-                                aria-label="Xóa phân bổ"
-                              />
-                            </div>
-                          </td>
-                        )}
-                      </tr>
-                      {expanded && (
-                        <tr className="allocation-detail-row">
-                          <td colSpan={canManage ? 6 : 5}>
-                            <div>
-                              <b>Chi tiết phân bổ</b>
-                              <span>
-                                Nhân sự: {row.userName} (ID: {row.userId})
-                              </span>
-                              <span>Phase: {row.phaseName}</span>
-                              <span>Tỷ lệ: {percentage}%</span>
-                              <span>
-                                Point resource:{' '}
-                                {point(Number(row.resourceRateSnapshot))}
-                              </span>
-                              <span>
-                                Point phân bổ:{' '}
-                                {point(Number(row.allocationPoint))}
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
                       )}
-                    </Fragment>
+                    </tr>
                   );
                 })
               )}
             </tbody>
           </Table>
+      )}
+
+      {selectedDetail && (
+        <AllocationDetailModal
+          allocation={selectedDetail}
+          onClose={() => setSelectedDetail(null)}
+          onEdit={
+            canManage
+              ? () => {
+                  const target = selectedDetail;
+                  setSelectedDetail(null);
+                  openEdit(target);
+                }
+              : undefined
+          }
+        />
       )}
     </section>
   );

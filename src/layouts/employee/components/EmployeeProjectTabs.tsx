@@ -28,6 +28,12 @@ const statusLabels: Record<TaskResponse['taskStatus'], string> = {
 };
 
 const formatDate = (value: string) => {
+  if (!value) return '';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
@@ -83,6 +89,7 @@ function EmployeeTaskTable({ projectId }: { projectId: number }) {
 
   useEffect(() => {
     let active = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     setError('');
     Promise.allSettled([

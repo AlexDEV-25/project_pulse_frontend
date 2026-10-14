@@ -111,12 +111,13 @@ export interface TaskAssignmentRequest {
 }
 export interface CreateTaskNoteRequest {
   taskId: number;
-  /** ISO local date-time expected by the backend LocalDateTime field. */
+  /** Format YYYY-MM-DD expected by the backend LocalDate field. */
   workingDate: string;
   content: string;
   workingHours: number;
 }
 export interface UpdateTaskNoteRequest {
+  /** Format YYYY-MM-DD expected by the backend LocalDate field. */
   workingDate: string;
   content: string;
   workingHours: number;

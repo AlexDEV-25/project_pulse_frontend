@@ -36,6 +36,11 @@ function getInitials(name?: string, id?: number): string {
 
 function formatNoteDate(value: string): string {
   if (!value) return '';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return value;
   const day = String(parsed.getDate()).padStart(2, '0');

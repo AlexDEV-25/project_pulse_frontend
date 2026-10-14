@@ -20,6 +20,11 @@ const progressValue = (value: number | null | undefined) =>
   Math.max(0, Math.min(100, Number(value) || 0));
 const date = (value: string) => {
   if (!value) return '—';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}`;
+  }
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime())
     ? value

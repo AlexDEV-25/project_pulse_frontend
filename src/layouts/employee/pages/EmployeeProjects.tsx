@@ -13,6 +13,11 @@ const statusLabels: Record<ProjectResponse['projectStatus'], string> = {
 
 const formatDate = (value: string | null) => {
   if (!value) return 'Chưa xác định';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value.slice(0, 10)

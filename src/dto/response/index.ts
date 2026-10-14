@@ -25,6 +25,7 @@ export interface AllocationResponse {
   allocationPercentage: number;
   resourceRateSnapshot: number;
   allocationPoint: number;
+  overloadedDates?: string[];
 }
 export interface AuthResponse {
   authenticated: boolean;

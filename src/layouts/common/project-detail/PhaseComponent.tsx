@@ -29,15 +29,19 @@ const progress = (value: number | null | undefined) =>
 
 const displayDate = (value: string) => {
   if (!value) return '—';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
     : date.toLocaleDateString('vi-VN');
 };
 
-const inputDateTime = (value: string) => (value ? value.slice(0, 16) : '');
-const requestDateTime = (value: string) =>
-  value.length === 10 ? `${value}T00:00:00` : value;
+const inputDate = (value: string) => (value ? value.slice(0, 10) : '');
+const requestDate = (value: string) => (value ? value.slice(0, 10) : '');
 
 type Props = { projectId: number; canManage?: boolean };
 
@@ -107,8 +111,8 @@ export function PhaseComponent({ projectId, canManage = false }: Props) {
     setEditing(phase);
     setForm({
       phaseName: phase.phaseName,
-      startAt: inputDateTime(phase.startAt),
-      endAt: inputDateTime(phase.endAt),
+      startAt: inputDate(phase.startAt),
+      endAt: inputDate(phase.endAt),
       phaseStatus: phase.status,
       makeUpDates: phase.makeUpDates ?? [],
       offDates: phase.offDates ?? [],
@@ -138,8 +142,8 @@ export function PhaseComponent({ projectId, canManage = false }: Props) {
     const data = {
       projectId,
       phaseName: form.phaseName.trim(),
-      startAt: requestDateTime(form.startAt),
-      endAt: requestDateTime(form.endAt),
+      startAt: requestDate(form.startAt),
+      endAt: requestDate(form.endAt),
       makeUpDates: form.makeUpDates,
       offDates: form.offDates,
     };
@@ -240,7 +244,7 @@ export function PhaseComponent({ projectId, canManage = false }: Props) {
             <label>
               <span>Ngày bắt đầu</span>
               <input
-                type="datetime-local"
+                type="date"
                 value={form.startAt}
                 onChange={(event) =>
                   setForm({ ...form, startAt: event.target.value })
@@ -250,7 +254,7 @@ export function PhaseComponent({ projectId, canManage = false }: Props) {
             <label>
               <span>Ngày kết thúc</span>
               <input
-                type="datetime-local"
+                type="date"
                 value={form.endAt}
                 onChange={(event) =>
                   setForm({ ...form, endAt: event.target.value })

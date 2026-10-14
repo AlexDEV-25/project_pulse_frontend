@@ -39,14 +39,18 @@ const clampProgress = (value: number | null | undefined) =>
   Math.max(0, Math.min(100, Number(value) || 0));
 const date = (value: string) => {
   if (!value) return '—';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime())
     ? value
     : parsed.toLocaleDateString('vi-VN');
 };
-const dateTimeInput = (value: string) => (value ? value.slice(0, 16) : '');
-const requestDateTime = (value: string) =>
-  value.length === 10 ? `${value}T00:00:00` : value;
+const dateInput = (value: string) => (value ? value.slice(0, 10) : '');
+const requestDate = (value: string) => (value ? value.slice(0, 10) : '');
 
 type FormState = {
   phaseId: string;
@@ -156,8 +160,8 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
       phaseId: String(task.phaseId),
       taskName: task.taskName,
       description: task.description ?? '',
-      startAt: dateTimeInput(task.startAt),
-      endAt: dateTimeInput(task.endAt),
+      startAt: dateInput(task.startAt),
+      endAt: dateInput(task.endAt),
       taskPoint: String(task.taskPoint),
       taskStatus: task.taskStatus,
       assignments: task.assignments.map((assignment) => ({
@@ -234,8 +238,8 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
     const base = {
       taskName: form.taskName.trim(),
       description: form.description.trim(),
-      startAt: requestDateTime(form.startAt),
-      endAt: requestDateTime(form.endAt),
+      startAt: requestDate(form.startAt),
+      endAt: requestDate(form.endAt),
       taskPoint: point,
       assignments: form.assignments,
     };
@@ -382,7 +386,7 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
             <label>
               <span>Ngày bắt đầu</span>
               <input
-                type="datetime-local"
+                type="date"
                 value={form.startAt}
                 onChange={(event) =>
                   setForm({ ...form, startAt: event.target.value })
@@ -392,7 +396,7 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
             <label>
               <span>Ngày kết thúc</span>
               <input
-                type="datetime-local"
+                type="date"
                 value={form.endAt}
                 onChange={(event) =>
                   setForm({ ...form, endAt: event.target.value })

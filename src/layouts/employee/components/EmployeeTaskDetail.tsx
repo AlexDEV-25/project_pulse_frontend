@@ -49,6 +49,11 @@ function getInitials(name?: string, id?: number): string {
 
 function formatNoteDate(value: string): string {
   if (!value) return '';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) return value;
   const day = String(parsed.getDate()).padStart(2, '0');
@@ -59,6 +64,11 @@ function formatNoteDate(value: string): string {
 
 function formatDate(value: string): string {
   if (!value) return '';
+  const clean = value.split('T')[0];
+  const parts = clean.split('-');
+  if (parts.length === 3 && parts[0].length === 4) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
@@ -177,10 +187,7 @@ export function EmployeeTaskDetail({
     }
     setSavingNote(true);
     setError('');
-    const workingDate =
-      noteForm.workingDate.length === 10
-        ? `${noteForm.workingDate}T00:00:00`
-        : noteForm.workingDate;
+    const workingDate = noteForm.workingDate ? noteForm.workingDate.slice(0, 10) : '';
 
     createTaskNote(task.id, {
       ...noteForm,
