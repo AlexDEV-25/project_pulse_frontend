@@ -6,3 +6,4 @@ export type TaskNoteStatus = 'PENDING_CONFIRMATION' | 'CONFIRMED';
 export type TaskStatus =
   'TODO' | 'IN_PROGRESS' | 'DONE' | 'BLOCKED' | 'CANCELED';
 export type ScheduleStatus = 'NO_DATA' | 'FAST' | 'SLOW' | 'ON_SCHEDULE';
+export type NotificationType = 'INFO' | 'WARNING' | 'SUCCESS' | 'ERROR';

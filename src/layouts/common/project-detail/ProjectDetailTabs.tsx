@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActualCostTable } from './ActualCostTable';
 import { AllocationTable } from './AllocationTable';
 import { EarningTable } from './EarningTable';
@@ -38,7 +38,35 @@ export function ProjectDetailTabs({
   role: 'ADMIN' | 'PM';
 }) {
   const tabs = role === 'PM' ? pmTabs : adminTabs;
-  const [active, setActive] = useState(tabs[0]);
+
+  const resolveTabFromUrl = () => {
+    const tabParam = new URLSearchParams(window.location.search).get('tab');
+    if (tabParam === 'tasks') {
+      return role === 'PM' ? 'Nhiệm vụ' : 'Tiến độ & Giai đoạn';
+    }
+    if (tabParam === 'earnings') {
+      return 'Giá trị thu được';
+    }
+    if (tabParam === 'costs') {
+      return 'Chi phí thực tế';
+    }
+    return tabs[0];
+  };
+
+  const [active, setActive] = useState(resolveTabFromUrl);
+
+  useEffect(() => {
+    const handleSync = () => {
+      setActive(resolveTabFromUrl());
+    };
+    window.addEventListener('app:navigate', handleSync);
+    window.addEventListener('popstate', handleSync);
+    return () => {
+      window.removeEventListener('app:navigate', handleSync);
+      window.removeEventListener('popstate', handleSync);
+    };
+  }, [role]);
+
   return (
     <section className="project-tabs-card">
       <nav className="project-detail-tabs">

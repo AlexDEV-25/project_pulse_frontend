@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
 import { getMyInfo } from '@/apis/UserApi';
 import type { DashboardRole } from './Sidebar';
+import NotificationBell from './NotificationBell';
 
-export default function Topbar({ role }: { role: DashboardRole }) {
+type TopbarProps = {
+  role: DashboardRole;
+  onMenuChange?: (label: string) => void;
+};
+
+export default function Topbar({ role, onMenuChange }: TopbarProps) {
   const [userName, setUserName] = useState('');
   const [avatar, setAvatar] = useState('');
   useEffect(() => {
@@ -15,6 +21,14 @@ export default function Topbar({ role }: { role: DashboardRole }) {
       })
       .catch(() => undefined);
   }, []);
+
+  const roleLabel =
+    role === 'ADMIN'
+      ? 'Quản trị viên'
+      : role === 'PM'
+        ? 'Quản lý dự án'
+        : 'Nhân viên';
+
   return (
     <header className="dash-topbar">
       <div className="dash-heading">
@@ -22,11 +36,7 @@ export default function Topbar({ role }: { role: DashboardRole }) {
         <span>DASHBOARD {role}</span>
       </div>
       <div className="dash-user">
-        <button className="notification" aria-label="Thông báo">
-          <svg viewBox="0 0 24 24">
-            <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
-          </svg>
-        </button>
+        <NotificationBell onMenuChange={onMenuChange} />
         {avatar ? (
           <img
             className="user-avatar"
@@ -39,7 +49,7 @@ export default function Topbar({ role }: { role: DashboardRole }) {
           </span>
         )}
         <span className="user-copy">
-          <small>Quản trị viên</small>
+          <small>{roleLabel}</small>
           <strong>{userName || 'Người dùng'}</strong>
         </span>
       </div>

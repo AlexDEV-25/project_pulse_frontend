@@ -249,7 +249,6 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
         taskStatus: form.taskStatus,
       } satisfies UpdateTaskRequest)
       : createTask({
-        projectId,
         phaseId: Number(form.phaseId),
         ...base,
       } satisfies CreateTaskRequest);

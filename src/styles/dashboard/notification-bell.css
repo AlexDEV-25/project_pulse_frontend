@@ -1,0 +1,431 @@
+/* ==========================================================================
+   Notification Bell & Dropdown Styles
+   ========================================================================== */
+
+.notification-bell-container {
+  position: relative;
+  display: inline-block;
+  margin-right: 18px;
+}
+
+.notification-bell-btn {
+  position: relative;
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border: 0;
+  border-radius: 12px;
+  color: #64748b;
+  background: #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.notification-bell-btn:hover {
+  color: #1e293b;
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+.notification-bell-btn:active {
+  transform: translateY(0);
+}
+
+.notification-bell-btn.active {
+  color: #2563eb;
+  background: #eff6ff;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.notification-bell-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+  transition: transform 0.2s ease;
+}
+
+.notification-bell-btn:hover svg {
+  animation: bell-swing 0.8s ease;
+}
+
+@keyframes bell-swing {
+  0% { transform: rotate(0); }
+  20% { transform: rotate(12deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(6deg); }
+  80% { transform: rotate(-4deg); }
+  100% { transform: rotate(0); }
+}
+
+/* Badge */
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+  background: #ef4444;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px #ffffff;
+  pointer-events: none;
+  animation: badge-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes badge-pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+/* Dropdown Window */
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(15, 23, 42, 0.05);
+  z-index: 1000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: dropdown-slide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top right;
+}
+
+@keyframes dropdown-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
+.notification-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+}
+
+.notification-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.notification-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notification-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.notification-unread-pill {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.notification-mark-all {
+  border: none;
+  background: transparent;
+  color: #2563eb;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notification-mark-all:hover:not(:disabled) {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.notification-mark-all:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Filter Tabs */
+.notification-tabs {
+  display: flex;
+  gap: 6px;
+  background: #f8fafc;
+  padding: 3px;
+  border-radius: 10px;
+}
+
+.notification-tab-btn {
+  flex: 1;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.notification-tab-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Body / List */
+.notification-list {
+  max-height: 420px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: contain;
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* Notification Item */
+.notification-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #f8fafc;
+  background: #ffffff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.notification-item:hover {
+  background: #f8fafc;
+}
+
+.notification-item.unread {
+  background: #f0f7ff;
+}
+
+.notification-item.unread:hover {
+  background: #e6f1fe;
+}
+
+/* Type Icon */
+.notification-type-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-top: 2px;
+}
+
+.notification-type-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.notification-type-icon.info {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.notification-type-icon.success {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.notification-type-icon.warning {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.notification-type-icon.error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Item Content */
+.notification-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-item-sender {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 2px;
+}
+
+.notification-item-text {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+  word-break: break-word;
+}
+
+.notification-item.unread .notification-item-text {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.notification-item-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.notification-item-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notification-item-link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #2563eb;
+  transition: transform 0.15s ease;
+}
+
+.notification-item:hover .notification-item-link-badge {
+  transform: translateX(2px);
+}
+
+/* Unread Dot */
+.notification-unread-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2563eb;
+  margin-top: 10px;
+}
+
+/* Empty State */
+.notification-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.notification-empty svg {
+  width: 48px;
+  height: 48px;
+  stroke: #cbd5e1;
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: 12px;
+}
+
+.notification-empty p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Loading State */
+.notification-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.notification-skeleton {
+  height: 60px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .notification-bell-container {
+    margin-right: 0;
+  }
+  .notification-bell-btn {
+    width: 42px;
+    height: 42px;
+  }
+  .notification-dropdown {
+    position: fixed;
+    top: 64px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: calc(100vh - 80px);
+  }
+}

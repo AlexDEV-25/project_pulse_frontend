@@ -26,7 +26,7 @@ export default function DashboardFrame({
         onMenuChange={onMenuChange}
       />
       <div className="dashboard-workspace">
-        <Topbar role={role} />
+        <Topbar role={role} onMenuChange={onMenuChange} />
         <main className="dashboard-content">{children}</main>
       </div>
     </div>

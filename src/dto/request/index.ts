@@ -53,7 +53,6 @@ export interface CreateProjectRequest {
   description: string;
 }
 export interface CreateTaskRequest {
-  projectId: number;
   phaseId: number;
   taskName: string;
   description: string;

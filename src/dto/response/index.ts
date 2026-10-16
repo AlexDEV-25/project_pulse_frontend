@@ -1,5 +1,6 @@
 import type {
   EarningTransactionType,
+  NotificationType,
   PhaseStatus,
   ProjectStatus,
   ScheduleStatus,
@@ -267,4 +268,17 @@ export interface EmployeeTaskStatisticsResponse {
   endAt: string;
   taskPoint: number;
   progress: number;
+}
+export interface UserNotificationResponse {
+  id: number;
+  senderId: number;
+  senderName: string;
+  receiverId: number;
+  receiverName: string;
+  notificationId: number;
+  notificationContent: string;
+  notificationLink: string | null;
+  notificationType: NotificationType;
+  read: boolean;
+  createdAt: string;
 }

@@ -36,24 +36,28 @@ export default function EmployeeProjects({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const load = useCallback(async () => {
+  const loadProjects = useCallback(async (searchQuery?: string) => {
     setLoading(true);
     setError('');
     try {
-      const response = await getMyProjects(keyword);
+      const trimmed = searchQuery?.trim();
+      const response = await getMyProjects(trimmed || undefined);
       setProjects(response.resultList ?? []);
     } catch {
       setError('Không thể tải danh sách dự án tham gia. Vui lòng thử lại.');
     } finally {
       setLoading(false);
     }
-  }, [keyword]);
+  }, []);
 
   useEffect(() => {
-    // Fetch server-backed data when the search term changes.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load();
-  }, [load]);
+    void loadProjects();
+  }, [loadProjects]);
+
+  const handleFilter = () => {
+    void loadProjects(keyword);
+  };
 
   return (
     <DashboardFrame
@@ -74,13 +78,13 @@ export default function EmployeeProjects({
               <input
                 value={keyword}
                 onChange={(event) => setKeyword(event.target.value)}
-                onKeyDown={(event) => event.key === 'Enter' && void load()}
+                onKeyDown={(event) => event.key === 'Enter' && handleFilter()}
                 placeholder="Tìm kiếm dự án..."
                 aria-label="Tìm kiếm dự án"
               />
             </label>
-            <button type="button" onClick={() => void load()}>
-              Bộ lọc
+            <button type="button" onClick={handleFilter}>
+              Lọc
             </button>
           </div>
         </header>

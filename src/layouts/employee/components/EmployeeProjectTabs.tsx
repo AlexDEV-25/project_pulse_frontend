@@ -262,7 +262,23 @@ function EmployeeTaskTable({ projectId }: { projectId: number }) {
 }
 
 export default function EmployeeProjectTabs({ projectId, project }: Props) {
-  const [activeTab, setActiveTab] = useState<'tasks' | 'earnings'>('tasks');
+  const resolveTabFromUrl = (): 'tasks' | 'earnings' => {
+    const tabParam = new URLSearchParams(window.location.search).get('tab');
+    return tabParam === 'earnings' ? 'earnings' : 'tasks';
+  };
+  const [activeTab, setActiveTab] = useState<'tasks' | 'earnings'>(resolveTabFromUrl);
+
+  useEffect(() => {
+    const handleSync = () => {
+      setActiveTab(resolveTabFromUrl());
+    };
+    window.addEventListener('app:navigate', handleSync);
+    window.addEventListener('popstate', handleSync);
+    return () => {
+      window.removeEventListener('app:navigate', handleSync);
+      window.removeEventListener('popstate', handleSync);
+    };
+  }, []);
 
   return (
     <section className="employee-detail-tabs-card">
