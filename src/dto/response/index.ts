@@ -282,3 +282,62 @@ export interface UserNotificationResponse {
   read: boolean;
   createdAt: string;
 }
+
+export interface PhaseEvmDetailResponse {
+  phaseId: number;
+  phaseName: string;
+  startAt: string | null;
+  endAt: string | null;
+  status: PhaseStatus;
+  progress: number;
+  bac: number;
+  pv: number;
+  ev: number;
+  ac: number;
+  cv: number;
+  sv: number;
+  cpi: number | null;
+  spi: number | null;
+  cumulativePv: number;
+  cumulativeEv: number;
+  cumulativeAc: number;
+}
+
+export interface EmployeeEvmPerformanceResponse {
+  userId: number;
+  userName: string;
+  position: string;
+  avatarUrl: string | null;
+  resourceRate: number | null;
+  totalWorkdays: number;
+  totalAc: number;
+  totalEv: number;
+  netValue: number;
+  roi: number;
+  completedTasksCount: number;
+  performanceCategory: 'STAR_PERFORMER' | 'HEAVY_LIFTER' | 'BALANCED' | 'NEEDS_IMPROVEMENT';
+}
+
+export interface ProjectEvmFinancialResponse {
+  projectId: number;
+  projectName: string;
+  capturedAt: string;
+  projectBudget: number;
+  clientBudget: number | null;
+  pv: number;
+  ev: number;
+  ac: number;
+  cv: number;
+  sv: number;
+  cpi: number | null;
+  spi: number | null;
+  eac: number | null;
+  etc: number | null;
+  vac: number | null;
+  tcpi: number | null;
+  evToBacRatio: number | null;
+  evToClientBudgetRatio: number | null;
+  currentMargin: number | null;
+  forecastedMargin: number | null;
+  marginPercentage: number | null;
+}
