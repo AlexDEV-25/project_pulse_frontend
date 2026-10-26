@@ -17,7 +17,7 @@ const menus: Record<DashboardRole, { label: string; icon: string }[]> = {
   PM: [
     { label: 'Bảng điều khiển', icon: 'grid' },
     { label: 'Quản lý Dự án', icon: 'briefcase' },
-    { label: 'Bản cáo EVM', icon: 'chart' },
+    { label: 'Báo cáo EVM', icon: 'chart' },
     { label: 'Cài đặt', icon: 'gear' },
   ],
   ADMIN: [

@@ -10,6 +10,7 @@ import DetailProject from '../common/pages/DetailProject';
 import EmployeeProjects from '../employee/pages/EmployeeProjects';
 import EmployeeProjectDetail from '../employee/pages/EmployeeProjectDetail';
 import Settings from '../common/pages/Settings';
+import EvmReportPage from '../common/pages/EvmReportPage';
 export default function DashboardPage({
   role,
   onLogout,
@@ -53,6 +54,15 @@ export default function DashboardPage({
   if (activeMenu === 'Quản lý Dự án' && (role === 'ADMIN' || role === 'PM')) {
     return (
       <ProjectManagement
+        role={role}
+        onLogout={onLogout}
+        onMenuChange={setActiveMenu}
+      />
+    );
+  }
+  if (activeMenu === 'Báo cáo EVM' && (role === 'ADMIN' || role === 'PM')) {
+    return (
+      <EvmReportPage
         role={role}
         onLogout={onLogout}
         onMenuChange={setActiveMenu}

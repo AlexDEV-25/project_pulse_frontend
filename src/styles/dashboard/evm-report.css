@@ -1,0 +1,1092 @@
+/* ==========================================================================
+   EVM REPORT & PROFITABILITY DASHBOARD STYLES
+   Adhering to Project Pulse Brand Palette:
+   - Primary Teal: #4d9188 / #3d6969
+   - Neutral Slate: #647380 / #65686b / #8a99a8
+   - Deep Charcoal: #253437 / #353638
+   - Backgrounds: #f3f2f7 / #ffffff / #f8fafb
+   - Borders: #dadde0 / #e2e1e4 / #dedde1
+   ========================================================================== */
+
+.evm-report-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 10px 16px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+  animation: evmFadeIn 0.25s ease-out;
+}
+
+@keyframes evmFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Filter & Toolbar Bar
+   -------------------------------------------------------------------------- */
+.evm-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #ffffff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid #e2e1e4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.evm-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.evm-project-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.evm-project-select label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #65686b;
+  white-space: nowrap;
+}
+
+.evm-select-control {
+  min-width: 280px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid #dadde0;
+  background-color: #f9fafb;
+  color: #253437;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.evm-select-control:focus {
+  border-color: #4d9188;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(77, 145, 136, 0.15);
+}
+
+.evm-badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.evm-badge-status.IN_PROGRESS {
+  background: #eef7f4;
+  color: #25694c;
+  border: 1px solid #ccebdc;
+}
+.evm-badge-status.DONE {
+  background: #eef7f4;
+  color: #25694c;
+  border: 1px solid #ccebdc;
+}
+.evm-badge-status.DRAFT,
+.evm-badge-status.PLANNED {
+  background: #f3f2f7;
+  color: #65686b;
+  border: 1px solid #e2e1e4;
+}
+.evm-badge-status.ON_HOLD {
+  background: #fff9eb;
+  color: #8d5d12;
+  border: 1px solid #fae4b5;
+}
+.evm-badge-status.CANCELLED {
+  background: #fef2f2;
+  color: #a62f33;
+  border: 1px solid #ffd4d8;
+}
+
+.evm-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.evm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.evm-btn svg {
+  stroke-width: 1.8;
+}
+
+.evm-btn-export {
+  background: #4d9188;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(77, 145, 136, 0.2);
+}
+
+.evm-btn-export:hover:not(:disabled) {
+  background: #3e7971;
+  box-shadow: 0 3px 6px rgba(77, 145, 136, 0.28);
+  transform: translateY(-1px);
+}
+
+.evm-btn-export:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.evm-btn-refresh {
+  background: #ffffff;
+  border-color: #dadde0;
+  color: #65686b;
+}
+
+.evm-btn-refresh:hover:not(:disabled) {
+  background: #f3f2f7;
+  color: #253437;
+  border-color: #cbd1d6;
+}
+
+/* --------------------------------------------------------------------------
+   Executive KPI Financial Cards
+   -------------------------------------------------------------------------- */
+.evm-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.evm-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e2e1e4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.evm-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px -3px rgba(0, 0, 0, 0.06);
+}
+
+.evm-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.evm-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #65686b;
+}
+
+.evm-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evm-card-icon.health {
+  background: #eef7f4;
+  color: #4d9188;
+}
+.evm-card-icon.budget {
+  background: #f1f5f7;
+  color: #647380;
+}
+.evm-card-icon.margin {
+  background: #eef7f4;
+  color: #4d9188;
+}
+.evm-card-icon.pressure {
+  background: #f1f5f7;
+  color: #647380;
+}
+
+.evm-card-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #253437;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.evm-card-sub {
+  font-size: 13px;
+  color: #65686b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.evm-card-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.evm-card-indicator.good {
+  background: #eef7f4;
+  color: #25694c;
+  border: 1px solid #ccebdc;
+}
+.evm-card-indicator.warning {
+  background: #fff9eb;
+  color: #8d5d12;
+  border: 1px solid #fae4b5;
+}
+.evm-card-indicator.danger {
+  background: #fef2f2;
+  color: #a62f33;
+  border: 1px solid #ffd4d8;
+}
+
+.evm-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e2e1e4;
+  border-radius: 3px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.evm-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Chart & Matrix Dual Panel Layout
+   -------------------------------------------------------------------------- */
+.evm-visual-panels {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 20px;
+}
+
+@media (max-width: 1100px) {
+  .evm-visual-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+.evm-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e1e4;
+  padding: 22px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.evm-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.evm-panel-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #253437;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.evm-panel-subtitle {
+  font-size: 12px;
+  color: #65686b;
+  margin-top: 3px;
+}
+
+.evm-view-toggles {
+  display: flex;
+  background: #f3f2f7;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 3px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.evm-toggle-btn {
+  border: 0;
+  background: transparent;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #65686b;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.evm-toggle-btn.active {
+  background: #ffffff;
+  color: #253437;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   S-Curve Smooth Line Chart
+   -------------------------------------------------------------------------- */
+.evm-scurve-wrap {
+  width: 100%;
+  position: relative;
+}
+
+.evm-chart-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #65686b;
+}
+
+.evm-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #65686b;
+}
+
+.evm-legend-dot {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.evm-legend-dot.pv {
+  background: #8a99a8;
+  height: 3px;
+}
+.evm-legend-dot.ev {
+  background: #4d9188;
+  height: 4px;
+}
+.evm-legend-dot.ac {
+  background: #253437;
+  height: 4px;
+}
+
+.evm-svg-chart {
+  width: 100%;
+  height: 300px;
+  overflow: visible;
+}
+
+.evm-svg-chart text {
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  fill: #8a99a8;
+}
+
+.evm-chart-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.3s ease;
+}
+
+.evm-chart-line.pv {
+  stroke: #8a99a8;
+  stroke-width: 2.2;
+  stroke-dasharray: 4 4;
+}
+.evm-chart-line.ev {
+  stroke: #4d9188;
+  stroke-width: 3.2;
+}
+.evm-chart-line.ac {
+  stroke: #253437;
+  stroke-width: 2.8;
+}
+
+.evm-chart-dot {
+  cursor: pointer;
+  transition: r 0.2s ease, filter 0.2s ease;
+}
+
+.evm-chart-dot.pv {
+  fill: #8a99a8;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+.evm-chart-dot.ev {
+  fill: #4d9188;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+.evm-chart-dot.ac {
+  fill: #253437;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.evm-chart-dot:hover {
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+}
+
+.evm-chart-tooltip {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #dadde0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  z-index: 10;
+  min-width: 160px;
+}
+
+.evm-tooltip-title {
+  font-weight: 700;
+  color: #253437;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #f1f3f5;
+  padding-bottom: 4px;
+}
+
+.evm-tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 3px;
+}
+
+.evm-tooltip-row.pv {
+  color: #647380;
+}
+.evm-tooltip-row.ev {
+  color: #4d9188;
+}
+.evm-tooltip-row.ac {
+  color: #253437;
+}
+
+/* --------------------------------------------------------------------------
+   Dashboard-style Phase Bar Chart (EV vs AC)
+   -------------------------------------------------------------------------- */
+.evm-dashboard-bar-section {
+  width: 100%;
+}
+
+.evm-dashboard-bar-section .evm-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  color: #65686b;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.evm-dashboard-bar-section .evm-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.evm-dashboard-bar-section .evm-legend i {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.evm-dashboard-bar-section .evm-legend .ev {
+  background: #4d9188;
+}
+.evm-dashboard-bar-section .evm-legend .ac {
+  background: #647380;
+}
+
+.evm-dashboard-bar-section .chart-scale-wrap {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  align-items: stretch;
+}
+
+.evm-dashboard-bar-section .chart-scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 8px 30px 0;
+  color: #73797d;
+  font-size: 11px;
+  text-align: right;
+}
+
+.evm-dashboard-bar-section .evm-chart {
+  display: flex;
+  height: 270px;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 20px 12px 0;
+  border-bottom: 1px solid #dadde0;
+  background: repeating-linear-gradient(
+    to top,
+    transparent 0,
+    transparent 49px,
+    #e2e3e4 50px
+  );
+  overflow-x: auto;
+}
+
+.evm-dashboard-bar-section .evm-group {
+  display: flex;
+  height: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  min-width: 50px;
+  cursor: pointer;
+}
+
+.evm-dashboard-bar-section .evm-bars {
+  display: flex;
+  height: 225px;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.evm-dashboard-bar-section .evm-bars i {
+  display: block;
+  width: 22px;
+  min-height: 4px;
+  border-radius: 2px 2px 0 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.evm-dashboard-bar-section .evm-group:hover .evm-bars i {
+  transform: scaleY(1.02);
+  filter: brightness(1.05);
+}
+
+.evm-dashboard-bar-section .evm-bars .ev {
+  background: #4d9188;
+}
+.evm-dashboard-bar-section .evm-bars .ac {
+  background: #647380;
+}
+
+.evm-dashboard-bar-section .evm-group small {
+  max-width: 90px;
+  overflow: hidden;
+  color: #65686b;
+  font-size: 12px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Health Matrix (CPI vs SPI Quadrants)
+   -------------------------------------------------------------------------- */
+.evm-matrix-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  height: 310px;
+  position: relative;
+}
+
+.evm-quadrant {
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.evm-quadrant.q1 {
+  background: #eef7f4;
+  border-color: #ccebdc;
+} /* High CPI, High SPI (Winner) */
+.evm-quadrant.q2 {
+  background: #fff9eb;
+  border-color: #fae4b5;
+} /* Low CPI, High SPI (Overbudget) */
+.evm-quadrant.q3 {
+  background: #f4f6f8;
+  border-color: #dbe0e5;
+} /* High CPI, Low SPI (Behind schedule) */
+.evm-quadrant.q4 {
+  background: #fef2f2;
+  border-color: #ffd4d8;
+} /* Low CPI, Low SPI (Critical Risk) */
+
+.evm-quadrant-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.evm-quadrant-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.evm-quadrant.q1 .evm-quadrant-title {
+  color: #25694c;
+}
+.evm-quadrant.q2 .evm-quadrant-title {
+  color: #8d5d12;
+}
+.evm-quadrant.q3 .evm-quadrant-title {
+  color: #647380;
+}
+.evm-quadrant.q4 .evm-quadrant-title {
+  color: #a62f33;
+}
+
+.evm-quadrant-crit {
+  font-size: 11px;
+  font-weight: 600;
+  color: #65686b;
+}
+
+.evm-quadrant-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  max-height: 90px;
+  overflow-y: auto;
+}
+
+.evm-phase-chip {
+  padding: 3px 8px;
+  background: #ffffff;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #253437;
+  border: 1px solid #e2e1e4;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.evm-phase-empty {
+  font-size: 11px;
+  color: #8a99a8;
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Employee Performance & ROI Section
+   -------------------------------------------------------------------------- */
+.evm-emp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.evm-category-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.evm-cat-tab {
+  border: 1px solid #dadde0;
+  background: #ffffff;
+  padding: 6px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #65686b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.evm-cat-tab:hover {
+  border-color: #4d9188;
+  color: #4d9188;
+}
+
+.evm-cat-tab.active {
+  background: #4d9188;
+  border-color: #4d9188;
+  color: #ffffff;
+}
+
+.evm-emp-summary-bar {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: #f8fafb;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #e2e1e4;
+  font-size: 13px;
+}
+
+.evm-summary-label {
+  color: #65686b;
+  font-size: 12px;
+}
+
+.evm-employee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.evm-emp-card {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2e1e4;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.evm-emp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+.evm-emp-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.evm-emp-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.evm-emp-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e2e1e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #4d9188;
+  font-size: 15px;
+}
+
+.evm-emp-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #253437;
+}
+
+.evm-emp-pos {
+  font-size: 12px;
+  color: #65686b;
+}
+
+.evm-emp-badge {
+  padding: 3px 9px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.evm-emp-badge.STAR_PERFORMER {
+  background: #eef7f4;
+  color: #25694c;
+  border: 1px solid #ccebdc;
+}
+.evm-emp-badge.HEAVY_LIFTER {
+  background: #f1f5f7;
+  color: #354756;
+  border: 1px solid #d4dbe0;
+}
+.evm-emp-badge.BALANCED {
+  background: #f3f2f7;
+  color: #65686b;
+  border: 1px solid #e2e1e4;
+}
+.evm-emp-badge.NEEDS_IMPROVEMENT {
+  background: #fff9eb;
+  color: #8d5d12;
+  border: 1px solid #fae4b5;
+}
+
+/* Comparative Dual Bars */
+.evm-emp-bars-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f9fafb;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #f1f3f5;
+}
+
+.evm-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.evm-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #65686b;
+}
+
+.evm-bar-track {
+  width: 100%;
+  height: 6px;
+  background: #e2e1e4;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.evm-bar-fill.ev {
+  height: 100%;
+  background: #4d9188;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.evm-bar-fill.ac {
+  height: 100%;
+  background: #647380;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.evm-emp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid #f1f3f5;
+  font-size: 13px;
+}
+
+.evm-emp-net {
+  font-weight: 700;
+}
+.evm-emp-net.positive {
+  color: #25694c;
+}
+.evm-emp-net.negative {
+  color: #a62f33;
+}
+
+.evm-emp-roi {
+  font-weight: 700;
+  color: #253437;
+}
+
+/* --------------------------------------------------------------------------
+   Phase Detailed Table
+   -------------------------------------------------------------------------- */
+.evm-table-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e1e4;
+  padding: 22px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.evm-table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e1e4;
+  scrollbar-width: thin;
+  scrollbar-color: #c5cbd3 #f1f3f5;
+}
+
+.evm-table-wrap::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.evm-table-wrap::-webkit-scrollbar-thumb {
+  background: #c5cbd3;
+  border-radius: 4px;
+}
+
+.evm-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.evm-table th {
+  background: #f8fafb;
+  color: #65686b;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e1e4;
+  white-space: nowrap;
+}
+
+.evm-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f3f5;
+  color: #253437;
+  white-space: nowrap;
+}
+
+.evm-table tr:hover {
+  background: #fbfcfd;
+}
+
+.evm-ratio-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.evm-ratio-tag.good {
+  background: #eef7f4;
+  color: #25694c;
+}
+.evm-ratio-tag.bad {
+  background: #fef2f2;
+  color: #a62f33;
+}
+
+/* --------------------------------------------------------------------------
+   Banners, Loading & Empty States
+   -------------------------------------------------------------------------- */
+.evm-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: #fef2f2;
+  color: #a62f33;
+  border-radius: 8px;
+  border: 1px solid #ffd4d8;
+  font-size: 14px;
+}
+
+.evm-loading-wrap {
+  text-align: center;
+  padding: 60px 20px;
+  color: #65686b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.evm-loading-icon {
+  color: #4d9188;
+  animation: evmPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes evmPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.evm-loading-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #253437;
+}
+
+.evm-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #65686b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.evm-empty-icon {
+  color: #8a99a8;
+  margin-bottom: 4px;
+}
+
+.evm-empty-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #253437;
+}
