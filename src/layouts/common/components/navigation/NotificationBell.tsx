@@ -8,6 +8,7 @@ import type { UserNotificationResponse } from '@/dto/response';
 import '@/styles/dashboard/notification-bell.css';
 
 type Props = {
+  role: 'EMPLOYEE' | 'PM' | 'ADMIN';
   onMenuChange?: (label: string) => void;
 };
 
@@ -33,7 +34,7 @@ const formatRelativeTime = (dateStr: string) => {
   });
 };
 
-export default function NotificationBell({ onMenuChange }: Props) {
+export default function NotificationBell({ role, onMenuChange }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<UserNotificationResponse[]>([]);
   const [tab, setTab] = useState<'all' | 'unread'>('all');
@@ -132,12 +133,13 @@ export default function NotificationBell({ onMenuChange }: Props) {
         new CustomEvent('app:navigate', { detail: { link } })
       );
 
-      const projectMatch = link.match(/\/projects\/(\d+)/);
+      const target = new URL(link, window.location.origin);
+      const projectMatch = target.pathname.match(/\/projects\/(\d+)/);
       if (projectMatch) {
         const projectId = projectMatch[1];
         onMenuChange?.(`Chi tiết dự án ${projectId}`);
-      } else if (link.startsWith('/projects')) {
-        onMenuChange?.('Quản lý Dự án');
+      } else if (target.pathname.startsWith('/projects')) {
+        onMenuChange?.(role === 'EMPLOYEE' ? 'Dự án tham gia' : 'Quản lý Dự án');
       }
     }
   };

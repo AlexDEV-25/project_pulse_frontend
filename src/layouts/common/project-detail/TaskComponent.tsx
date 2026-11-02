@@ -125,8 +125,18 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
     ])
       .then(([taskResult, phaseResult, memberResult]) => {
         if (!active) return;
-        if (taskResult.status === 'fulfilled')
-          setTasks(taskResult.value.resultList ?? []);
+        if (taskResult.status === 'fulfilled') {
+          const nextTasks = taskResult.value.resultList ?? [];
+          setTasks(nextTasks);
+          const requestedTaskId = Number(
+            new URLSearchParams(window.location.search).get('taskId')
+          );
+          if (Number.isInteger(requestedTaskId) && requestedTaskId > 0) {
+            setSelectedTask(
+              nextTasks.find((task) => task.id === requestedTaskId) ?? null
+            );
+          }
+        }
         if (phaseResult.status === 'fulfilled')
           setPhases(phaseResult.value.resultList ?? []);
         if (memberResult.status === 'fulfilled')
@@ -146,6 +156,18 @@ export function TaskComponent({ projectId, canManage = false, role }: Props) {
       active = false;
     };
   }, [projectId]);
+
+  useEffect(() => {
+    const handleNavigate = () => {
+      const taskId = Number(
+        new URLSearchParams(window.location.search).get('taskId')
+      );
+      if (!Number.isInteger(taskId) || taskId <= 0) return;
+      setSelectedTask(tasks.find((task) => task.id === taskId) ?? null);
+    };
+    window.addEventListener('app:navigate', handleNavigate);
+    return () => window.removeEventListener('app:navigate', handleNavigate);
+  }, [tasks]);
 
   const openCreate = () => {
     setEditing(null);

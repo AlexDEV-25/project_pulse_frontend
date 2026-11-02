@@ -36,7 +36,7 @@ export default function Topbar({ role, onMenuChange }: TopbarProps) {
         <span>DASHBOARD {role}</span>
       </div>
       <div className="dash-user">
-        <NotificationBell onMenuChange={onMenuChange} />
+        <NotificationBell role={role} onMenuChange={onMenuChange} />
         {avatar ? (
           <img
             className="user-avatar"

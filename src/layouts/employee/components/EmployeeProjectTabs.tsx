@@ -19,6 +19,11 @@ import { EmployeeTaskDetail } from './EmployeeTaskDetail';
 
 type Props = { projectId: number; project: ProjectResponse };
 
+const readTaskIdFromUrl = () => {
+  const value = Number(new URLSearchParams(window.location.search).get('taskId'));
+  return Number.isInteger(value) && value > 0 ? value : null;
+};
+
 const statusLabels: Record<TaskResponse['taskStatus'], string> = {
   TODO: 'Chưa bắt đầu',
   IN_PROGRESS: 'Đang thực hiện',
@@ -100,7 +105,14 @@ function EmployeeTaskTable({ projectId }: { projectId: number }) {
       .then(([taskResult, phaseResult, userResult]) => {
         if (!active) return;
         if (taskResult.status === 'fulfilled') {
-          setTasks(taskResult.value.resultList ?? []);
+          const nextTasks = taskResult.value.resultList ?? [];
+          setTasks(nextTasks);
+          const requestedTaskId = readTaskIdFromUrl();
+          if (requestedTaskId != null) {
+            setSelectedTask(
+              nextTasks.find((task) => task.id === requestedTaskId) ?? null
+            );
+          }
         } else {
           setError(
             getApiErrorMessage(
@@ -123,6 +135,18 @@ function EmployeeTaskTable({ projectId }: { projectId: number }) {
       active = false;
     };
   }, [projectId]);
+
+  useEffect(() => {
+    const handleNavigate = () => {
+      const requestedTaskId = readTaskIdFromUrl();
+      if (requestedTaskId == null) return;
+      setSelectedTask(
+        tasks.find((task) => task.id === requestedTaskId) ?? null
+      );
+    };
+    window.addEventListener('app:navigate', handleNavigate);
+    return () => window.removeEventListener('app:navigate', handleNavigate);
+  }, [tasks]);
 
   const availablePhases =
     phases.length > 0

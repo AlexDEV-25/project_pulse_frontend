@@ -22,6 +22,19 @@ import { EarningTransactionDetailModal } from './EarningTransactionDetailModal';
 const points = (value: number) =>
   Number(value ?? 0).toLocaleString('vi-VN', { maximumFractionDigits: 2 });
 
+const readEarningQuery = () => {
+  const params = new URLSearchParams(window.location.search);
+  const transactionId = Number(params.get('transactionId'));
+  const type = params.get('type');
+  return {
+    transactionId:
+      Number.isInteger(transactionId) && transactionId > 0
+        ? transactionId
+        : null,
+    type: type === 'TRANSFER' || type === 'EARN' ? type : '',
+  } as const;
+};
+
 type Props = { projectId: number; canTransfer?: boolean };
 
 export function EarningTable({ projectId, canTransfer = false }: Props) {
@@ -30,7 +43,9 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
   const [members, setMembers] = useState<ProjectMemberResponse[]>([]);
   const [keyword, setKeyword] = useState('');
   const [phaseId, setPhaseId] = useState('');
-  const [type, setType] = useState<EarningTransactionType | ''>('');
+  const [type, setType] = useState<EarningTransactionType | ''>(
+    () => readEarningQuery().type
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedTransaction, setSelectedTransaction] =
@@ -63,13 +78,23 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
   };
 
   useEffect(() => {
+    const query = readEarningQuery();
     void Promise.allSettled([
-      getProjectEarningsFiltered(projectId),
+      getProjectEarningsFiltered(projectId, {
+        earningTransactionType: query.type || undefined,
+      }),
       getPhasesByProject(projectId),
     ])
       .then(([earningResult, phaseResult]) => {
-        if (earningResult.status === 'fulfilled')
-          setRows(earningResult.value.resultList ?? []);
+        if (earningResult.status === 'fulfilled') {
+          const nextRows = earningResult.value.resultList ?? [];
+          setRows(nextRows);
+          if (query.transactionId != null) {
+            setSelectedTransaction(
+              nextRows.find((row) => row.id === query.transactionId) ?? null
+            );
+          }
+        }
         if (phaseResult.status === 'fulfilled')
           setPhases(phaseResult.value.resultList ?? []);
         if (earningResult.status === 'rejected')
@@ -77,6 +102,19 @@ export function EarningTable({ projectId, canTransfer = false }: Props) {
       })
       .finally(() => setLoading(false));
   }, [projectId]);
+
+  useEffect(() => {
+    const handleNavigate = () => {
+      const query = readEarningQuery();
+      setType(query.type);
+      if (query.transactionId == null) return;
+      setSelectedTransaction(
+        rows.find((row) => row.id === query.transactionId) ?? null
+      );
+    };
+    window.addEventListener('app:navigate', handleNavigate);
+    return () => window.removeEventListener('app:navigate', handleNavigate);
+  }, [rows]);
 
   const openTransfer = (row: EarningTransactionResponse) => {
     setTransferRow(row);
