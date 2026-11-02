@@ -65,7 +65,7 @@ export default function EmployeeDashboard({
         <h2>POINT KIẾM ĐƯỢC THEO DỰ ÁN</h2>
         <PointChart data={points} />
       </section>
-      <EmployeeTable rows={tasks} />
+      <EmployeeTable rows={tasks} onMenuChange={onMenuChange} />
     </DashboardFrame>
   );
 }

@@ -25,9 +25,18 @@ const number = (value: number | null | undefined) =>
       );
 export function EmployeeTable({
   rows,
+  onMenuChange,
 }: {
   rows: EmployeeTaskStatisticsResponse[];
+  onMenuChange?: (label: string) => void;
 }) {
+  const openTaskDetail = (row: EmployeeTaskStatisticsResponse) => {
+    const link = `/projects/${row.projectId}?tab=tasks&taskId=${row.taskId}`;
+    window.history.pushState({}, '', link);
+    window.dispatchEvent(new CustomEvent('app:navigate', { detail: { link } }));
+    onMenuChange?.(`Chi tiết dự án ${row.projectId}`);
+  };
+
   return (
     <TableShell title="DANH SÁCH TASK SẮP ĐẾN HẠN">
       <Table>
@@ -38,12 +47,24 @@ export function EmployeeTable({
             <th>Ngày Kết Thúc</th>
             <th>Point</th>
             <th>Tiến độ</th>
-            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
           {rows.slice(0, 8).map((row) => (
-            <tr key={`${row.projectName}-${row.taskName}`}>
+            <tr
+              key={`${row.projectId}-${row.taskId}`}
+              className="employee-task-row-clickable"
+              onClick={() => openTaskDetail(row)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  openTaskDetail(row);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Xem chi tiết task ${row.taskName}`}
+            >
               <td>{row.projectName}</td>
               <td>{row.taskName}</td>
               <td>{date(row.endAt)}</td>
@@ -56,7 +77,6 @@ export function EmployeeTable({
                   <b>{row.progress}%</b>
                 </div>
               </td>
-              <td className="action">→</td>
             </tr>
           ))}
         </tbody>

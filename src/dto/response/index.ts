@@ -263,6 +263,8 @@ export interface EmployeeStatisticsSummaryResponse {
   totalCompletedTask: number;
 }
 export interface EmployeeTaskStatisticsResponse {
+  projectId: number;
+  taskId: number;
   projectName: string;
   taskName: string;
   endAt: string;
