@@ -1,0 +1,404 @@
+.employee-work-schedule {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+.work-schedule-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.work-schedule-eyebrow {
+  margin: 0 0 6px;
+  color: #168c82;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.work-schedule-header h1 {
+  margin: 0;
+  color: #182b37;
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 600;
+}
+.work-schedule-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #33454d;
+  font-size: 14px;
+}
+.work-schedule-controls strong {
+  white-space: nowrap;
+}
+.work-schedule-nav,
+.work-schedule-date-picker {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  border: 1px solid #d4dadd;
+  border-radius: 9px;
+  background: #fff;
+}
+.work-schedule-nav button {
+  width: 35px;
+  height: 100%;
+  border: 0;
+  color: #607078;
+  background: transparent;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+.work-schedule-nav button:hover {
+  color: #168c82;
+  background: #f0f8f7;
+}
+.work-schedule-nav .today-button {
+  width: auto;
+  padding: 0 10px;
+  border-right: 1px solid #e1e5e7;
+  border-left: 1px solid #e1e5e7;
+  color: #253a40;
+  font-size: 13px;
+}
+.work-schedule-date-picker {
+  position: relative;
+  width: 42px;
+  justify-content: center;
+  overflow: hidden;
+  color: #65757b;
+  cursor: pointer;
+}
+.work-schedule-date-picker input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+.work-schedule-date-picker span {
+  font-size: 18px;
+}
+.work-schedule-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 345px;
+  gap: 18px;
+  align-items: start;
+}
+.weekly-schedule-board {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(130px, 1fr));
+  height: clamp(460px, calc(100vh - 300px), 620px);
+  min-width: 0;
+  overflow-x: auto;
+  padding: 0;
+  align-items: stretch;
+}
+.schedule-day-column {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  align-items: stretch;
+  flex-direction: column;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid #e0e4e5;
+  color: #293d44;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.schedule-day-column:last-child {
+  border-right: 0;
+}
+.schedule-day-column.selected {
+  background: #e9f5f7;
+  box-shadow: inset 0 0 0 2px #78aeb5;
+}
+.schedule-day-heading {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  min-height: 88px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 9px 6px 8px;
+  border-bottom: 1px solid #d9dfe1;
+  background: #f0f1f5;
+  text-align: center;
+}
+.schedule-day-column.selected .schedule-day-heading {
+  background: #dbeef4;
+  border-bottom-color: #78aeb5;
+}
+.schedule-day-heading strong {
+  font-size: 15px;
+}
+.schedule-day-heading small {
+  color: #6d7d83;
+  font-size: 12px;
+}
+.schedule-day-heading em {
+  padding: 3px 7px;
+  border-radius: 10px;
+  color: #168c82;
+  background: #d8f0eb;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+}
+.schedule-day-cards {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  gap: 10px;
+  align-content: start;
+  overflow-y: auto;
+  padding: 10px 8px 14px;
+  scrollbar-color: #c5cbd3 transparent;
+  scrollbar-width: thin;
+}
+.schedule-day-cards::-webkit-scrollbar,
+.schedule-task-list::-webkit-scrollbar {
+  width: 7px;
+}
+.schedule-day-cards::-webkit-scrollbar-thumb,
+.schedule-task-list::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #c5cbd3;
+}
+.schedule-allocation-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px 10px;
+  border: 1px solid #d9dfe0;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 3px 7px #26373b12;
+  text-align: left;
+}
+.schedule-allocation-card strong {
+  color: #253b42;
+  font-size: 13px;
+  line-height: 1.25;
+}
+.schedule-allocation-card > span {
+  min-height: 30px;
+  color: #65757b;
+  font-size: 12px;
+  line-height: 1.25;
+}
+.schedule-allocation-value {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  color: #819095;
+  font-size: 11px;
+}
+.schedule-allocation-value b {
+  color: #283e44;
+  font-size: 12px;
+}
+.schedule-progress,
+.schedule-task-progress > div {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #e1e7e7;
+}
+.schedule-progress i,
+.schedule-task-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #238d83;
+}
+.schedule-day-empty {
+  margin-top: 22px;
+  color: #a2adb0;
+  font-size: 12px;
+  text-align: center;
+}
+.schedule-task-panel {
+  display: flex;
+  height: clamp(460px, calc(100vh - 300px), 620px);
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 20px 16px;
+}
+.schedule-panel-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #edf0f0;
+}
+.schedule-panel-heading p {
+  margin: 0 0 5px;
+  color: #168c82;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.schedule-panel-heading h2 {
+  margin: 0;
+  color: #22383f;
+  font-size: 18px;
+}
+.schedule-panel-heading > span {
+  color: #168c82;
+  font-size: 20px;
+}
+.schedule-task-list {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  gap: 11px;
+  align-content: start;
+  align-items: start;
+  overflow-y: auto;
+  padding-top: 14px;
+  padding-right: 5px;
+  scrollbar-color: #c5cbd3 transparent;
+  scrollbar-width: thin;
+}
+.schedule-task-card {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid #dce1e2;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 3px 7px #26373b0d;
+  align-self: start;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.schedule-task-card:hover,
+.schedule-task-card:focus-visible {
+  border-color: #78aeb5;
+  box-shadow: 0 4px 10px #168c8226;
+  outline: none;
+}
+.schedule-task-card-title {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.schedule-task-card-title > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.schedule-task-card-title strong {
+  color: #283c42;
+  font-size: 13px;
+  line-height: 1.25;
+}
+.schedule-task-card-title span:not(.schedule-task-status) {
+  overflow: hidden;
+  color: #849196;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.schedule-task-status {
+  flex: 0 0 auto;
+  padding: 4px 7px;
+  border-radius: 10px;
+  color: #287769;
+  background: #d9f1e9;
+  font-size: 10px;
+  font-weight: 700;
+}
+.schedule-task-status.todo {
+  color: #687780;
+  background: #edf0f1;
+}
+.schedule-task-status.blocked,
+.schedule-task-status.canceled {
+  color: #a14e56;
+  background: #f8dfe2;
+}
+.schedule-task-card p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #596b71;
+  font-size: 12px;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.schedule-task-card dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0;
+}
+.schedule-task-card dl div {
+  display: grid;
+  gap: 3px;
+}
+.schedule-task-card dt {
+  color: #8b989c;
+  font-size: 10px;
+}
+.schedule-task-card dd {
+  margin: 0;
+  color: #354a50;
+  font-size: 11px;
+}
+.schedule-task-progress {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  color: #829095;
+  font-size: 10px;
+}
+.schedule-task-progress b {
+  color: #40565c;
+  font-size: 11px;
+}
+.schedule-panel-state,
+.schedule-loading {
+  padding: 42px 12px;
+  color: #849197;
+  font-size: 13px;
+  text-align: center;
+}
+@media (max-width: 1180px) {
+  .work-schedule-layout {
+    grid-template-columns: 1fr;
+  }
+  .schedule-task-panel {
+    height: auto;
+    min-height: 500px;
+  }
+  .schedule-task-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .work-schedule-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .work-schedule-controls {
+    flex-wrap: wrap;
+  }
+  .weekly-schedule-board {
+    height: 600px;
+    grid-template-columns: repeat(7, 142px);
+  }
+  .schedule-task-list {
+    grid-template-columns: 1fr;
+  }
+}

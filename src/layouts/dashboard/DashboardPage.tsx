@@ -9,6 +9,7 @@ import ProjectManagement from '../common/pages/ProjectManagement';
 import DetailProject from '../common/pages/DetailProject';
 import EmployeeProjects from '../employee/pages/EmployeeProjects';
 import EmployeeProjectDetail from '../employee/pages/EmployeeProjectDetail';
+import EmployeeWorkSchedule from '../employee/work-schedule/EmployeeWorkSchedule';
 import Settings from '../common/pages/Settings';
 import EvmReportPage from '../common/pages/EvmReportPage';
 export default function DashboardPage({
@@ -40,6 +41,15 @@ export default function DashboardPage({
     );
   }
   // Keep detail navigation compatible with the label emitted by the project list.
+  if (role === 'EMPLOYEE' && activeMenu === 'Lịch làm việc') {
+    return (
+      <EmployeeWorkSchedule
+        onLogout={onLogout}
+        activeMenu={activeMenu}
+        onMenuChange={setActiveMenu}
+      />
+    );
+  }
   if ((role === 'ADMIN' || role === 'PM') && activeMenu.startsWith('Chi')) {
     const projectId = Number(activeMenu.match(/(\d+)$/)?.[1]);
     return (

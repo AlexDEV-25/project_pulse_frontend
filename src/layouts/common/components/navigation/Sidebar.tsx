@@ -11,6 +11,7 @@ type Props = {
 const menus: Record<DashboardRole, { label: string; icon: string }[]> = {
   EMPLOYEE: [
     { label: 'Bảng điều khiển', icon: 'grid' },
+    { label: 'Lịch làm việc', icon: 'calendar' },
     { label: 'Dự án tham gia', icon: 'files' },
     { label: 'Cài đặt', icon: 'gear' },
   ],
@@ -36,6 +37,7 @@ const path: Record<string, string> = {
   gear: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm8 4a8 8 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2-1.2L15 3h-6l-.5 2.6a8 8 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5a8 8 0 0 0 0 2.4l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 2 1.2L9 21h6l.5-2.6a8 8 0 0 0 2-1.2l2.4 1 2-3.5-2-1.5A8 8 0 0 0 20 12Z',
   briefcase: 'M4 7h16v13H4zM9 7V4h6v3M4 12h16',
   chart: 'M4 19V5M4 19h17M8 15l3-4 3 2 5-7',
+  calendar: 'M5 4v3m14-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13H4V6a1 1 0 0 1 1-1Z',
   users:
     'M16 20v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8M18 8a3 3 0 0 1 0 6M18 16a4 4 0 0 1 3 4',
   org: 'M12 3v5M5 21v-5h14v5M12 8H5v4M12 8h7v4M3 12h4M17 12h4',

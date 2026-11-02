@@ -9,6 +9,7 @@ export type IconName =
   | 'users'
   | 'status'
   | 'calendar'
+  | 'calendar-days'
   | 'coins'
   | 'wallet'
   | 'file'
@@ -36,6 +37,7 @@ const paths: Record<IconName, string> = {
   users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m16-10a4 4 0 1 0-8 0 4 4 0 0 0 8 0Zm6 10v-2a4 4 0 0 0-3-3.87m-3-4.13a4 4 0 0 0 0-8',
   status: 'M12 21s7-4.35 7-10a7 7 0 1 0-14 0c0 5.65 7 10 7 10Zm0-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z',
   calendar: 'M5 4v3m14-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13H4V6a1 1 0 0 1 1-1Z',
+  'calendar-days': 'M4 5h16v15H4V5Zm3-2v4m10-4v4M4 9h16M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01',
   coins: 'M7 7c0 1.1 2.24 2 5 2s5-.9 5-2-2.24-2-5-2-5 .9-5 2Zm0 0v4c0 1.1 2.24 2 5 2s5-.9 5-2V7m-10 4v4c0 1.1 2.24 2 5 2s5-.9 5-2v-4',
   wallet: 'M4 7.5A2.5 2.5 0 0 1 6.5 5H19v14H6.5A2.5 2.5 0 0 1 4 16.5v-9ZM4 8h15m-3 4h3v3h-3a1.5 1.5 0 0 1 0-3Z',
   file: 'M6 3h8l4 4v14H6V3Zm8 0v5h4',

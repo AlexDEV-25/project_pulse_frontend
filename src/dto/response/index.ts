@@ -32,6 +32,17 @@ export interface AllocationResponse {
   allocationPoint: number;
   overloadedDates?: OverloadedDateResponse[];
 }
+export interface WorkScheduleDayResponse {
+  date: string;
+  dayOfWeek: string;
+  isWorkingDay: boolean;
+  allocations: AllocationResponse[];
+}
+export interface WeeklyWorkScheduleResponse {
+  weekStart: string;
+  weekEnd: string;
+  days: WorkScheduleDayResponse[];
+}
 export interface AuthResponse {
   authenticated: boolean;
   token?: string;
